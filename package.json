@@ -1,0 +1,31 @@
+{
+  "name": "to-do-list-app",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "webpack serve --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Banbarashik/to-do-list-app.git"
+  },
+  "author": "Banbarashik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Banbarashik/to-do-list-app/issues"
+  },
+  "homepage": "https://github.com/Banbarashik/to-do-list-app#readme",
+  "devDependencies": {
+    "css-loader": "^6.7.1",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "reefjs": "^12.1.1",
+    "sass": "^1.55.0",
+    "sass-loader": "^13.0.2",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
+  }
+}
