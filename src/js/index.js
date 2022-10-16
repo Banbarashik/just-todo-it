@@ -1,24 +1,10 @@
+import '../sass/main.scss';
+
 import { store, component } from 'reefjs';
 
-const ProjectComponent = (function () {
-  const state = store({
-    projects: [
-      {
-        id: 1,
-        title: 'Test',
-        description: 'A test project',
-        dueDate: null,
-        tasks: [
-          {
-            id: 11,
-            title: 'Stronglifts',
-            description: 'Complete a set of exercises',
-            dueDate: null,
-          },
-        ],
-      },
-    ],
-    activeProject: {
+const state = store({
+  projects: [
+    {
       id: 1,
       title: 'Test',
       description: 'A test project',
@@ -32,8 +18,24 @@ const ProjectComponent = (function () {
         },
       ],
     },
-  });
+  ],
+  activeProject: {
+    id: 1,
+    title: 'Test',
+    description: 'A test project',
+    dueDate: null,
+    tasks: [
+      {
+        id: 11,
+        title: 'Stronglifts',
+        description: 'Complete a set of exercises',
+        dueDate: null,
+      },
+    ],
+  },
+});
 
+const ProjectComponent = (function () {
   function template() {
     return `
       <div class="project">
@@ -74,5 +76,44 @@ const ProjectComponent = (function () {
       .join('');
   }
 
-  component('#app', template);
+  component('.project-window', template);
+})();
+
+const ProjectsListComponent = (function () {
+  function template() {
+    return state.projects
+      .map(function (project) {
+        return `
+        <li data-id="${project.id}" class="project-item">${project.title}</li>
+      `;
+      })
+      .join('');
+  }
+
+  component('.projects-list', template);
+})();
+
+const AddProjectModalComponent = (function () {
+  function template() {
+    return `
+      <form class="edit-project-form">
+        <div class="form-field">
+          <label>Title</label>
+          <input name="title" />
+        </div>
+        <div class="form-field">
+          <label>Description</label>
+          <textarea name="description" cols="30" rows="5"></textarea>
+        </div>
+        <div class="form-field">
+          <label>Due date</label>
+          <input type="datetime-local" name="dueDate" />
+        </div>
+        <button type="button" class="btn--close-modal">Cancel</button>
+        <button type="submit" data-mode="add">Add</button>
+      </form>
+    `;
+  }
+
+  component('.edit-project-modal', template);
 })();
