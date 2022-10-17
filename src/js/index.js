@@ -2,7 +2,9 @@ import '../sass/main.scss';
 
 import { store, component } from 'reefjs';
 
-const state = store({
+// MODEL
+
+const globalState = store({
   projects: [
     {
       id: 1,
@@ -19,38 +21,35 @@ const state = store({
       ],
     },
   ],
-  activeProject: {
-    id: 1,
-    title: 'Test',
-    description: 'A test project',
-    dueDate: null,
-    tasks: [
-      {
-        id: 11,
-        title: 'Stronglifts',
-        description: 'Complete a set of exercises',
-        dueDate: null,
-      },
-    ],
-  },
+  activeProject: {},
 });
+
+function setProjectAsActive(id) {
+  globalState.activeProject = globalState.projects.find(
+    project => project.id === id
+  );
+}
+
+// COMPONENTS
 
 const ProjectComponent = (function () {
   function template() {
+    if (!Object.keys(globalState.activeProject).length) return '';
+
     return `
       <div class="project">
-        <p class="project__title">Title: ${state.activeProject.title}</p>
+        <p class="project__title">Title: ${globalState.activeProject.title}</p>
         <p class="project__description">Description: ${
-          state.activeProject.description
+          globalState.activeProject.description
         }</p>
         <p class="project__due-date">Due date: ${
-          state.activeProject.dueDate
-            ? state.activeProject.dueDate
+          globalState.activeProject.dueDate
+            ? globalState.activeProject.dueDate
             : 'No due date'
         }</p>
         <p>TASKS:</p>
         <ul class="tasks">
-          ${_generateTasksMarkup(state.activeProject.tasks)}
+          ${_generateTasksMarkup(globalState.activeProject.tasks)}
         </ul>
         <button class="project__btn--edit">Edit project</button>
         <button class="project__btn--delete">Delete project</button>
@@ -81,7 +80,7 @@ const ProjectComponent = (function () {
 
 const ProjectsListComponent = (function () {
   function template() {
-    return state.projects
+    return globalState.projects
       .map(function (project) {
         return `
         <li data-id="${project.id}" class="project-item">${project.title}</li>
@@ -91,6 +90,16 @@ const ProjectsListComponent = (function () {
   }
 
   component('.projects-list', template);
+
+  // EVENT LISTENERS
+  document.addEventListener('click', function (e) {
+    const projectItem = e.target.closest('.project-item');
+    if (!projectItem) return;
+
+    const { id } = projectItem.dataset;
+
+    setProjectAsActive(+id);
+  });
 })();
 
 const BtnOpenAddProjectModalComponent = (function () {
@@ -111,6 +120,7 @@ const BtnOpenAddProjectModalComponent = (function () {
 })();
 
 const AddProjectModalComponent = (function () {
+  // MODEL
   const state = store(
     {
       isProjectOpened: false,
