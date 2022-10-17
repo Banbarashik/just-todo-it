@@ -129,10 +129,24 @@ const AddProjectModalComponent = (function () {
 
   component('.edit-project-modal', template, { stores: ['add-project-modal'] });
 
+  // EVENT LISTENERS
+
+  // CLOSE THE 'ADD PROJECT' MODAL
+  document.addEventListener('click', function (e) {
+    const closeModalBtn = e.target.closest('.btn--close-modal');
+    if (!closeModalBtn) return;
+
+    state.isProjectOpened = false;
+  });
+
   return { state };
 })();
 
 // EVENT LISTENERS
+
+// OPEN THE 'ADD PROJECT' MODAL
 btnAddProject.addEventListener('click', function () {
   AddProjectModalComponent.state.isProjectOpened = true;
 });
+
+// CLOSE THE 'ADD PROJECT' MODAL
