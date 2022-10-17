@@ -1,6 +1,6 @@
 import '../sass/main.scss';
 
-import { store, component } from 'reefjs';
+import { store, component, render } from 'reefjs';
 
 // MODEL
 
@@ -51,8 +51,7 @@ const ProjectComponent = (function () {
         <ul class="tasks">
           ${_generateTasksMarkup(globalState.activeProject.tasks)}
         </ul>
-        <button class="project__btn--edit">Edit project</button>
-        <button class="project__btn--delete">Delete project</button>
+        <button class="btn--project-controls">...</button>
         <button class="project__btn--add-task">Add task</button>
       </div>
     `;
@@ -78,13 +77,39 @@ const ProjectComponent = (function () {
   component('.project-window', template);
 })();
 
+const ProjectControlsComponent = (function () {
+  const state = store(
+    {
+      areProjectControlsOpened: false,
+    },
+    'project-controls'
+  );
+
+  function template() {
+    if (!state.areProjectControlsOpened) return '';
+
+    return `
+      <button class="project__btn--edit">Edit project</button>
+      <button class="project__btn--delete">Delete project</button>
+      <button class="project__btn--add-task">Add task</button>
+    `;
+  }
+
+  component('.project-controls', template, { stores: ['project-controls'] });
+
+  return { state };
+})();
+
 const ProjectsListComponent = (function () {
   function template() {
     return globalState.projects
       .map(function (project) {
         return `
-        <li data-id="${project.id}" class="project-item">${project.title}</li>
-      `;
+          <li data-id="${project.id}" class="project-item">
+            <span>${project.title}</span>
+            <button class="btn--project-controls">...</button>
+          </li>
+        `;
       })
       .join('');
   }
@@ -92,6 +117,8 @@ const ProjectsListComponent = (function () {
   component('.projects-list', template);
 
   // EVENT LISTENERS
+
+  // SET PROJECT AS ACTIVE (RENDER IT)
   document.addEventListener('click', function (e) {
     const projectItem = e.target.closest('.project-item');
     if (!projectItem) return;
@@ -165,3 +192,12 @@ const AddProjectModalComponent = (function () {
 
   return { state };
 })();
+
+// EVENT LISTENERS
+
+// OPEN PROJECT CONTROLS
+document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.btn--project-controls');
+  if (btn) ProjectControlsComponent.state.areProjectControlsOpened = true;
+  else ProjectControlsComponent.state.areProjectControlsOpened = false;
+});
