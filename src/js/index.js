@@ -121,7 +121,8 @@ const ProjectsListComponent = (function () {
   // SET PROJECT AS ACTIVE (RENDER IT)
   document.addEventListener('click', function (e) {
     const projectItem = e.target.closest('.project-item');
-    if (!projectItem) return;
+    const btnProjectControls = e.target.closest('.btn--project-controls');
+    if (!projectItem || btnProjectControls) return;
 
     const { id } = projectItem.dataset;
 
