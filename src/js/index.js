@@ -2,9 +2,6 @@ import '../sass/main.scss';
 
 import { store, component } from 'reefjs';
 
-// DOM ELEMENTS THAT ARE INITIALLY PRESENT
-const btnAddProject = document.querySelector('.btn--add-project');
-
 const state = store({
   projects: [
     {
@@ -96,6 +93,23 @@ const ProjectsListComponent = (function () {
   component('.projects-list', template);
 })();
 
+const BtnOpenAddProjectModalComponent = (function () {
+  const btnAddProject = document.querySelector('.btn--add-project');
+
+  function template() {
+    return '+';
+  }
+
+  component(btnAddProject, template);
+
+  // EVENT LISTENERS
+
+  // OPEN THE 'ADD PROJECT' MODAL
+  btnAddProject.addEventListener('click', function () {
+    AddProjectModalComponent.state.isProjectOpened = true;
+  });
+})();
+
 const AddProjectModalComponent = (function () {
   const state = store(
     {
@@ -141,12 +155,3 @@ const AddProjectModalComponent = (function () {
 
   return { state };
 })();
-
-// EVENT LISTENERS
-
-// OPEN THE 'ADD PROJECT' MODAL
-btnAddProject.addEventListener('click', function () {
-  AddProjectModalComponent.state.isProjectOpened = true;
-});
-
-// CLOSE THE 'ADD PROJECT' MODAL
