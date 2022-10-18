@@ -1,19 +1,19 @@
 import '../sass/main.scss';
 
-import { store, component, render } from 'reefjs';
+import { store, component } from 'reefjs';
 
 // MODEL
 
 const globalState = store({
   projects: [
     {
-      id: 1,
+      id: '1',
       title: 'Test',
       description: 'A test project',
       dueDate: null,
       tasks: [
         {
-          id: 11,
+          id: '11',
           title: 'Stronglifts',
           description: 'Complete a set of exercises',
           dueDate: null,
@@ -37,7 +37,7 @@ const ProjectComponent = (function () {
     if (!Object.keys(globalState.activeProject).length) return '';
 
     return `
-      <div class="project">
+      <div class="project" data-id="${globalState.activeProject.id}">
         <p class="project__title">Title: ${globalState.activeProject.title}</p>
         <p class="project__description">Description: ${
           globalState.activeProject.description
@@ -61,7 +61,7 @@ const ProjectComponent = (function () {
     return tasks
       .map(function (task) {
         return `
-          <li class="task" data-task-id="${task.id}">
+          <li class="task" data-id="task-${task.id}">
             <p class="task__title">Title: ${task.title}</p>
             <p class="task__description">Description: ${task.description}</p>
             <p class="task__due-date">Due date: ${
@@ -78,9 +78,12 @@ const ProjectComponent = (function () {
 })();
 
 const ProjectControlsComponent = (function () {
+  // STATE
+
   const state = store(
     {
       areProjectControlsOpened: false,
+      targetProjectId: null,
     },
     'project-controls'
   );
@@ -96,6 +99,24 @@ const ProjectControlsComponent = (function () {
   }
 
   component('.project-controls', template, { stores: ['project-controls'] });
+
+  // EVENT LISTENERS
+
+  // DELETE A PROJECT
+  document.addEventListener('click', function (e) {
+    const btnDeleteProject = e.target.closest('.project__btn--delete');
+    if (!btnDeleteProject) return;
+
+    const index = globalState.projects.findIndex(
+      projet => projet.id === state.targetProjectId
+    );
+
+    // if the project is active - reset the active project
+    if (globalState.activeProject.id === state.targetProjectId)
+      globalState.activeProject = {};
+
+    globalState.projects.splice(index, 1);
+  });
 
   return { state };
 })();
@@ -126,7 +147,7 @@ const ProjectsListComponent = (function () {
 
     const { id } = projectItem.dataset;
 
-    setProjectAsActive(+id);
+    setProjectAsActive(id);
   });
 })();
 
@@ -199,6 +220,21 @@ const AddProjectModalComponent = (function () {
 // OPEN PROJECT CONTROLS
 document.addEventListener('click', function (e) {
   const btn = e.target.closest('.btn--project-controls');
-  if (btn) ProjectControlsComponent.state.areProjectControlsOpened = true;
-  else ProjectControlsComponent.state.areProjectControlsOpened = false;
+
+  if (!btn) {
+    ProjectControlsComponent.state.areProjectControlsOpened = false;
+    return;
+  }
+
+  const projectItem = btn.closest('.project-item');
+  const project = btn.closest('.project');
+
+  const id = projectItem
+    ? projectItem.dataset.id
+    : project
+    ? project.dataset.id
+    : null;
+
+  ProjectControlsComponent.state.areProjectControlsOpened = true;
+  ProjectControlsComponent.state.targetProjectId = id;
 });
