@@ -146,6 +146,14 @@ const ProjectControlsComponent = (function () {
     globalState.projects.splice(index, 1);
   });
 
+  // OPEN THE 'EDIT A PROJECT' MODAL
+  document.addEventListener('click', function (e) {
+    const btnEditModal = e.target.closest('.project__btn--edit');
+    if (!btnEditModal) return;
+
+    EditProjectModalComponent.state.isModalOpened = true;
+  });
+
   return { state };
 })();
 
@@ -222,14 +230,14 @@ const AddProjectModalComponent = (function () {
     `;
   }
 
-  component('.edit-project-modal', template, { stores: ['add-project-modal'] });
+  component('.add-project-modal', template, { stores: ['add-project-modal'] });
 
   // EVENT LISTENERS
 
   // CLOSE THE 'ADD PROJECT' MODAL
   document.addEventListener('click', function (e) {
-    const closeModalBtn = e.target.closest('.btn--close-modal');
-    if (!closeModalBtn) return;
+    const btnCloseModal = e.target.closest('.btn--close-modal');
+    if (!btnCloseModal) return;
 
     state.isModalOpened = false;
   });
@@ -247,6 +255,69 @@ const AddProjectModalComponent = (function () {
 
     state.isModalOpened = false;
   });
+  return { state };
+})();
+
+const EditProjectModalComponent = (function () {
+  // MODEL
+  const state = store(
+    {
+      isModalOpened: false,
+    },
+    'edit-project-modal'
+  );
+
+  function template() {
+    if (!state.isModalOpened) return '';
+
+    return `
+      <form class="edit-project-form">
+        <div class="form-field">
+          <label>Title</label>
+          <input name="title" />
+        </div>
+        <div class="form-field">
+          <label>Description</label>
+          <textarea name="description" cols="30" rows="5"></textarea>
+        </div>
+        <div class="form-field">
+          <label>Due date</label>
+          <input type="datetime-local" name="dueDate" />
+        </div>
+        <button type="button" class="btn--close-modal">Cancel</button>
+        <button type="submit" data-mode="add">Edit</button>
+      </form>
+    `;
+  }
+
+  component('.edit-project-modal', template, {
+    stores: ['edit-project-modal'],
+  });
+
+  // EVENT LISTENERS
+
+  // CLOSE THE MODAL
+  document.addEventListener('click', function (e) {
+    const btnCloseModal = e.target.closest('.btn--close-modal');
+    if (!btnCloseModal) return;
+
+    state.isModalOpened = false;
+  });
+
+  // EDIT A PROJECT
+  /* document.addEventListener('submit', function (e) {
+    const addProjectForm = e.target;
+    if (!addProjectForm.classList.contains('add-project-form')) return;
+    e.preventDefault();
+
+    const dataArr = [...new FormData(addProjectForm)];
+    const data = Object.fromEntries(dataArr);
+
+    addProject(data);
+
+    state.isModalOpened = false;
+  }); */
+
   return { state };
 })();
 
