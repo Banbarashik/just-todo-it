@@ -75,6 +75,17 @@ const ProjectComponent = (function () {
   }
 
   component('.project-window', template);
+
+  // EVENT LISTENERS
+
+  // Set the project as active (i.e., render it)
+  ['hashchange', 'load'].forEach(ev =>
+    window.addEventListener(ev, function (e) {
+      const id = window.location.hash.slice(1);
+      if (!id) return;
+      setProjectAsActive(id);
+    })
+  );
 })();
 
 const ProjectControlsComponent = (function () {
@@ -127,8 +138,15 @@ const ProjectsListComponent = (function () {
       .map(function (project) {
         return `
           <li data-id="${project.id}" class="project-item">
-            <span>${project.title}</span>
-            <button class="btn--project-controls">...</button>
+            <a href="#${project.id}"
+            class="project-item--link ${
+              project.id === globalState.activeProject.id
+                ? 'project-item--active'
+                : ''
+            }" >
+              <span>${project.title}</span>
+              <button class="btn--project-controls">...</button>
+            </a>
           </li>
         `;
       })
@@ -140,7 +158,7 @@ const ProjectsListComponent = (function () {
   // EVENT LISTENERS
 
   // SET PROJECT AS ACTIVE (RENDER IT)
-  document.addEventListener('click', function (e) {
+  /* document.addEventListener('click', function (e) {
     const projectItem = e.target.closest('.project-item');
     const btnProjectControls = e.target.closest('.btn--project-controls');
     if (!projectItem || btnProjectControls) return;
@@ -148,7 +166,7 @@ const ProjectsListComponent = (function () {
     const { id } = projectItem.dataset;
 
     setProjectAsActive(id);
-  });
+  }); */
 })();
 
 const BtnOpenAddProjectModalComponent = (function () {

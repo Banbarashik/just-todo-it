@@ -11,13 +11,19 @@
 }
 
 .project-item {
-  display: flex;
-  align-items: center;
+  &--link {
+    display: flex;
+    align-items: center;
 
-  padding: 1rem;
-  cursor: pointer;
+    padding: 1rem;
 
-  &:hover {
+    text-decoration: none;
+
+    cursor: pointer;
+  }
+
+  &:hover,
+  &--active {
     background-color: #7b9e51;
   }
 }
