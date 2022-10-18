@@ -24,6 +24,24 @@ const globalState = store({
   activeProject: {},
 });
 
+function addProject(formData) {
+  const { title, description, dueDate } = formData;
+
+  const project = {
+    id: Date.now().toString(),
+    title,
+    description,
+    dueDate,
+    tasks: [],
+  };
+
+  globalState.projects.push(project);
+  globalState.activeProject = project;
+
+  // Change ID in URL (doesn't invoke the 'hashchange' event)
+  window.history.pushState(null, '', `#${project.id}`);
+}
+
 function setProjectAsActive(id) {
   globalState.activeProject = globalState.projects.find(
     project => project.id === id
@@ -153,22 +171,9 @@ const ProjectsListComponent = (function () {
   }
 
   component('.projects-list', template);
-
-  // EVENT LISTENERS
-
-  // SET PROJECT AS ACTIVE (RENDER IT)
-  /* document.addEventListener('click', function (e) {
-    const projectItem = e.target.closest('.project-item');
-    const btnProjectControls = e.target.closest('.btn--project-controls');
-    if (!projectItem || btnProjectControls) return;
-
-    const { id } = projectItem.dataset;
-
-    setProjectAsActive(id);
-  }); */
 })();
 
-const BtnOpenAddProjectModalComponent = (function () {
+const AddProjectComponent = (function () {
   const btnAddProject = document.querySelector('.btn--add-project');
 
   function template() {
@@ -181,7 +186,7 @@ const BtnOpenAddProjectModalComponent = (function () {
 
   // OPEN THE 'ADD PROJECT' MODAL
   btnAddProject.addEventListener('click', function () {
-    AddProjectModalComponent.state.isProjectOpened = true;
+    AddProjectModalComponent.state.isModalOpened = true;
   });
 })();
 
@@ -189,16 +194,16 @@ const AddProjectModalComponent = (function () {
   // MODEL
   const state = store(
     {
-      isProjectOpened: false,
+      isModalOpened: false,
     },
     'add-project-modal'
   );
 
   function template() {
-    if (!state.isProjectOpened) return '';
+    if (!state.isModalOpened) return '';
 
     return `
-      <form class="edit-project-form">
+      <form class="add-project-form">
         <div class="form-field">
           <label>Title</label>
           <input name="title" />
@@ -226,9 +231,22 @@ const AddProjectModalComponent = (function () {
     const closeModalBtn = e.target.closest('.btn--close-modal');
     if (!closeModalBtn) return;
 
-    state.isProjectOpened = false;
+    state.isModalOpened = false;
   });
 
+  // ADD A PROJECT
+  document.addEventListener('submit', function (e) {
+    const addProjectForm = e.target;
+    if (!addProjectForm.classList.contains('add-project-form')) return;
+    e.preventDefault();
+
+    const dataArr = [...new FormData(addProjectForm)];
+    const data = Object.fromEntries(dataArr);
+
+    addProject(data);
+
+    state.isModalOpened = false;
+  });
   return { state };
 })();
 
