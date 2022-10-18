@@ -145,8 +145,8 @@ const ProjectsListComponent = (function () {
                 : ''
             }" >
               <span>${project.title}</span>
-              <button class="btn--project-controls">...</button>
-            </a>
+              </a>
+            <button class="btn--project-controls">...</button>
           </li>
         `;
       })
