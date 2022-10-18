@@ -105,7 +105,6 @@ const ProjectControlsComponent = (function () {
     return `
       <button class="project__btn--edit">Edit project</button>
       <button class="project__btn--delete">Delete project</button>
-      <button class="project__btn--add-task">Add task</button>
     `;
   }
 
