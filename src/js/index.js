@@ -130,6 +130,28 @@ const ProjectControlsComponent = (function () {
 
   // EVENT LISTENERS
 
+  // OPEN PROJECT CONTROLS
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn--project-controls');
+
+    if (!btn) {
+      state.areProjectControlsOpened = false;
+      return;
+    }
+
+    const projectItem = btn.closest('.project-item');
+    const project = btn.closest('.project');
+
+    const id = projectItem
+      ? projectItem.dataset.id
+      : project
+      ? project.dataset.id
+      : null;
+
+    state.areProjectControlsOpened = true;
+    state.targetProjectId = id;
+  });
+
   // DELETE A PROJECT
   document.addEventListener('click', function (e) {
     const btnDeleteProject = e.target.closest('.project__btn--delete');
@@ -147,11 +169,30 @@ const ProjectControlsComponent = (function () {
   });
 
   // OPEN THE 'EDIT A PROJECT' MODAL
+  // TODO: the 'fill inputs' function should be executed after the modal was rendered,
+  // that is, after the state has been updated
+  // one of the variants is to listen for the required store event ('reef:store-edit-project-modal'), and only then fill the inputs
   document.addEventListener('click', function (e) {
     const btnEditModal = e.target.closest('.project__btn--edit');
     if (!btnEditModal) return;
 
     EditProjectModalComponent.state.isModalOpened = true;
+
+    /* const form = document.querySelector('.edit-project-form');
+    const inputTitle = form.querySelector('[name="title"]');
+    const inputDescription = form.querySelector('[name="description"]');
+    const inputDate = form.querySelector('[name="dueDate"]');
+
+    const projectToEdit = globalState.projects.find(
+      projet => projet.id === state.targetProjectId
+    );
+
+    const { title, description, dueDate } = projectToEdit;
+
+    inputTitle.value = title;
+    inputDescription.value = description;
+    inputDate.value = dueDate;
+ */
   });
 
   return { state };
@@ -259,7 +300,10 @@ const AddProjectModalComponent = (function () {
 })();
 
 const EditProjectModalComponent = (function () {
+  const editProjectModal = document.querySelector('.edit-project-modal');
+
   // MODEL
+
   const state = store(
     {
       isModalOpened: false,
@@ -290,9 +334,7 @@ const EditProjectModalComponent = (function () {
     `;
   }
 
-  component('.edit-project-modal', template, {
-    stores: ['edit-project-modal'],
-  });
+  component(editProjectModal, template, { stores: ['edit-project-modal'] });
 
   // EVENT LISTENERS
 
@@ -302,6 +344,27 @@ const EditProjectModalComponent = (function () {
     if (!btnCloseModal) return;
 
     state.isModalOpened = false;
+  });
+
+  // FILL INPUTS
+  editProjectModal.addEventListener('reef:render', function (e) {
+    const form = document.querySelector('.edit-project-form');
+
+    if (!form) return;
+
+    const inputTitle = form.querySelector('[name="title"]');
+    const inputDescription = form.querySelector('[name="description"]');
+    const inputDate = form.querySelector('[name="dueDate"]');
+
+    const projectToEdit = globalState.projects.find(
+      projet => projet.id === ProjectControlsComponent.state.targetProjectId
+    );
+
+    const { title, description, dueDate } = projectToEdit;
+
+    inputTitle.value = title;
+    inputDescription.value = description;
+    inputDate.value = dueDate;
   });
 
   // EDIT A PROJECT
@@ -320,27 +383,3 @@ const EditProjectModalComponent = (function () {
 
   return { state };
 })();
-
-// EVENT LISTENERS
-
-// OPEN PROJECT CONTROLS
-document.addEventListener('click', function (e) {
-  const btn = e.target.closest('.btn--project-controls');
-
-  if (!btn) {
-    ProjectControlsComponent.state.areProjectControlsOpened = false;
-    return;
-  }
-
-  const projectItem = btn.closest('.project-item');
-  const project = btn.closest('.project');
-
-  const id = projectItem
-    ? projectItem.dataset.id
-    : project
-    ? project.dataset.id
-    : null;
-
-  ProjectControlsComponent.state.areProjectControlsOpened = true;
-  ProjectControlsComponent.state.targetProjectId = id;
-});
