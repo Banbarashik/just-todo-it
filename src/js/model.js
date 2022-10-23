@@ -1,7 +1,7 @@
 import { store } from 'reefjs';
+export { default as ProjectControlsState } from './components/ProjectControls';
 export { default as AddProjectModalState } from './components/AddProjectModal';
 export { default as EditProjectModalState } from './components/EditProjectModal';
-export { default as ProjectControlsState } from './components/ProjectControls';
 
 export const state = store({
   projects: [
@@ -43,7 +43,7 @@ export function addProject(formData) {
 
 export function editProject(project, formData) {
   for (let prop in formData) {
-    if (formData[prop] === project[prop]) continue;
+    if (project[prop] === formData[prop]) continue;
 
     project[prop] = formData[prop];
   }

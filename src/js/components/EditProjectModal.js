@@ -6,6 +6,7 @@ const _editProjectModal = document.querySelector('.edit-project-modal');
 const state = store(
   {
     isModalOpened: false,
+    projectToEdit: {},
   },
   'edit-project-modal'
 );
@@ -46,7 +47,7 @@ document.addEventListener('click', function (e) {
 });
 
 // FILL INPUTS
-_editProjectModal.addEventListener('reef:render', function (e) {
+_editProjectModal.addEventListener('reef:render', function () {
   const form = document.querySelector('.edit-project-form');
 
   if (!form) return;
@@ -55,11 +56,13 @@ _editProjectModal.addEventListener('reef:render', function (e) {
   const inputDescription = form.querySelector('[name="description"]');
   const inputDate = form.querySelector('[name="dueDate"]');
 
-  const projectToEdit = model.state.projects.find(
+  // FIND THE PROJECT OBJECT IN THE GLOBAL STATE AND STORE IT IN LOCAL STATE
+  // SO THAT THERE'S NO NEED TO FIND IT AGAIN
+  state.projectToEdit = model.state.projects.find(
     projet => projet.id === model.ProjectControlsState.targetProjectId
   );
 
-  const { title, description, dueDate } = projectToEdit;
+  const { title, description, dueDate } = state.projectToEdit;
 
   inputTitle.value = title;
   inputDescription.value = description;
@@ -75,11 +78,7 @@ _editProjectModal.addEventListener('submit', function (e) {
   const dataArr = [...new FormData(form)];
   const data = Object.fromEntries(dataArr);
 
-  const projectToEdit = model.state.projects.find(
-    projet => projet.id === model.ProjectControlsState.targetProjectId
-  );
-
-  model.editProject(projectToEdit, data);
+  model.editProject(state.projectToEdit, data);
 
   state.isModalOpened = false;
 });

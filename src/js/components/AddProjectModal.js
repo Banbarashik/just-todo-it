@@ -45,11 +45,11 @@ document.addEventListener('click', function (e) {
 
 // ADD A PROJECT
 document.addEventListener('submit', function (e) {
-  const addProjectForm = e.target;
-  if (!addProjectForm.classList.contains('add-project-form')) return;
+  const form = e.target;
+  if (!form.classList.contains('add-project-form')) return;
   e.preventDefault();
 
-  const dataArr = [...new FormData(addProjectForm)];
+  const dataArr = [...new FormData(form)];
   const data = Object.fromEntries(dataArr);
 
   model.addProject(data);
