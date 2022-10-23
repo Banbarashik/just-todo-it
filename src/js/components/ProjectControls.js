@@ -1,8 +1,7 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
-import * as editProjectModalComponent from './editProjectModalComponent';
 
-export const state = store(
+const state = store(
   {
     areProjectControlsOpened: false,
     targetProjectId: null,
@@ -66,5 +65,7 @@ document.addEventListener('click', function (e) {
   const btnEditModal = e.target.closest('.project__btn--edit');
   if (!btnEditModal) return;
 
-  editProjectModalComponent.state.isModalOpened = true;
+  model.EditProjectModalState.isModalOpened = true;
 });
+
+export default state;

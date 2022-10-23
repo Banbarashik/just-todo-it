@@ -1,10 +1,9 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
-import * as projectControlsComponent from './projectControlsComponent';
 
 const _editProjectModal = document.querySelector('.edit-project-modal');
 
-export const state = store(
+const state = store(
   {
     isModalOpened: false,
   },
@@ -57,7 +56,7 @@ _editProjectModal.addEventListener('reef:render', function (e) {
   const inputDate = form.querySelector('[name="dueDate"]');
 
   const projectToEdit = model.state.projects.find(
-    projet => projet.id === projectControlsComponent.state.targetProjectId
+    projet => projet.id === model.ProjectControlsState.targetProjectId
   );
 
   const { title, description, dueDate } = projectToEdit;
@@ -77,10 +76,12 @@ _editProjectModal.addEventListener('submit', function (e) {
   const data = Object.fromEntries(dataArr);
 
   const projectToEdit = model.state.projects.find(
-    projet => projet.id === projectControlsComponent.state.targetProjectId
+    projet => projet.id === model.ProjectControlsState.targetProjectId
   );
 
   model.editProject(projectToEdit, data);
 
   state.isModalOpened = false;
 });
+
+export default state;

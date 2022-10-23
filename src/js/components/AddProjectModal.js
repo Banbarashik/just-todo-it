@@ -1,7 +1,7 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
 
-export const state = store(
+const state = store(
   {
     isModalOpened: false,
   },
@@ -56,3 +56,5 @@ document.addEventListener('submit', function (e) {
 
   state.isModalOpened = false;
 });
+
+export default state;

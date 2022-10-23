@@ -1,5 +1,5 @@
 import { component } from 'reefjs';
-import * as addProjectModalComponent from './addProjectModalComponent';
+import * as model from '../model';
 
 const _btnAddProject = document.querySelector('.btn--add-project');
 
@@ -13,5 +13,5 @@ component(_btnAddProject, _template);
 
 // OPEN THE 'ADD A PROJECT' MODAL
 _btnAddProject.addEventListener('click', function () {
-  addProjectModalComponent.state.isModalOpened = true;
+  model.AddProjectModalState.isModalOpened = true;
 });

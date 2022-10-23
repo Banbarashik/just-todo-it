@@ -1,7 +1,7 @@
 import '../sass/main.scss';
-import './components/addProjectComponent';
-import './components/addProjectModalComponent';
-import './components/editProjectModalComponent';
-import './components/projectComponent';
-import './components/projectControlsComponent';
-import './components/projectsListComponent';
+import './components/AddProject';
+import './components/AddProjectModal';
+import './components/EditProjectModal';
+import './components/Project';
+import './components/ProjectControls';
+import './components/ProjectsList';

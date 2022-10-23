@@ -1,4 +1,7 @@
 import { store } from 'reefjs';
+export { default as AddProjectModalState } from './components/AddProjectModal';
+export { default as EditProjectModalState } from './components/EditProjectModal';
+export { default as ProjectControlsState } from './components/ProjectControls';
 
 export const state = store({
   projects: [
