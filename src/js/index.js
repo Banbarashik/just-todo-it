@@ -42,6 +42,14 @@ function addProject(formData) {
   window.history.pushState(null, '', `#${project.id}`);
 }
 
+function editProject(project, formData) {
+  for (let prop in formData) {
+    if (formData[prop] === project[prop]) continue;
+
+    project[prop] = formData[prop];
+  }
+}
+
 function setProjectAsActive(id) {
   globalState.activeProject = globalState.projects.find(
     project => project.id === id
@@ -329,7 +337,7 @@ const EditProjectModalComponent = (function () {
           <input type="datetime-local" name="dueDate" />
         </div>
         <button type="button" class="btn--close-modal">Cancel</button>
-        <button type="submit" data-mode="add">Edit</button>
+        <button type="submit">Save</button>
       </form>
     `;
   }
@@ -367,19 +375,23 @@ const EditProjectModalComponent = (function () {
     inputDate.value = dueDate;
   });
 
-  // EDIT A PROJECT
-  /* document.addEventListener('submit', function (e) {
-    const addProjectForm = e.target;
-    if (!addProjectForm.classList.contains('add-project-form')) return;
+  // SAVE CHANGES
+  editProjectModal.addEventListener('submit', function (e) {
+    const form = e.target;
+    if (!form.classList.contains('edit-project-form')) return;
     e.preventDefault();
 
-    const dataArr = [...new FormData(addProjectForm)];
+    const dataArr = [...new FormData(form)];
     const data = Object.fromEntries(dataArr);
 
-    addProject(data);
+    const projectToEdit = globalState.projects.find(
+      projet => projet.id === ProjectControlsComponent.state.targetProjectId
+    );
+
+    editProject(projectToEdit, data);
 
     state.isModalOpened = false;
-  }); */
+  });
 
   return { state };
 })();
