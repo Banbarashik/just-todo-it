@@ -5,3 +5,5 @@ import './components/EditProjectModal';
 import './components/Project';
 import './components/ProjectControls';
 import './components/ProjectsList';
+import './components/AddTask';
+import './components/AddTaskModal';
