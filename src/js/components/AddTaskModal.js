@@ -26,7 +26,7 @@ function _template() {
         <label>Due date</label>
         <input type="datetime-local" name="dueDate" />
       </div>
-      <select>${_generateProjectsList()}</select>
+      <select name="project">${_generateProjectsList()}</select>
       <button type="button" class="btn--close-modal">Cancel</button>
       <button type="submit" data-mode="add">Add</button>
     </form>
@@ -66,7 +66,7 @@ document.addEventListener('submit', function (e) {
   const dataArr = [...new FormData(form)];
   const data = Object.fromEntries(dataArr);
 
-  // model.addProject(data);
+  model.addTask(data);
 
   state.isModalOpened = false;
 });

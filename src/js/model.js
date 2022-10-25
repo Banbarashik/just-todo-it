@@ -53,3 +53,18 @@ export function editProject(project, formData) {
 export function setProjectAsActive(id) {
   state.activeProject = state.projects.find(project => project.id === id);
 }
+
+export function addTask(formData) {
+  const { project: projectId, title, description, dueDate } = formData;
+
+  const task = {
+    id: Date.now().toString(),
+    title,
+    description,
+    dueDate,
+  };
+
+  const project = state.projects.find(project => project.id === projectId);
+
+  project.tasks.push(task);
+}
