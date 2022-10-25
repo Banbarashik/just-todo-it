@@ -33,8 +33,14 @@ function _template() {
   `;
 
   function _generateProjectsList() {
+    const { id } = model.state.activeProject;
+
     return model.state.projects
-      .map(project => `<option value="${project.id}">${project.title}</option>`)
+      .map(
+        project =>
+          `<option ${project.id === id ? 'selected' : ''}
+           value="${project.id}">${project.title}</option>`
+      )
       .join('');
   }
 }
