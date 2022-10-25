@@ -1,7 +1,7 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
 
-const _editProjectModal = document.querySelector('.edit-project-modal');
+const _parentElement = document.querySelector('.edit-project-modal');
 
 const state = store(
   {
@@ -34,7 +34,7 @@ function _template() {
   `;
 }
 
-component(_editProjectModal, _template, { stores: ['edit-project-modal'] });
+component(_parentElement, _template, { stores: ['edit-project-modal'] });
 
 // EVENT LISTENERS
 
@@ -47,7 +47,7 @@ document.addEventListener('click', function (e) {
 });
 
 // FILL INPUTS
-_editProjectModal.addEventListener('reef:render', function () {
+_parentElement.addEventListener('reef:render', function () {
   const form = document.querySelector('.edit-project-form');
 
   if (!form) return;
@@ -70,7 +70,7 @@ _editProjectModal.addEventListener('reef:render', function () {
 });
 
 // SAVE CHANGES
-_editProjectModal.addEventListener('submit', function (e) {
+_parentElement.addEventListener('submit', function (e) {
   const form = e.target;
   if (!form.classList.contains('edit-project-form')) return;
   e.preventDefault();
