@@ -29,13 +29,13 @@ function _generateTasksMarkup(tasks) {
   return tasks
     .map(function (task) {
       return `
-        <li class="task" data-id="task-${task.id}">
+        <li class="task" data-id="${task.id}">
           <p class="task__title">Title: ${task.title}</p>
           <p class="task__description">Description: ${task.description}</p>
           <p class="task__due-date">Due date: ${
             task.dueDate ? task.dueDate : 'No due date'
           }</p>
-          <button class="task__btn--edit">Edit task</button>
+        <button class="btn--task-controls">...</button>
         </li>
       `;
     })

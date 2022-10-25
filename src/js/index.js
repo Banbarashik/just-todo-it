@@ -8,6 +8,7 @@ import './components/ProjectControls';
 import './components/ProjectsList';
 import './components/AddTask';
 import './components/AddTaskModal';
+import './components/TaskControls';
 
 // EVENT LISTENERS
 
