@@ -26,10 +26,17 @@ function _template() {
         <label>Due date</label>
         <input type="datetime-local" name="dueDate" />
       </div>
+      <select>${_generateProjectsList()}</select>
       <button type="button" class="btn--close-modal">Cancel</button>
       <button type="submit" data-mode="add">Add</button>
     </form>
   `;
+
+  function _generateProjectsList() {
+    return model.state.projects
+      .map(project => `<option value="${project.id}">${project.title}</option>`)
+      .join('');
+  }
 }
 
 component('.add-task-modal', _template, { stores: ['add-task-modal'] });
