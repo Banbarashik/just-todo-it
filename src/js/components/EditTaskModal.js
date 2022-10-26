@@ -1,21 +1,21 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
 
-const _parentElement = document.querySelector('.edit-project-modal');
+const _parentElement = document.querySelector('.edit-task-modal');
 
 const state = store(
   {
     isModalOpened: false,
-    projectToEdit: {},
   },
-  'edit-project-modal'
+  'edit-task-modal'
 );
 
 function _template() {
   if (!state.isModalOpened) return '';
 
   return `
-    <form class="edit-project-form">
+    <h3>Edit task</h3>
+    <form class="edit-task-form">
       <div class="form-field">
         <label>Title</label>
         <input name="title" />
@@ -28,18 +28,33 @@ function _template() {
         <label>Due date</label>
         <input type="datetime-local" name="dueDate" />
       </div>
+      <select name="project">${_generateProjectsList()}</select>
       <button type="button" class="btn--close-modal">Cancel</button>
       <button type="submit">Save</button>
     </form>
   `;
+
+  function _generateProjectsList() {
+    const { id } = model.state.activeProject;
+
+    return model.state.projects
+      .map(
+        project =>
+          // not very robust cause the edited task (not now, but theoretically)
+          // can belong to a project that is not active
+          `<option ${project.id === id ? 'selected' : ''}
+           value="${project.id}">${project.title}</option>`
+      )
+      .join('');
+  }
 }
 
-component(_parentElement, _template, { stores: ['edit-project-modal'] });
+component(_parentElement, _template, { stores: ['edit-task-modal'] });
 
 // EVENT LISTENERS
 
 // CLOSE THE MODAL
-document.addEventListener('click', function (e) {
+_parentElement.addEventListener('click', function (e) {
   const btnCloseModal = e.target.closest('.btn--close-modal');
   if (!btnCloseModal) return;
 
@@ -48,7 +63,7 @@ document.addEventListener('click', function (e) {
 
 // FILL INPUTS
 _parentElement.addEventListener('reef:render', function () {
-  const form = document.querySelector('.edit-project-form');
+  const form = document.querySelector('.edit-task-form');
 
   if (!form) return;
 
@@ -56,13 +71,7 @@ _parentElement.addEventListener('reef:render', function () {
   const inputDescription = form.querySelector('[name="description"]');
   const inputDate = form.querySelector('[name="dueDate"]');
 
-  // FIND THE PROJECT OBJECT IN THE GLOBAL STATE AND STORE IT IN THE LOCAL STATE
-  // SO THAT THERE'S NO NEED TO SEARCH FOR IT AGAIN
-  state.projectToEdit = model.state.projects.find(
-    projet => projet.id === model.ProjectControlsState.targetProjectId
-  );
-
-  const { title, description, dueDate } = state.projectToEdit;
+  const { title, description, dueDate } = model.TaskControlsState.task;
 
   inputTitle.value = title;
   inputDescription.value = description;
@@ -72,13 +81,17 @@ _parentElement.addEventListener('reef:render', function () {
 // SAVE CHANGES
 _parentElement.addEventListener('submit', function (e) {
   const form = e.target;
-  if (!form.classList.contains('edit-project-form')) return;
+  if (!form.classList.contains('edit-task-form')) return;
   e.preventDefault();
 
   const dataArr = [...new FormData(form)];
   const data = Object.fromEntries(dataArr);
 
-  model.editProject(state.projectToEdit, data);
+  model.editTask(
+    model.TaskControlsState.task,
+    model.TaskControlsState.project,
+    data
+  );
 
   state.isModalOpened = false;
 });

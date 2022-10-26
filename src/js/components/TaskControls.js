@@ -6,7 +6,8 @@ const _parentElement = document.querySelector('.task-controls');
 const state = store(
   {
     areTaskControlsOpened: false,
-    targetTaskId: null,
+    project: {},
+    task: {},
   },
   'task-controls'
 );
@@ -34,11 +35,13 @@ document.addEventListener('click', function (e) {
   }
 
   const task = btn.closest('.task');
-
   const { id } = task.dataset;
 
   state.areTaskControlsOpened = true;
-  state.targetTaskId = id;
+  state.project = model.state.projects.find(project =>
+    project.tasks.some(task => task.id === id)
+  );
+  state.task = state.project.tasks.find(task => task.id === id);
 });
 
 // DELETE A TASK
@@ -46,23 +49,19 @@ _parentElement.addEventListener('click', function (e) {
   const btnDeleteTask = e.target.closest('.task__btn--delete');
   if (!btnDeleteTask) return;
 
-  const project = model.state.projects.find(project =>
-    project.tasks.some(task => task.id === state.targetTaskId)
+  const index = state.project.tasks.findIndex(
+    task => task.id === state.task.id
   );
 
-  const index = project.tasks.findIndex(task => task.id === state.targetTaskId);
-
-  project.tasks.splice(index, 1);
+  state.project.tasks.splice(index, 1);
 });
 
-/* 
-// OPEN THE 'EDIT A PROJECT' MODAL
+// OPEN THE 'EDIT A TASK' MODAL
 document.addEventListener('click', function (e) {
-  const btnEditModal = e.target.closest('.project__btn--edit');
-  if (!btnEditModal) return;
+  const btnEditTask = e.target.closest('.task__btn--edit');
+  if (!btnEditTask) return;
 
   model.EditTaskModalState.isModalOpened = true;
 });
- */
 
 export default state;

@@ -8,6 +8,7 @@ import './components/ProjectControls';
 import './components/ProjectsList';
 import './components/AddTask';
 import './components/AddTaskModal';
+import './components/EditTaskModal';
 import './components/TaskControls';
 
 // EVENT LISTENERS
@@ -19,3 +20,8 @@ document.addEventListener('click', function (e) {
 
   if (btn1 || btn2) model.AddTaskModalState.isModalOpened = true;
 });
+
+/* document.addEventListener('reef:store-edit-project-modal', () =>
+  console.log('store')
+);
+document.addEventListener('reef:render', () => console.log('render')); */
