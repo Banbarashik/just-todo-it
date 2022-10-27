@@ -19,41 +19,16 @@ class AddTaskModal extends AddModal {
     });
   }
 
-  _template() {
-    if (!this.state.isModalOpened) return '';
+  _generateProjectsList() {
+    const { id } = model.state.activeProject;
 
-    return `
-      <h3>Add a task</h3>
-      <form class="add-task-form">
-        <div class="form-field">
-          <label>Title</label>
-          <input name="title" />
-        </div>
-        <div class="form-field">
-          <label>Description</label>
-          <textarea name="description" cols="30" rows="5"></textarea>
-        </div>
-        <div class="form-field">
-          <label>Due date</label>
-          <input type="datetime-local" name="dueDate" />
-        </div>
-        <select name="project">${_generateProjectsList()}</select>
-        <button type="button" class="btn--close-modal">Cancel</button>
-        <button type="submit" data-mode="add">Add</button>
-      </form>
-    `;
-
-    function _generateProjectsList() {
-      const { id } = model.state.activeProject;
-
-      return model.state.projects
-        .map(
-          project =>
-            `<option ${project.id === id ? 'selected' : ''}
-             value="${project.id}">${project.title}</option>`
-        )
-        .join('');
-    }
+    return model.state.projects
+      .map(
+        project =>
+          `<option ${project.id === id ? 'selected' : ''}
+           value="${project.id}">${project.title}</option>`
+      )
+      .join('');
   }
 }
 
