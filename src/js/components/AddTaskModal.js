@@ -10,6 +10,8 @@ class AddTaskModal extends AddModal {
     this._addHandlerCloseModal();
     this._addHandlerAddItem();
 
+    this.itemType = 'task';
+
     this.state = state;
 
     component(this._parentElement, this._template.bind(this), {

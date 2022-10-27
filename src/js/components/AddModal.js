@@ -14,9 +14,8 @@ export default class AddModal {
     const dataArr = [...new FormData(form)];
     const data = Object.fromEntries(dataArr);
 
-    const modalClassName = Object.getPrototypeOf(this).constructor.name;
-    if (modalClassName === 'AddProjectModal') model.addProject(data);
-    if (modalClassName === 'AddTaskModal') model.addTask(data);
+    if (this.itemType === 'project') model.addProject(data);
+    if (this.itemType === 'task') model.addTask(data);
 
     this.state.isModalOpened = false;
   }

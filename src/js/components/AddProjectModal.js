@@ -9,6 +9,8 @@ class AddProjectModal extends AddModal {
     this._addHandlerCloseModal();
     this._addHandlerAddItem();
 
+    this.itemType = 'project';
+
     this.state = state;
 
     component(this._parentElement, this._template.bind(this), {
