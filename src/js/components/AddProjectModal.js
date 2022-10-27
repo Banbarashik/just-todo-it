@@ -1,6 +1,8 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
 
+const _parentElement = document.querySelector('.add-project-modal');
+
 const state = store(
   {
     isModalOpened: false,
@@ -12,6 +14,7 @@ function _template() {
   if (!state.isModalOpened) return '';
 
   return `
+    <h3>Add project</h3>
     <form class="add-project-form">
       <div class="form-field">
         <label>Title</label>
@@ -31,12 +34,12 @@ function _template() {
   `;
 }
 
-component('.add-project-modal', _template, { stores: ['add-project-modal'] });
+component(_parentElement, _template, { stores: ['add-project-modal'] });
 
 // EVENT LISTENERS
 
 // CLOSE THE 'ADD A PROJECT' MODAL
-document.addEventListener('click', function (e) {
+_parentElement.addEventListener('click', function (e) {
   const btnCloseModal = e.target.closest('.btn--close-modal');
   if (!btnCloseModal) return;
 
@@ -44,7 +47,7 @@ document.addEventListener('click', function (e) {
 });
 
 // ADD A PROJECT
-document.addEventListener('submit', function (e) {
+_parentElement.addEventListener('submit', function (e) {
   const form = e.target;
   if (!form.classList.contains('add-project-form')) return;
   e.preventDefault();

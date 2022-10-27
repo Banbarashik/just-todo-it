@@ -1,6 +1,8 @@
 import { component } from 'reefjs';
 import * as model from '../model';
 
+const _parentElement = document.querySelector('.projects-list');
+
 function _template() {
   return model.state.projects
     .map(function (project) {
@@ -21,4 +23,4 @@ function _template() {
     .join('');
 }
 
-component('.projects-list', _template);
+component(_parentElement, _template);

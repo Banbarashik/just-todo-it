@@ -1,6 +1,8 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
 
+const _parentElement = document.querySelector('.project-controls');
+
 const state = store(
   {
     areProjectControlsOpened: false,
@@ -18,7 +20,7 @@ function _template() {
   `;
 }
 
-component('.project-controls', _template, { stores: ['project-controls'] });
+component(_parentElement, _template, { stores: ['project-controls'] });
 
 // EVENT LISTENERS
 
@@ -31,6 +33,8 @@ document.addEventListener('click', function (e) {
     return;
   }
 
+  // 'project controls' btn can be inside projectItem (sidebar)
+  // and inside project (project window)
   const projectItem = btn.closest('.project-item');
   const project = btn.closest('.project');
   const { id } = projectItem?.dataset || project?.dataset;
@@ -40,7 +44,7 @@ document.addEventListener('click', function (e) {
 });
 
 // DELETE A PROJECT
-document.addEventListener('click', function (e) {
+_parentElement.addEventListener('click', function (e) {
   const btnDeleteProject = e.target.closest('.project__btn--delete');
   if (!btnDeleteProject) return;
 
@@ -56,7 +60,7 @@ document.addEventListener('click', function (e) {
 });
 
 // OPEN THE 'EDIT A PROJECT' MODAL
-document.addEventListener('click', function (e) {
+_parentElement.addEventListener('click', function (e) {
   const btnEditModal = e.target.closest('.project__btn--edit');
   if (!btnEditModal) return;
 

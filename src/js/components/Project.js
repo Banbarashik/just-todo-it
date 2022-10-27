@@ -1,6 +1,8 @@
 import { component } from 'reefjs';
 import * as model from '../model';
 
+const _parentElement = document.querySelector('.project-window');
+
 function _template() {
   if (!Object.keys(model.state.activeProject).length) return '';
 
@@ -42,7 +44,7 @@ function _generateTasksMarkup(tasks) {
     .join('');
 }
 
-component('.project-window', _template);
+component(_parentElement, _template);
 
 // EVENT LISTENERS
 

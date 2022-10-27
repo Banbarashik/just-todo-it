@@ -1,6 +1,8 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
 
+const _parentElement = document.querySelector('.add-task-modal');
+
 const state = store(
   {
     isModalOpened: false,
@@ -45,12 +47,12 @@ function _template() {
   }
 }
 
-component('.add-task-modal', _template, { stores: ['add-task-modal'] });
+component(_parentElement, _template, { stores: ['add-task-modal'] });
 
 // EVENT LISTENERS
 
 // CLOSE THE 'ADD A TASK' MODAL
-document.addEventListener('click', function (e) {
+_parentElement.addEventListener('click', function (e) {
   const btnCloseModal = e.target.closest('.btn--close-modal');
   if (!btnCloseModal) return;
 
@@ -58,7 +60,7 @@ document.addEventListener('click', function (e) {
 });
 
 // ADD A TASK
-document.addEventListener('submit', function (e) {
+_parentElement.addEventListener('submit', function (e) {
   const form = e.target;
   if (!form.classList.contains('add-task-form')) return;
   e.preventDefault();

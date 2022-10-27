@@ -57,7 +57,7 @@ _parentElement.addEventListener('click', function (e) {
 });
 
 // OPEN THE 'EDIT A TASK' MODAL
-document.addEventListener('click', function (e) {
+_parentElement.addEventListener('click', function (e) {
   const btnEditTask = e.target.closest('.task__btn--edit');
   if (!btnEditTask) return;
 

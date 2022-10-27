@@ -39,7 +39,7 @@ component(_parentElement, _template, { stores: ['edit-project-modal'] });
 // EVENT LISTENERS
 
 // CLOSE THE MODAL
-document.addEventListener('click', function (e) {
+_parentElement.addEventListener('click', function (e) {
   const btnCloseModal = e.target.closest('.btn--close-modal');
   if (!btnCloseModal) return;
 
