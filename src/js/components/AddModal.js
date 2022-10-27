@@ -11,7 +11,6 @@ export default class AddModal {
     e.preventDefault();
 
     const form = e.target;
-
     const dataArr = [...new FormData(form)];
     const data = Object.fromEntries(dataArr);
 
