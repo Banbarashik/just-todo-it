@@ -22,7 +22,7 @@ function _template() {
         ${_generateTasksMarkup(model.state.activeProject.tasks)}
       </ul>
       <button class="btn--project-controls">...</button>
-      <button class="project__btn--add-task">Add task</button>
+      <button class="btn--add-task">Add task</button>
     </div>
   `;
 }
