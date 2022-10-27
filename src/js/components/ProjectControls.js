@@ -4,7 +4,7 @@ import * as model from '../model';
 const state = store(
   {
     areProjectControlsOpened: false,
-    targetProjectId: null,
+    project: {},
   },
   'project-controls'
 );
@@ -33,15 +33,10 @@ document.addEventListener('click', function (e) {
 
   const projectItem = btn.closest('.project-item');
   const project = btn.closest('.project');
-
-  const id = projectItem
-    ? projectItem.dataset.id
-    : project
-    ? project.dataset.id
-    : null;
+  const { id } = projectItem?.dataset || project?.dataset;
 
   state.areProjectControlsOpened = true;
-  state.targetProjectId = id;
+  state.project = model.state.projects.find(project => project.id === id);
 });
 
 // DELETE A PROJECT
@@ -50,14 +45,14 @@ document.addEventListener('click', function (e) {
   if (!btnDeleteProject) return;
 
   const index = model.state.projects.findIndex(
-    projet => projet.id === state.targetProjectId
+    projet => projet.id === state.project.id
   );
 
-  // if the project is active - reset the active project
-  if (model.state.activeProject.id === state.targetProjectId)
-    model.state.activeProject = {};
-
   model.state.projects.splice(index, 1);
+
+  // if the project is active - reset the active project
+  if (model.state.activeProject.id === state.project.id)
+    model.state.activeProject = {};
 });
 
 // OPEN THE 'EDIT A PROJECT' MODAL

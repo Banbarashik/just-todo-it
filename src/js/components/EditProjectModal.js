@@ -6,7 +6,6 @@ const _parentElement = document.querySelector('.edit-project-modal');
 const state = store(
   {
     isModalOpened: false,
-    projectToEdit: {},
   },
   'edit-project-modal'
 );
@@ -15,6 +14,7 @@ function _template() {
   if (!state.isModalOpened) return '';
 
   return `
+    <h3>Edit project</h3>
     <form class="edit-project-form">
       <div class="form-field">
         <label>Title</label>
@@ -56,13 +56,7 @@ _parentElement.addEventListener('reef:render', function () {
   const inputDescription = form.querySelector('[name="description"]');
   const inputDate = form.querySelector('[name="dueDate"]');
 
-  // FIND THE PROJECT OBJECT IN THE GLOBAL STATE AND STORE IT IN THE LOCAL STATE
-  // SO THAT THERE'S NO NEED TO SEARCH FOR IT AGAIN
-  state.projectToEdit = model.state.projects.find(
-    projet => projet.id === model.ProjectControlsState.targetProjectId
-  );
-
-  const { title, description, dueDate } = state.projectToEdit;
+  const { title, description, dueDate } = model.ProjectControlsState.project;
 
   inputTitle.value = title;
   inputDescription.value = description;
@@ -78,7 +72,7 @@ _parentElement.addEventListener('submit', function (e) {
   const dataArr = [...new FormData(form)];
   const data = Object.fromEntries(dataArr);
 
-  model.editProject(state.projectToEdit, data);
+  model.editProject(model.ProjectControlsState.project, data);
 
   state.isModalOpened = false;
 });
