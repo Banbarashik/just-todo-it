@@ -7,7 +7,7 @@ class AddProjectModal extends AddModal {
   constructor(state) {
     super();
     this._addHandlerCloseModal();
-    this._addHandlerAddItem();
+    this._addHandlerSubmit();
 
     this.itemType = 'project';
 

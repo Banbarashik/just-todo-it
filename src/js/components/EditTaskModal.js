@@ -9,7 +9,7 @@ class EditTaskModal extends EditModal {
     super();
     this._addHandlerCloseModal();
     this._addHandlerFillInputs();
-    this._addHandlerSaveChanges();
+    this._addHandlerSubmit();
 
     this.itemType = 'task';
 
