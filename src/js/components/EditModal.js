@@ -8,7 +8,6 @@ export default class EditModal {
   }
 
   _fillInputs() {
-    console.log(this);
     const form = this._parentElement.querySelector('form');
 
     if (!form) return;
@@ -17,7 +16,10 @@ export default class EditModal {
     const inputDescription = form.querySelector('[name="description"]');
     const inputDate = form.querySelector('[name="dueDate"]');
 
-    const { title, description, dueDate } = model.ProjectControlsState.project;
+    // check the type of an item and if it's stored
+    const { title, description, dueDate } =
+      (this.itemType === 'project' && model.ProjectControlsState.project) ||
+      (this.itemType === 'task' && model.TaskControlsState.task);
 
     inputTitle.value = title;
     inputDescription.value = description;
