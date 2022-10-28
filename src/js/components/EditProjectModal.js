@@ -4,7 +4,7 @@ import EditModal from './EditModal';
 class EditProjectModal extends EditModal {
   _parentElement = document.querySelector('.edit-project-modal');
 
-  constructor() {
+  constructor(state) {
     super();
     this._addHandlerCloseModal();
     this._addHandlerFillInputs();
@@ -12,12 +12,7 @@ class EditProjectModal extends EditModal {
 
     this.itemType = 'project';
 
-    this.state = store(
-      {
-        isModalOpened: false,
-      },
-      'edit-project-modal'
-    );
+    this.state = state;
 
     component(this._parentElement, this._template.bind(this), {
       stores: ['edit-project-modal'],
@@ -49,4 +44,11 @@ class EditProjectModal extends EditModal {
   }
 }
 
-export default new EditProjectModal().state;
+const state = store(
+  {
+    isModalOpened: false,
+  },
+  'edit-project-modal'
+);
+
+export default new EditProjectModal(state).state;

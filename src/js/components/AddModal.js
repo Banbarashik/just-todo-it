@@ -6,7 +6,7 @@ export default class AddModal {
 
     return `
       <h3>Add ${this.itemType}</h3>
-      <form class="add-project-form">
+      <form class="add-${this.itemType}-form">
         <div class="form-field">
           <label>Title</label>
           <input name="title" />
