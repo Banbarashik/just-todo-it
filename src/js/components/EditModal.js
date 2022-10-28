@@ -37,10 +37,9 @@ export default class EditModal {
   }
 
   _fillInputs() {
+    if (!this.state.isModalOpened) return;
+
     const form = this._parentElement.querySelector('form');
-
-    if (!form) return;
-
     const inputTitle = form.querySelector('[name="title"]');
     const inputDescription = form.querySelector('[name="description"]');
     const inputDate = form.querySelector('[name="dueDate"]');

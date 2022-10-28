@@ -1,6 +1,5 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
-
 import EditModal from './EditModal';
 
 class EditTaskModal extends EditModal {

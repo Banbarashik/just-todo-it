@@ -18,30 +18,6 @@ class EditProjectModal extends EditModal {
       stores: ['edit-project-modal'],
     });
   }
-
-  _template() {
-    if (!this.state.isModalOpened) return '';
-
-    return `
-      <h3>Edit project</h3>
-      <form class="edit-project-form">
-        <div class="form-field">
-          <label>Title</label>
-          <input name="title" />
-        </div>
-        <div class="form-field">
-          <label>Description</label>
-          <textarea name="description" cols="30" rows="5"></textarea>
-        </div>
-        <div class="form-field">
-          <label>Due date</label>
-          <input type="datetime-local" name="dueDate" />
-        </div>
-        <button type="button" class="btn--close-modal">Cancel</button>
-        <button type="submit">Save</button>
-      </form>
-    `;
-  }
 }
 
 const state = store(
