@@ -1,70 +1,66 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
+import Controls from './Controls';
 
-const _parentElement = document.querySelector('.project-controls');
+class ProjectControls extends Controls {
+  _parentElement = document.querySelector('.project-controls');
 
-const state = store(
-  {
-    areProjectControlsOpened: false,
-    project: {},
-  },
-  'project-controls'
-);
+  constructor() {
+    super();
+    this._addHandlerOpenControls();
+    this._addHandlerOpenEditModal();
+    this._addHandlerDeleteItem();
 
-function _template() {
-  if (!state.areProjectControlsOpened) return '';
+    this.itemType = 'project';
 
-  return `
-    <button class="project__btn--edit">Edit project</button>
-    <button class="project__btn--delete">Delete project</button>
-  `;
-}
+    this.state = store(
+      {
+        areControlsOpened: false,
+      },
+      'project-controls'
+    );
 
-component(_parentElement, _template, { stores: ['project-controls'] });
-
-// EVENT LISTENERS
-
-// OPEN PROJECT CONTROLS
-document.addEventListener('click', function (e) {
-  const btn = e.target.closest('.btn--project-controls');
-
-  if (!btn) {
-    state.areProjectControlsOpened = false;
-    return;
+    component(this._parentElement, this._template.bind(this), {
+      stores: ['project-controls'],
+    });
   }
 
-  // 'project controls' btn can be inside projectItem (sidebar)
-  // and inside project (project window)
-  const projectItem = btn.closest('.project-item');
-  const project = btn.closest('.project');
-  const { id } = projectItem?.dataset || project?.dataset;
+  _openControls(e) {
+    const btn = e.target.closest('.btn--project-controls');
 
-  state.areProjectControlsOpened = true;
-  state.project = model.state.projects.find(project => project.id === id);
-});
+    if (!btn) {
+      this.state.areControlsOpened = false;
+      return;
+    }
 
-// DELETE A PROJECT
-_parentElement.addEventListener('click', function (e) {
-  const btnDeleteProject = e.target.closest('.project__btn--delete');
-  if (!btnDeleteProject) return;
+    const projectItem = btn.closest('.project-item');
+    const project = btn.closest('.project');
+    const { id } = projectItem?.dataset || project?.dataset;
+    this.project = model.state.projects.find(project => project.id === id);
+    this.state.areControlsOpened = true;
+  }
 
-  const index = model.state.projects.findIndex(
-    projet => projet.id === state.project.id
-  );
+  _deleteItem(e) {
+    const btn = e.target.closest('.btn--delete-item');
+    if (!btn) return;
 
-  model.state.projects.splice(index, 1);
+    const index = model.state.projects.findIndex(
+      project => project.id === this.project.id
+    );
 
-  // if the project is active - reset the active project
-  if (model.state.activeProject.id === state.project.id)
-    model.state.activeProject = {};
-});
+    model.state.projects.splice(index, 1);
 
-// OPEN THE 'EDIT A PROJECT' MODAL
-_parentElement.addEventListener('click', function (e) {
-  const btnEditModal = e.target.closest('.project__btn--edit');
-  if (!btnEditModal) return;
+    if (model.state.activeProject.id === this.project.id)
+      model.state.activeProject = {};
+  }
 
-  model.EditProjectModalState.isModalOpened = true;
-});
+  _addHandlerOpenControls() {
+    document.addEventListener('click', this._openControls.bind(this));
+  }
 
-export default state;
+  _addHandlerDeleteItem() {
+    this._parentElement.addEventListener('click', this._deleteItem.bind(this));
+  }
+}
+
+export default new ProjectControls();

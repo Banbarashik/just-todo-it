@@ -42,4 +42,4 @@ const state = store(
   'edit-task-modal'
 );
 
-export default new EditTaskModal(state).state;
+export default new EditTaskModal(state);

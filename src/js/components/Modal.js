@@ -32,6 +32,10 @@ export default class Modal {
     `;
   }
 
+  openModal() {
+    this.state.isModalOpened = true;
+  }
+
   _closeModal(e) {
     const btn = e.target.closest('.btn--close-modal');
     if (!btn) return;
@@ -50,13 +54,9 @@ export default class Modal {
     if (this.modalType === 'add' && this.itemType === 'task')
       model.addTask(data);
     if (this.modalType === 'edit' && this.itemType === 'project')
-      model.editProject(model.ProjectControlsState.project, data);
+      model.editProject(model.ProjectControls.project, data);
     if (this.modalType === 'edit' && this.itemType === 'task')
-      model.editTask(
-        model.TaskControlsState.task,
-        model.TaskControlsState.project,
-        data
-      );
+      model.editTask(model.TaskControls.task, model.TaskControls.project, data);
 
     this.state.isModalOpened = false;
   }

@@ -27,4 +27,4 @@ const state = store(
   'edit-project-modal'
 );
 
-export default new EditProjectModal(state).state;
+export default new EditProjectModal(state);

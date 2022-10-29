@@ -17,8 +17,8 @@ export default class EditModal extends Modal {
 
     // check the type of an item and if it's stored
     const { title, description, dueDate } =
-      (this.itemType === 'project' && model.ProjectControlsState.project) ||
-      (this.itemType === 'task' && model.TaskControlsState.task);
+      (this.itemType === 'project' && model.ProjectControls.project) ||
+      (this.itemType === 'task' && model.TaskControls.task);
 
     inputTitle.value = title;
     inputDescription.value = description;

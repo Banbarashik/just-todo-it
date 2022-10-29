@@ -1,67 +1,65 @@
 import { store, component } from 'reefjs';
 import * as model from '../model';
+import Controls from './Controls';
 
-const _parentElement = document.querySelector('.task-controls');
+class TaskControls extends Controls {
+  _parentElement = document.querySelector('.task-controls');
 
-const state = store(
-  {
-    areTaskControlsOpened: false,
-    project: {},
-    task: {},
-  },
-  'task-controls'
-);
+  constructor() {
+    super();
+    this._addHandlerOpenControls();
+    this._addHandlerOpenEditModal();
+    this._addHandlerDeleteItem();
 
-function _template() {
-  if (!state.areTaskControlsOpened) return '';
+    this.itemType = 'task';
 
-  return `
-    <button class="task__btn--edit">Edit task</button>
-    <button class="task__btn--delete">Delete task</button>
-  `;
-}
+    this.state = store(
+      {
+        areControlsOpened: false,
+      },
+      'task-controls'
+    );
 
-component(_parentElement, _template, { stores: ['task-controls'] });
-
-// EVENT LISTENERS
-
-// OPEN TASK CONTROLS
-document.addEventListener('click', function (e) {
-  const btn = e.target.closest('.btn--task-controls');
-
-  if (!btn) {
-    state.areTaskControlsOpened = false;
-    return;
+    component(this._parentElement, this._template.bind(this), {
+      stores: ['task-controls'],
+    });
   }
 
-  const task = btn.closest('.task');
-  const { id } = task.dataset;
+  _openControls(e) {
+    const btn = e.target.closest('.btn--task-controls');
 
-  state.areTaskControlsOpened = true;
-  state.project = model.state.projects.find(project =>
-    project.tasks.some(task => task.id === id)
-  );
-  state.task = state.project.tasks.find(task => task.id === id);
-});
+    if (!btn) {
+      this.state.areControlsOpened = false;
+      return;
+    }
 
-// DELETE A TASK
-_parentElement.addEventListener('click', function (e) {
-  const btnDeleteTask = e.target.closest('.task__btn--delete');
-  if (!btnDeleteTask) return;
+    const task = btn.closest('.task');
+    const { id } = task.dataset;
+    this.project = model.state.projects.find(project =>
+      project.tasks.some(task => task.id === id)
+    );
+    this.task = this.project.tasks.find(task => task.id === id);
+    this.state.areControlsOpened = true;
+  }
 
-  const index = state.project.tasks.findIndex(
-    task => task.id === state.task.id
-  );
+  _deleteItem(e) {
+    const btn = e.target.closest('.btn--delete-item');
+    if (!btn) return;
 
-  state.project.tasks.splice(index, 1);
-});
+    const index = this.project.tasks.findIndex(
+      task => task.id === this.task.id
+    );
 
-// OPEN THE 'EDIT A TASK' MODAL
-_parentElement.addEventListener('click', function (e) {
-  const btnEditTask = e.target.closest('.task__btn--edit');
-  if (!btnEditTask) return;
+    this.project.tasks.splice(index, 1);
+  }
 
-  model.EditTaskModalState.isModalOpened = true;
-});
+  _addHandlerOpenControls() {
+    document.addEventListener('click', this._openControls.bind(this));
+  }
 
-export default state;
+  _addHandlerDeleteItem() {
+    this._parentElement.addEventListener('click', this._deleteItem.bind(this));
+  }
+}
+
+export default new TaskControls();
