@@ -1,9 +1,9 @@
 import { store } from 'reefjs';
 export { default as ProjectControls } from './components/ProjectControls';
-export { default as AddProjectModalState } from './components/AddProjectModal';
+export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
 export { default as TaskControls } from './components/TaskControls';
-export { default as AddTaskModalState } from './components/AddTaskModal';
+export { default as AddTaskModal } from './components/AddTaskModal';
 export { default as EditTaskModal } from './components/EditTaskModal';
 
 export const state = store({

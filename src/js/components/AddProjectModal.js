@@ -26,4 +26,4 @@ const state = store(
   'add-project-modal'
 );
 
-export default new AddProjectModal(state).state;
+export default new AddProjectModal(state);

@@ -12,6 +12,6 @@ component(_parentElement, _template);
 // EVENT LISTENERS
 
 // OPEN THE 'ADD A PROJECT' MODAL
-_parentElement.addEventListener('click', function () {
-  model.AddProjectModalState.isModalOpened = true;
-});
+_parentElement.addEventListener('click', () =>
+  model.AddProjectModal.openModal()
+);

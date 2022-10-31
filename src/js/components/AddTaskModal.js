@@ -39,4 +39,4 @@ const state = store(
   'add-task-modal'
 );
 
-export default new AddTaskModal(state).state;
+export default new AddTaskModal(state);

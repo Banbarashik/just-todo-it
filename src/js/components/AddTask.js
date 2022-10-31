@@ -14,5 +14,5 @@ component(_parentElement, _template);
 // OPEN THE 'ADD A TASK' MODAL
 document.addEventListener('click', function (e) {
   const btnAddTask = e.target.closest('.btn--add-task');
-  if (btnAddTask) model.AddTaskModalState.isModalOpened = true;
+  if (btnAddTask) model.AddTaskModal.openModal();
 });
