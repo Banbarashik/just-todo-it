@@ -4,14 +4,13 @@ import Controls from './Controls';
 
 class ProjectControls extends Controls {
   _parentElement = document.querySelector('.project-controls');
+  _itemType = 'project';
 
   constructor(state) {
     super();
     this._addHandlerOpenControls();
     this._addHandlerOpenEditModal();
     this._addHandlerDeleteItem();
-
-    this.itemType = 'project';
 
     this.state = state;
 

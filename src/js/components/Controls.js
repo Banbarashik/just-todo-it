@@ -10,16 +10,16 @@ export default class Controls {
     if (!this.state.areControlsOpened) return '';
 
     return `
-      <button class="btn--edit-item">Edit ${this.itemType}</button>
-      <button class="btn--delete-item">Delete ${this.itemType}</button>
+      <button class="btn--edit-item">Edit ${this._itemType}</button>
+      <button class="btn--delete-item">Delete ${this._itemType}</button>
     `;
   }
 
   _openEditModal(e) {
     const btn = e.target.closest('.btn--edit-item');
     if (!btn) return;
-    if (this.itemType === 'project') model.EditProjectModal.openModal();
-    if (this.itemType === 'task') model.EditTaskModal.openModal();
+    if (this._itemType === 'project') model.EditProjectModal.openModal();
+    if (this._itemType === 'task') model.EditTaskModal.openModal();
   }
 
   _addHandlerOpenEditModal() {

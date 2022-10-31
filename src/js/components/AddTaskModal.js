@@ -4,13 +4,12 @@ import AddModal from './AddModal';
 
 class AddTaskModal extends AddModal {
   _parentElement = document.querySelector('.add-task-modal');
+  _itemType = 'task';
 
   constructor(state) {
     super();
     this._addHandlerCloseModal();
     this._addHandlerSubmit();
-
-    this.itemType = 'task';
 
     this.state = state;
 

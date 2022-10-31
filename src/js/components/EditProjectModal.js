@@ -3,14 +3,13 @@ import EditModal from './EditModal';
 
 class EditProjectModal extends EditModal {
   _parentElement = document.querySelector('.edit-project-modal');
+  _itemType = 'project';
 
   constructor(state) {
     super();
     this._addHandlerCloseModal();
     this._addHandlerFillInputs();
     this._addHandlerSubmit();
-
-    this.itemType = 'project';
 
     this.state = state;
 

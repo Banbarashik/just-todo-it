@@ -5,8 +5,8 @@ export default class Modal {
     if (!this.state.isModalOpened) return '';
 
     return `
-      <h3>${this.modalType} ${this.itemType}</h3>
-      <form class="${this.modalType}-${this.itemType}-form">
+      <h3>${this._modalType} ${this._itemType}</h3>
+      <form class="${this._modalType}-${this._itemType}-form">
         <div class="form-field">
           <label>Title</label>
           <input name="title" />
@@ -20,13 +20,13 @@ export default class Modal {
           <input type="datetime-local" name="dueDate" />
         </div>
         ${
-          this.itemType === 'task'
+          this._itemType === 'task'
             ? `<select name="project">${this._generateProjectsList()}</select>`
             : ''
         }
         <button type="button" class="btn--close-modal">Cancel</button>
         <button type="submit">${
-          this.modalType === 'edit' ? 'Save' : this.modalType
+          this._modalType === 'edit' ? 'Save' : this._modalType
         }</button>
       </form>
     `;
@@ -49,13 +49,13 @@ export default class Modal {
     const dataArr = [...new FormData(form)];
     const data = Object.fromEntries(dataArr);
 
-    if (this.modalType === 'add' && this.itemType === 'project')
+    if (this._modalType === 'add' && this._itemType === 'project')
       model.addProject(data);
-    if (this.modalType === 'add' && this.itemType === 'task')
+    if (this._modalType === 'add' && this._itemType === 'task')
       model.addTask(data);
-    if (this.modalType === 'edit' && this.itemType === 'project')
+    if (this._modalType === 'edit' && this._itemType === 'project')
       model.editProject(model.ProjectControls.project, data);
-    if (this.modalType === 'edit' && this.itemType === 'task')
+    if (this._modalType === 'edit' && this._itemType === 'task')
       model.editTask(model.TaskControls.task, model.TaskControls.project, data);
 
     this.state.isModalOpened = false;

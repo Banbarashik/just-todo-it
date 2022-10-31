@@ -4,14 +4,13 @@ import EditModal from './EditModal';
 
 class EditTaskModal extends EditModal {
   _parentElement = document.querySelector('.edit-task-modal');
+  _itemType = 'task';
 
   constructor(state) {
     super();
     this._addHandlerCloseModal();
     this._addHandlerFillInputs();
     this._addHandlerSubmit();
-
-    this.itemType = 'task';
 
     this.state = state;
 

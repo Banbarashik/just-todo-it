@@ -2,9 +2,10 @@ import * as model from '../model';
 import Modal from './Modal';
 
 export default class EditModal extends Modal {
+  _modalType = 'edit';
+
   constructor() {
     super();
-    this.modalType = 'edit';
   }
 
   _fillInputs() {
@@ -17,8 +18,8 @@ export default class EditModal extends Modal {
 
     // check the type of an item and if it's stored
     const { title, description, dueDate } =
-      (this.itemType === 'project' && model.ProjectControls.project) ||
-      (this.itemType === 'task' && model.TaskControls.task);
+      (this._itemType === 'project' && model.ProjectControls.project) ||
+      (this._itemType === 'task' && model.TaskControls.task);
 
     inputTitle.value = title;
     inputDescription.value = description;

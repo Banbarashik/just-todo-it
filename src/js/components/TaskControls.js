@@ -4,14 +4,13 @@ import Controls from './Controls';
 
 class TaskControls extends Controls {
   _parentElement = document.querySelector('.task-controls');
+  _itemType = 'task';
 
   constructor(state) {
     super();
     this._addHandlerOpenControls();
     this._addHandlerOpenEditModal();
     this._addHandlerDeleteItem();
-
-    this.itemType = 'task';
 
     this.state = state;
 
