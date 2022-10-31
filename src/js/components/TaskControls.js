@@ -12,6 +12,9 @@ class TaskControls extends Controls {
     this._addHandlerOpenEditModal();
     this._addHandlerDeleteItem();
 
+    this.project = {};
+    this.task = {};
+
     this.state = state;
 
     component(this._parentElement, this._template.bind(this), {
@@ -32,6 +35,7 @@ class TaskControls extends Controls {
     this.project = model.state.projects.find(project =>
       project.tasks.some(task => task.id === id)
     );
+    console.log(this.project);
     this.task = this.project.tasks.find(task => task.id === id);
     this.state.areControlsOpened = true;
   }

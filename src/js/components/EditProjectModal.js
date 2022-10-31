@@ -19,6 +19,10 @@ class EditProjectModal extends EditModal {
     });
   }
 
+  _submit(e) {
+    super._submit(e, model.editProject, model.ProjectControls.project);
+  }
+
   _fillInputs() {
     super._fillInputs(model.ProjectControls.project);
   }

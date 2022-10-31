@@ -1,4 +1,5 @@
 import { store, component } from 'reefjs';
+import * as model from '../model';
 import AddModal from './AddModal';
 
 class AddProjectModal extends AddModal {
@@ -15,6 +16,10 @@ class AddProjectModal extends AddModal {
     component(this._parentElement, this._template.bind(this), {
       stores: ['add-project-modal'],
     });
+  }
+
+  _submit(e) {
+    super._submit(e, model.addProject);
   }
 }
 

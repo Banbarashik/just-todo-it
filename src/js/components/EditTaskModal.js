@@ -19,6 +19,15 @@ class EditTaskModal extends EditModal {
     });
   }
 
+  _submit(e) {
+    super._submit(
+      e,
+      model.editTask,
+      model.TaskControls.project,
+      model.TaskControls.task
+    );
+  }
+
   _fillInputs() {
     super._fillInputs(model.TaskControls.task);
   }

@@ -1,10 +1,10 @@
 import * as model from '../model';
 
 export default class Controls {
-  constructor() {
-    this.project = {};
-    this.task = {};
-  }
+  // constructor() {
+  //   this.project = {};
+  //   this.task = {};
+  // }
 
   _template() {
     if (!this.state.areControlsOpened) return '';

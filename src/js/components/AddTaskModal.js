@@ -18,6 +18,10 @@ class AddTaskModal extends AddModal {
     });
   }
 
+  _submit(e) {
+    super._submit(e, model.addTask);
+  }
+
   _generateProjectsList() {
     const { id } = model.state.activeProject;
 

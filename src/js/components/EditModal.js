@@ -3,10 +3,6 @@ import Modal from './Modal';
 export default class EditModal extends Modal {
   _modalType = 'edit';
 
-  constructor() {
-    super();
-  }
-
   _fillInputs({ title, description, dueDate }) {
     if (!this.state.isModalOpened) return;
 

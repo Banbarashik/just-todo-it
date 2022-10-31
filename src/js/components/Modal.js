@@ -42,22 +42,12 @@ export default class Modal {
     this.state.isModalOpened = false;
   }
 
-  _submit(e) {
+  _submit(e, handler, project, task) {
     e.preventDefault();
-
     const form = e.target;
     const dataArr = [...new FormData(form)];
     const data = Object.fromEntries(dataArr);
-
-    if (this._modalType === 'add' && this._itemType === 'project')
-      model.addProject(data);
-    if (this._modalType === 'add' && this._itemType === 'task')
-      model.addTask(data);
-    if (this._modalType === 'edit' && this._itemType === 'project')
-      model.editProject(model.ProjectControls.project, data);
-    if (this._modalType === 'edit' && this._itemType === 'task')
-      model.editTask(model.TaskControls.task, model.TaskControls.project, data);
-
+    handler(data, project, task);
     this.state.isModalOpened = false;
   }
 

@@ -48,7 +48,7 @@ export function addProject(formData) {
   window.history.pushState(null, '', `#${project.id}`);
 }
 
-export function editProject(project, formData) {
+export function editProject(formData, project) {
   for (const prop in formData) {
     if (project[prop] === formData[prop]) continue;
 
@@ -71,12 +71,13 @@ export function addTask(formData) {
   project.tasks.push(task);
 }
 
-export function editTask(task, project, formData) {
+export function editTask(formData, project, task) {
   for (const prop in formData) {
     if (task.hasOwnProperty(prop) && task[prop] !== formData[prop])
       task[prop] = formData[prop];
 
     if (prop === 'project' && project.id !== formData[prop]) {
+      console.log(prop, project, project.id, formData[prop]);
       // Move the task to another project
 
       const index = project.tasks.findIndex(taskEl => taskEl.id === task.id);

@@ -12,6 +12,8 @@ class ProjectControls extends Controls {
     this._addHandlerOpenEditModal();
     this._addHandlerDeleteItem();
 
+    this.project = {};
+
     this.state = state;
 
     component(this._parentElement, this._template.bind(this), {
