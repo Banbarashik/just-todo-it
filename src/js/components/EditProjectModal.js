@@ -1,4 +1,5 @@
 import { store, component } from 'reefjs';
+import * as model from '../model';
 import EditModal from './EditModal';
 
 class EditProjectModal extends EditModal {
@@ -16,6 +17,10 @@ class EditProjectModal extends EditModal {
     component(this._parentElement, this._template.bind(this), {
       stores: ['edit-project-modal'],
     });
+  }
+
+  _fillInputs() {
+    super._fillInputs(model.ProjectControls.project);
   }
 }
 

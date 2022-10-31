@@ -19,6 +19,10 @@ class EditTaskModal extends EditModal {
     });
   }
 
+  _fillInputs() {
+    super._fillInputs(model.TaskControls.task);
+  }
+
   _generateProjectsList() {
     const { id } = model.state.activeProject;
 
