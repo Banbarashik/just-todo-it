@@ -5,7 +5,7 @@ import Controls from './Controls';
 class ProjectControls extends Controls {
   _parentElement = document.querySelector('.project-controls');
 
-  constructor() {
+  constructor(state) {
     super();
     this._addHandlerOpenControls();
     this._addHandlerOpenEditModal();
@@ -13,12 +13,7 @@ class ProjectControls extends Controls {
 
     this.itemType = 'project';
 
-    this.state = store(
-      {
-        areControlsOpened: false,
-      },
-      'project-controls'
-    );
+    this.state = state;
 
     component(this._parentElement, this._template.bind(this), {
       stores: ['project-controls'],
@@ -63,4 +58,11 @@ class ProjectControls extends Controls {
   }
 }
 
-export default new ProjectControls();
+const state = store(
+  {
+    areControlsOpened: false,
+  },
+  'project-controls'
+);
+
+export default new ProjectControls(state);

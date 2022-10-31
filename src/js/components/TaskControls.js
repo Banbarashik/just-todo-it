@@ -5,7 +5,7 @@ import Controls from './Controls';
 class TaskControls extends Controls {
   _parentElement = document.querySelector('.task-controls');
 
-  constructor() {
+  constructor(state) {
     super();
     this._addHandlerOpenControls();
     this._addHandlerOpenEditModal();
@@ -13,12 +13,7 @@ class TaskControls extends Controls {
 
     this.itemType = 'task';
 
-    this.state = store(
-      {
-        areControlsOpened: false,
-      },
-      'task-controls'
-    );
+    this.state = state;
 
     component(this._parentElement, this._template.bind(this), {
       stores: ['task-controls'],
@@ -62,4 +57,11 @@ class TaskControls extends Controls {
   }
 }
 
-export default new TaskControls();
+const state = store(
+  {
+    areControlsOpened: false,
+  },
+  'task-controls'
+);
+
+export default new TaskControls(state);
