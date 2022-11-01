@@ -1,5 +1,3 @@
-import * as model from '../model';
-
 export default class Modal {
   _template() {
     if (!this.state.isModalOpened) return '';
@@ -54,7 +52,6 @@ export default class Modal {
   _addHandlerCloseModal() {
     this._parentElement.addEventListener('click', this._closeModal.bind(this));
   }
-
   _addHandlerSubmit() {
     this._parentElement.addEventListener('submit', this._submit.bind(this));
   }
