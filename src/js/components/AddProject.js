@@ -1,17 +1,25 @@
 import { component } from 'reefjs';
 import * as model from '../model';
 
-const _parentElement = document.querySelector('.btn--add-project');
+class AddProject {
+  _parentElement = document.querySelector('.btn--add-project');
 
-function _template() {
-  return '+';
+  constructor() {
+    this._addHandlerOpenModal();
+
+    component(this._parentElement, this._template);
+  }
+
+  _template() {
+    return '+';
+  }
+
+  _addHandlerOpenModal() {
+    this._parentElement.addEventListener(
+      'click',
+      model.AddProjectModal.openModal
+    );
+  }
 }
 
-component(_parentElement, _template);
-
-// EVENT LISTENERS
-
-// OPEN THE 'ADD A PROJECT' MODAL
-_parentElement.addEventListener('click', () =>
-  model.AddProjectModal.openModal()
-);
+new AddProject();
