@@ -54,14 +54,6 @@ class TaskControls extends Controls {
 
     this.project.tasks.splice(index, 1);
   }
-
-  _addHandlerOpenControls() {
-    document.addEventListener('click', this._openControls.bind(this));
-  }
-
-  _addHandlerDeleteItem() {
-    this._parentElement.addEventListener('click', this._deleteItem.bind(this));
-  }
 }
 
 const state = store(

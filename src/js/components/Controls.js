@@ -8,7 +8,13 @@ export default class Controls {
     `;
   }
 
+  _addHandlerOpenControls() {
+    document.addEventListener('click', this._openControls.bind(this));
+  }
   _addHandlerOpenEditModal() {
     this._parentElement.addEventListener('click', this._openEditModal);
+  }
+  _addHandlerDeleteItem() {
+    this._parentElement.addEventListener('click', this._deleteItem.bind(this));
   }
 }

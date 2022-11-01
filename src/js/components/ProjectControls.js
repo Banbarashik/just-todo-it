@@ -54,14 +54,6 @@ class ProjectControls extends Controls {
     if (model.state.activeProject.id === this.project.id)
       model.state.activeProject = {};
   }
-
-  _addHandlerOpenControls() {
-    document.addEventListener('click', this._openControls.bind(this));
-  }
-
-  _addHandlerDeleteItem() {
-    this._parentElement.addEventListener('click', this._deleteItem.bind(this));
-  }
 }
 
 const state = store(
