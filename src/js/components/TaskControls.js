@@ -35,9 +35,13 @@ class TaskControls extends Controls {
     this.project = model.state.projects.find(project =>
       project.tasks.some(task => task.id === id)
     );
-    console.log(this.project);
     this.task = this.project.tasks.find(task => task.id === id);
     this.state.areControlsOpened = true;
+  }
+
+  _openEditModal(e) {
+    const btn = e.target.closest('.btn--edit-item');
+    if (btn) model.EditTaskModal.openModal();
   }
 
   _deleteItem(e) {

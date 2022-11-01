@@ -36,6 +36,11 @@ class ProjectControls extends Controls {
     this.state.areControlsOpened = true;
   }
 
+  _openEditModal(e) {
+    const btn = e.target.closest('.btn--edit-item');
+    if (btn) model.EditProjectModal.openModal();
+  }
+
   _deleteItem(e) {
     const btn = e.target.closest('.btn--delete-item');
     if (!btn) return;
