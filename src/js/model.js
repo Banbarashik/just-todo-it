@@ -77,7 +77,6 @@ export function editTask(formData, project, task) {
       task[prop] = formData[prop];
 
     if (prop === 'project' && project.id !== formData[prop]) {
-      console.log(prop, project, project.id, formData[prop]);
       // Move the task to another project
 
       const index = project.tasks.findIndex(taskEl => taskEl.id === task.id);
