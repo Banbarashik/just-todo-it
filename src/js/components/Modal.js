@@ -1,9 +1,11 @@
+import { cap1stLtr } from '../helper';
+
 export default class Modal {
   _template() {
     if (!this.state.isModalOpened) return '';
 
     return `
-      <h3>${this._modalType} ${this._itemType}</h3>
+      <h3>${cap1stLtr(this._modalType)} ${this._itemType}</h3>
       <form class="${this._modalType}-${this._itemType}-form">
         <div class="form-field">
           <label>Title</label>
@@ -24,7 +26,7 @@ export default class Modal {
         }
         <button type="button" class="btn--close-modal">Cancel</button>
         <button type="submit">${
-          this._modalType === 'edit' ? 'Save' : this._modalType
+          this._modalType === 'edit' ? 'Save' : cap1stLtr(this._modalType)
         }</button>
       </form>
     `;
