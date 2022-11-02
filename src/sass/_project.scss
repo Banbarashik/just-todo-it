@@ -1,0 +1,17 @@
+.project-window {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  font-size: 1.6rem;
+}
+
+.sidebar {
+  width: 30rem;
+  flex-shrink: 0.5;
+}
+
+.project {
+  background-color: #ddd;
+  width: 80rem;
+}
