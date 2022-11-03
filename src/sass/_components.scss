@@ -1,5 +1,6 @@
 %btn-controls {
   display: flex;
+  justify-content: center;
   align-items: center;
   border: none;
 
@@ -26,4 +27,19 @@
 
   height: 2rem;
   align-self: center;
+}
+
+.btn--task-controls {
+  @extend %btn-controls;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2.4rem;
+  width: 2.4rem;
+  border-radius: 0.3rem;
+
+  &:hover {
+    background-color: #eee;
+  }
 }

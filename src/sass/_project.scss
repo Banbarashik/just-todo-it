@@ -1,12 +1,27 @@
 .project-window {
-  display: flex;
-  justify-content: center;
+  position: relative;
   width: 100%;
+  padding-top: 3rem;
 
   font-size: 1.6rem;
 }
 
 .project {
-  background-color: #ddd;
   width: 80rem;
+  margin-left: 27rem;
+
+  &__title {
+    position: absolute;
+    left: 11rem;
+  }
+
+  &__details {
+    position: absolute;
+    right: 4rem;
+    width: 45rem;
+
+    p:first-child {
+      font-size: 3rem;
+    }
+  }
 }
