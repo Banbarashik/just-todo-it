@@ -12,16 +12,18 @@ class ProjectList {
     return model.state.projects
       .map(function (project) {
         return `
-          <li data-id="${project.id}" class="project-item">
-            <a href="#${project.id}" class="project-item--link
-            ${
-              project.id === model.state.activeProject.id
-                ? 'project-item--active'
-                : ''
-            }">
+          <li data-id="${
+            project.id
+          }" class="project-item ${project.id === model.state.activeProject.id ? 'active' : ''}">
+            <a href="#${project.id}" class="project-item--link">
               <span>${project.title}</span>
             </a>
-            <button class="btn--project-controls">...</button>
+            <button class="btn--project-controls">
+            <svg width="15" height="3">
+              <path d="M1.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0
+              1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="currentColor" fill-rule="evenodd"></path>
+            </svg>
+          </button>
           </li>
         `;
       })
