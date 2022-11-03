@@ -1,49 +1,71 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-
-  width: 20rem;
+  flex-shrink: 0.5;
+  gap: 1.6rem;
+  width: 30rem;
+  padding: 1.6rem;
 
   font-size: 1.6rem;
-  text-align: center;
 
   background-color: #a8d76f;
 }
 
+.projects-list {
+  &--header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 1rem;
+
+    > span {
+      font-weight: 600;
+    }
+  }
+}
+
 .project-item {
   display: flex;
-  justify-content: space-between;
+  height: 4rem;
+  padding-right: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
 
   &--link {
     display: flex;
     align-items: center;
-
     width: 100%;
+    padding-left: 1rem;
 
+    color: inherit;
     text-decoration: none;
-
-    cursor: pointer;
   }
 
   &:hover,
-  &--active {
-    background-color: #7b9e51;
+  &.active {
+    background-color: #96b76f;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 0.2rem;
   }
 }
 
 .btn--add-project {
   border: none;
 
-  font-family: inherit;
-  font-size: 3.5rem;
+  font-size: 2.4rem;
   font-weight: 600;
-  color: inherit;
 
-  background: none;
+  background-color: transparent;
+  opacity: 0.6;
 
   cursor: pointer;
 
+  transition: all 0.3s;
+
   &:hover {
-    background-color: #7b9e51;
+    opacity: 1;
+    transform: scale(1.2);
   }
 }
