@@ -15,21 +15,24 @@ class Project {
 
     return `
       <div class="project" data-id="${model.state.activeProject.id}">
-        <p class="project__title">Title: ${model.state.activeProject.title}</p>
-        <p class="project__description">Description: ${
-          model.state.activeProject.description
-        }</p>
-        <p class="project__due-date">Due date: ${
-          model.state.activeProject.dueDate
-            ? model.state.activeProject.dueDate
-            : 'No due date'
-        }</p>
-        <p>TASKS:</p>
+        <h1 class="project__title">${model.state.activeProject.title}</h1>
+        <div class="project__details">
+          <div class="project__description">
+            <p>Description:</p>
+            <p>${model.state.activeProject.description}</p>
+          </div>
+          <div class="project__due-date">
+            <p>Due date:</p>
+            <p>${
+              model.state.activeProject.dueDate
+                ? model.state.activeProject.dueDate
+                : 'No due date'
+            }</p>
+          </div>
+        </div>
         <ul class="tasks">
           ${this._generateTasksMarkup(model.state.activeProject.tasks)}
         </ul>
-        <button class="btn--project-controls">...</button>
-        <button class="btn--add-task">Add task</button>
       </div>
     `;
   }
@@ -39,12 +42,20 @@ class Project {
       .map(function (task) {
         return `
           <li class="task" data-id="${task.id}">
-            <p class="task__title">Title: ${task.title}</p>
-            <p class="task__description">Description: ${task.description}</p>
-            <p class="task__due-date">Due date: ${
-              task.dueDate ? task.dueDate : 'No due date'
-            }</p>
-          <button class="btn--task-controls">...</button>
+            <p class="task__title">${task.title}</p>
+            <p class="task__description">${task.description}</p>
+            ${
+              task.dueDate
+                ? `<p class="task__due-date">${task.dueDate}</p>`
+                : ''
+            }
+            <button class="btn--task-controls">
+              <svg width="15" height="3">
+                <path d="M1.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6
+                0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1
+                1 0-3 1.5 1.5 0 0 1 0 3z" fill="currentColor" fill-rule="evenodd"></path>
+              </svg>
+            </button>
           </li>
         `;
       })
