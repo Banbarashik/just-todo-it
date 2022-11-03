@@ -1,0 +1,22 @@
+.tasks {
+  list-style: none;
+}
+
+.task {
+  position: relative;
+  padding-bottom: 1rem;
+  border-bottom: 0.1rem solid grey;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  &__description {
+    font-size: 1.3rem;
+    color: grey;
+  }
+
+  &__due-date {
+    font-size: 1.1rem;
+  }
+}
