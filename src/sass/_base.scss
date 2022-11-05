@@ -25,3 +25,10 @@ body {
   visibility: hidden;
   opacity: 0;
 }
+
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+}
