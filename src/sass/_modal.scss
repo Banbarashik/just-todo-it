@@ -1,0 +1,86 @@
+:root {
+  --modal-side-padding: 2rem;
+}
+
+%form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.modal {
+  position: absolute;
+  top: 3.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rem;
+  border: 1px solid black;
+  border-radius: 1rem;
+
+  background-color: #a8d76f;
+
+  h3 {
+    padding: 1.4rem var(--modal-side-padding);
+    font-size: 1.7rem;
+  }
+}
+
+.form-fields-block {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 3rem;
+  row-gap: 2rem;
+  padding: 2rem var(--modal-side-padding);
+  border: {
+    top: 1px solid grey;
+    bottom: 1px solid grey;
+  }
+
+  label {
+    font-size: 1.6rem;
+  }
+
+  input,
+  textarea {
+    padding: 0.5rem;
+    border: 1px solid grey;
+    border-radius: 0.4rem;
+  }
+
+  textarea {
+    resize: none;
+    height: 14rem;
+  }
+}
+
+.form-field {
+  &--title {
+    @extend %form-field;
+  }
+
+  &--desc {
+    @extend %form-field;
+    grid-column: 1 / -1;
+  }
+
+  &--due-date {
+    @extend %form-field;
+    grid-column-start: 2;
+    grid-row-start: 1;
+    min-width: 0;
+  }
+}
+
+.form-btns-block {
+  padding: 1.4rem var(--modal-side-padding);
+  float: right;
+
+  button {
+    background-color: #e5eddb;
+    padding: 1rem;
+    border: 1px solid grey;
+    border-radius: 0.4rem;
+
+    font-weight: 600;
+  }
+}
