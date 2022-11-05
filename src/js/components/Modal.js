@@ -5,6 +5,7 @@ export default class Modal {
     if (!this.state.isModalOpened) return '';
 
     return `
+      <div class="overlay"></div>
       <div class="modal">
         <h3>${cap1stLtr(this._modalType)} ${this._itemType}</h3>
         <form class="${this._itemType}-form ${this._modalType}-${
