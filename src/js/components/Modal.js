@@ -7,26 +7,30 @@ export default class Modal {
     return `
       <div class="modal">
         <h3>${cap1stLtr(this._modalType)} ${this._itemType}</h3>
-        <form class="${this._modalType}-${this._itemType}-form">
+        <form class="${this._itemType}-form ${this._modalType}-${
+      this._itemType
+    }-form">
           <div class="form-fields-block">
-            <div class="form-field--title">
+            <div class="form-field form-field--title">
               <label>Title</label>
               <input name="title" />
             </div>
-            <div class="form-field--desc">
+            <div class="form-field form-field--desc">
               <label>Description</label>
               <textarea name="description"></textarea>
             </div>
-            <div class="form-field--due-date">
+            <div class="form-field form-field--due-date">
               <label>Due date</label>
               <input type="datetime-local" name="dueDate" />
             </div>
+            <div class="form-field form-field--project">
+              ${
+                this._itemType === 'task'
+                  ? `<label>Project</label><select name="project">${this._generateProjectsList()}</select>`
+                  : ''
+              }
+            </div>
           </div>
-          ${
-            this._itemType === 'task'
-              ? `<select name="project">${this._generateProjectsList()}</select>`
-              : ''
-          }
           <div class="form-btns-block">
             <button type="button" class="btn--close-modal">Cancel</button>
             <button type="submit">${
