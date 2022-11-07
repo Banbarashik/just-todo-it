@@ -30,13 +30,18 @@ class TaskControls extends Controls {
       return;
     }
 
+    this.state.areControlsOpened = true;
+
     const task = btn.closest('.task');
     const { id } = task.dataset;
     this.project = model.state.projects.find(project =>
       project.tasks.some(task => task.id === id)
     );
     this.task = this.project.tasks.find(task => task.id === id);
-    this.state.areControlsOpened = true;
+
+    const rect = btn.getBoundingClientRect();
+    this.state.y = rect.bottom;
+    this.state.x = rect.left;
   }
 
   _openEditModal(e) {
@@ -59,6 +64,8 @@ class TaskControls extends Controls {
 const state = store(
   {
     areControlsOpened: false,
+    x: null,
+    y: null,
   },
   'task-controls'
 );
