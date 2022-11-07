@@ -4,6 +4,7 @@
 
 .modal {
   position: absolute;
+  z-index: 2;
   top: 3.2rem;
   left: 50%;
   transform: translateX(-50%);
