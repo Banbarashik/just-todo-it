@@ -1,31 +1,23 @@
-%btn-controls {
+%btn {
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
 
-  background-color: transparent;
-
   cursor: pointer;
 }
 
-.btn--quick-add-task {
-  position: absolute;
-  width: 5rem;
-  height: 5rem;
-  right: 2rem;
-  top: 2rem;
-}
-
 .btn--project-controls {
-  @extend %btn-controls;
+  @extend %btn;
 
   height: 2rem;
   align-self: center;
+
+  background-color: transparent;
 }
 
 .btn--task-controls {
-  @extend %btn-controls;
+  @extend %btn;
 
   position: absolute;
   top: 0;
@@ -34,7 +26,25 @@
   width: 2.4rem;
   border-radius: 0.3rem;
 
+  background-color: transparent;
+
   &:hover {
     background-color: #eee;
   }
+}
+
+.btn--quick-add-task {
+  @extend %btn;
+
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  right: 2rem;
+  top: 2rem;
+  border-radius: 50%;
+
+  font-size: 4rem;
+  font-weight: 600;
+
+  background-color: var(--main-color);
 }
