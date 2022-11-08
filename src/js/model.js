@@ -9,13 +9,25 @@ export { default as EditTaskModal } from './components/EditTaskModal';
 export const state = store({
   projects: [
     {
-      id: '1',
+      id: 'inbox',
+      title: 'Inbox',
+      tasks: [
+        {
+          id: '11',
+          title: 'Create an inbox page',
+          description: '',
+          dueDate: null,
+        },
+      ],
+    },
+    {
+      id: '2',
       title: 'Test',
       description: 'A test project',
       dueDate: null,
       tasks: [
         {
-          id: '11',
+          id: '22',
           title: 'Stronglifts',
           description: 'Complete a set of exercises',
           dueDate: null,
