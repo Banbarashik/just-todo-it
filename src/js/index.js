@@ -9,3 +9,4 @@ import './components/AddTask';
 import './components/AddTaskModal';
 import './components/EditTaskModal';
 import './components/TaskControls';
+import './components/FiltersList';
