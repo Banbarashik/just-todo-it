@@ -17,18 +17,16 @@ class Project {
       <div class="project" data-id="${model.state.activeProject.id}">
         <h1 class="project__title">${model.state.activeProject.title}</h1>
         <div class="project__details">
-          <div class="project__description">
-            <p>Description:</p>
-            <p>${model.state.activeProject.description}</p>
-          </div>
-          <div class="project__due-date">
-            <p>Due date:</p>
-            <p>${
+          ${
+            model.state.activeProject.description
+              ? `<div class="project__description"><p>Description:</p><p>${model.state.activeProject.description}</div>`
+              : ''
+          }
+            ${
               model.state.activeProject.dueDate
-                ? model.state.activeProject.dueDate
-                : 'No due date'
-            }</p>
-          </div>
+                ? `<div class="project__due-date"><p>Due date:</p><p>${model.state.activeProject.dueDate}</div>`
+                : ''
+            }
         </div>
         <ul class="tasks">
           ${this._generateTasksMarkup(model.state.activeProject.tasks)}
