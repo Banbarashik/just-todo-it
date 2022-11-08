@@ -1,4 +1,4 @@
-import { store } from 'reefjs';
+import { store } from '../../node_modules/reefjs/src/reef';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
