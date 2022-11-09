@@ -9,15 +9,15 @@ class FiltersList {
   }
 
   _template() {
-    const inbox = model.state.projects[0];
-
     return `
       <li class="filter-inbox project-item ${
-        model.state.activeProject.id === inbox.id ? 'active' : ''
+        model.state.activeProject.id === 'inbox' ? 'active' : ''
       }">
         <a href="#inbox" class="project-item--link"><span>Inbox</span></a>
       </li>
-      <li class="project-item">
+      <li class="filter-today project-item" ${
+        model.state.activeProject.id === 'today' ? 'active' : ''
+      }>
         <a href="#today" class="project-item--link"><span>Today</span></a>
       </li>
     `;
