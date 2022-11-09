@@ -7,6 +7,11 @@ export { default as AddTaskModal } from './components/AddTaskModal';
 export { default as EditTaskModal } from './components/EditTaskModal';
 
 export const state = store({
+  today: {
+    id: 'today',
+    title: 'Today',
+    tasks: [],
+  },
   projects: [
     {
       id: 'inbox',
@@ -16,7 +21,7 @@ export const state = store({
           id: '11',
           title: 'Create an inbox page',
           description: '',
-          dueDate: null,
+          dueDate: '2022-11-09T11:09:57.059Z',
         },
       ],
     },
@@ -30,7 +35,7 @@ export const state = store({
           id: '22',
           title: 'Stronglifts',
           description: 'Complete a set of exercises',
-          dueDate: null,
+          dueDate: '2022-11-09',
         },
       ],
     },
@@ -38,8 +43,21 @@ export const state = store({
   activeProject: {},
 });
 
+export function setTodayTasks() {
+  state.today.tasks = state.projects
+    .map(project =>
+      project.tasks.filter(
+        task =>
+          new Date(task.dueDate).toDateString() === new Date().toDateString()
+      )
+    )
+    .flat();
+}
+
 export function setProjectAsActive(id) {
-  state.activeProject = state.projects.find(project => project.id === id);
+  state.activeProject = [state.today, ...state.projects].find(
+    project => project.id === id
+  );
 }
 
 export function addProject(formData) {
