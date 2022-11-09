@@ -61,10 +61,12 @@ class Project {
   }
 
   _addHandlerMakeProjectActive() {
-    ['hashchange', 'load'].forEach(e =>
-      window.addEventListener(e, function () {
+    ['hashchange', 'load'].forEach(ev =>
+      window.addEventListener(ev, function () {
         const id = window.location.hash.slice(1);
         if (!id) return;
+
+        if (id === 'today') model.setTodayTasks();
         model.setProjectAsActive(id);
       })
     );
