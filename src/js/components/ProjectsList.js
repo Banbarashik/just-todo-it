@@ -10,7 +10,6 @@ class ProjectList {
 
   _template() {
     return model.state.projects
-      .slice(1)
       .map(function (project) {
         return `
           <li data-id="${

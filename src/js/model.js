@@ -7,24 +7,24 @@ export { default as AddTaskModal } from './components/AddTaskModal';
 export { default as EditTaskModal } from './components/EditTaskModal';
 
 export const state = store({
+  inbox: {
+    id: 'inbox',
+    title: 'Inbox',
+    tasks: [
+      {
+        id: '11',
+        title: 'Create an inbox page',
+        description: '',
+        dueDate: '2022-11-09T11:09:57.059Z',
+      },
+    ],
+  },
   today: {
     id: 'today',
     title: 'Today',
     tasks: [],
   },
   projects: [
-    {
-      id: 'inbox',
-      title: 'Inbox',
-      tasks: [
-        {
-          id: '11',
-          title: 'Create an inbox page',
-          description: '',
-          dueDate: '2022-11-09T11:09:57.059Z',
-        },
-      ],
-    },
     {
       id: '2',
       title: 'Test',
@@ -44,7 +44,7 @@ export const state = store({
 });
 
 export function setTodayTasks() {
-  state.today.tasks = state.projects
+  state.today.tasks = [state.inbox, ...state.projects]
     .map(project =>
       project.tasks.filter(
         task =>
@@ -55,7 +55,7 @@ export function setTodayTasks() {
 }
 
 export function setProjectAsActive(id) {
-  state.activeProject = [state.today, ...state.projects].find(
+  state.activeProject = [state.inbox, state.today, ...state.projects].find(
     project => project.id === id
   );
 }
@@ -96,7 +96,9 @@ export function addTask(formData) {
     dueDate,
   };
 
-  const project = state.projects.find(project => project.id === projectId);
+  const project = [state.inbox, ...state.projects].find(
+    project => project.id === projectId
+  );
 
   project.tasks.push(task);
 }
@@ -112,7 +114,7 @@ export function editTask(formData, project, task) {
       const index = project.tasks.findIndex(taskEl => taskEl.id === task.id);
       project.tasks.splice(index, 1);
 
-      const newProject = state.projects.find(
+      const newProject = [state.inbox, ...state.projects].find(
         project => project.id === formData[prop]
       );
 

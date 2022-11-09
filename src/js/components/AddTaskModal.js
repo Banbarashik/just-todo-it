@@ -25,7 +25,7 @@ class AddTaskModal extends AddModal {
   _generateProjectsList() {
     const { id } = model.state.activeProject;
 
-    return model.state.projects
+    return [model.state.inbox, ...model.state.projects]
       .map(
         project =>
           `<option ${project.id === id ? 'selected' : ''}

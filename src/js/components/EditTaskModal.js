@@ -35,7 +35,7 @@ class EditTaskModal extends EditModal {
   _generateProjectsList() {
     const { id } = model.state.activeProject;
 
-    return model.state.projects
+    return [model.state.inbox, ...model.state.projects]
       .map(
         project =>
           // not very robust cause the edited task (not now, but theoretically)

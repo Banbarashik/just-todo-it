@@ -34,7 +34,9 @@ class ProjectControls extends Controls {
     const projectItem = btn.closest('.project-item');
     const project = btn.closest('.project');
     const { id } = projectItem?.dataset || project?.dataset;
-    this.project = model.state.projects.find(project => project.id === id);
+    this.project = [model.state.inbox, ...model.state.projects].find(
+      project => project.id === id
+    );
 
     const rect = btn.getBoundingClientRect();
     this.state.y = rect.bottom;
