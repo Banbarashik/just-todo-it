@@ -1,4 +1,5 @@
 import { store } from '../../node_modules/reefjs/src/reef';
+import { isToday } from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
@@ -46,10 +47,7 @@ export const state = store({
 export function setTodayTasks() {
   state.today.tasks = [state.inbox, ...state.projects]
     .map(project =>
-      project.tasks.filter(
-        task =>
-          new Date(task.dueDate).toDateString() === new Date().toDateString()
-      )
+      project.tasks.filter(task => isToday(new Date(task.dueDate)))
     )
     .flat();
 }
