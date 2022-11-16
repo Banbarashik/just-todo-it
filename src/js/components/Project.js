@@ -1,4 +1,5 @@
 import { component } from '../../../node_modules/reefjs/src/reef';
+import { formatDate } from '../helper';
 import * as model from '../model';
 
 class Project {
@@ -11,25 +12,29 @@ class Project {
   }
 
   _template() {
-    if (!Object.keys(model.state.activeProject).length) return '';
+    const project = model.state.activeProject;
+
+    if (!Object.keys(project).length) return '';
 
     return `
-      <div class="project" data-id="${model.state.activeProject.id}">
-        <h1 class="project__title">${model.state.activeProject.title}</h1>
+      <div class="project" data-id="${project.id}">
+        <h1 class="project__title">${project.title}</h1>
         <div class="project__details">
           ${
-            model.state.activeProject.description
-              ? `<div class="project__description"><p>Description:</p><p>${model.state.activeProject.description}</div>`
+            project.description
+              ? `<div class="project__description"><p>Description:</p><p>${project.description}</div>`
               : ''
           }
             ${
-              model.state.activeProject.dueDate
-                ? `<div class="project__due-date"><p>Due date:</p><p>${model.state.activeProject.dueDate}</div>`
+              project.dueDate
+                ? `<div class="project__due-date"><p>Due date:</p><p>${formatDate(
+                    new Date(project.dueDate)
+                  )}</div>`
                 : ''
             }
         </div>
         <ul class="tasks">
-          ${this._generateTasksMarkup(model.state.activeProject.tasks)}
+          ${this._generateTasksMarkup(project.tasks)}
         </ul>
       </div>
     `;
@@ -44,7 +49,9 @@ class Project {
             <p class="task__description">${task.description}</p>
             ${
               task.dueDate
-                ? `<p class="task__due-date">${task.dueDate}</p>`
+                ? `<p class="task__due-date">${formatDate(
+                    new Date(task.dueDate)
+                  )}</p>`
                 : ''
             }
             <button class="btn--task-controls">
