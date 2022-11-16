@@ -22,8 +22,8 @@
 
 .form-fields-block {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 3rem;
+  grid-template-columns: 40% 1fr;
+  column-gap: 2.5rem;
   row-gap: 2rem;
   padding: 2rem var(--modal-side-padding);
   border: {
@@ -62,6 +62,15 @@
     grid-column-start: 2;
     grid-row-start: 1;
     min-width: 0;
+
+    div {
+      display: flex;
+      gap: 0.3rem;
+
+      input[name='time'] {
+        flex-shrink: 0;
+      }
+    }
   }
 }
 
