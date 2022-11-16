@@ -15,29 +15,30 @@ const months = [
 
 export const cap1stLtr = str => str.replace(/^\w/, c => c.toUpperCase());
 
-export const isToday = date =>
-  date.toDateString() === new Date().toDateString();
+export const isToday = date => {
+  const now = new Date();
+  const [year, monthIndex, dayOfMonth] = date.split('-').map(Number);
 
-export const formatDate = date => {
+  if (
+    year === now.getFullYear() &&
+    monthIndex - 1 === now.getMonth() &&
+    dayOfMonth === now.getDate()
+  )
+    return true;
+};
+
+export const formatDate = (date, time) => {
   const now = new Date();
 
-  const monthIndex = date.getMonth();
+  const [year, monthIndex, dayOfMonth] = date.split('-').map(Number);
+  const month = months[monthIndex - 1];
 
-  const dayOfMonth = date.getDate();
-  const month = months[monthIndex];
-  const year = date.getFullYear();
-  const time =
-    `${date.getHours()}`.padStart(2, 0) +
-    ':' +
-    `${date.getMinutes()}`.padStart(2, 0);
-
-  if (year === now.getFullYear() && monthIndex === now.getMonth()) {
-    if (dayOfMonth === now.getDate() - 1) return 'Yesterday';
-    if (dayOfMonth === now.getDate()) return 'Today';
-    if (dayOfMonth === now.getDate() + 1) return 'Tomorrow';
+  if (year === now.getFullYear() && monthIndex - 1 === now.getMonth()) {
+    if (dayOfMonth === now.getDate() - 1) return `Yesterday ${time}`;
+    if (dayOfMonth === now.getDate()) return `Today ${time}`;
+    if (dayOfMonth === now.getDate() + 1) return `Tomorrow ${time}`;
   }
 
-  return `${dayOfMonth} ${month} ${year !== now.getFullYear() ? year : ''} ${
-    time ? time : ''
-  }`;
+  // prettier-ignore
+  return `${dayOfMonth} ${month} ${year !== now.getFullYear() ? year : ''} ${time}`;
 };
