@@ -22,7 +22,10 @@ export default class Modal {
             </div>
             <div class="form-field form-field--due-date">
               <label>Due date</label>
-              <input type="datetime-local" name="dueDate" />
+              <div>
+                <input type="date" name="date" />
+                <input type="time" name="time" />
+              </div>
             </div>
             <div class="form-field form-field--project">
               ${
