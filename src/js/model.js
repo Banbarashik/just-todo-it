@@ -116,23 +116,23 @@ export function addTask(formData) {
 }
 
 export function editTask(formData, project, task) {
-  for (const prop in formData) {
-    if (task.hasOwnProperty(prop) && task[prop] !== formData[prop])
-      task[prop] = formData[prop];
+  // Create a copy of 'formData' obj
+  const formDataObj = structuredClone(formData);
+  // Format the copy obj props to have the same structure as project obj
+  formDataObj.dueDate = {
+    date: formDataObj.date,
+    time: formDataObj.time,
+  };
 
-    if (prop === 'project' && project.id !== formData[prop]) {
-      // Move the task to another project
+  agentSmithObj(formDataObj, task);
 
-      const index = project.tasks.findIndex(taskEl => taskEl.id === task.id);
-      project.tasks.splice(index, 1);
+  if (formDataObj.project !== project.id) {
+    const index = project.tasks.findIndex(taskEl => taskEl.id === task.id);
+    project.tasks.splice(index, 1);
 
-      const newProject = [state.inbox, ...state.projects].find(
-        project => project.id === formData[prop]
-      );
-
-      newProject.tasks.push(task);
-
-      continue;
-    }
+    const newProject = [state.inbox, ...state.projects].find(
+      project => project.id === formDataObj.project
+    );
+    newProject.tasks.push(task);
   }
 }
