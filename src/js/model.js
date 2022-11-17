@@ -1,5 +1,5 @@
 import { store } from '../../node_modules/reefjs/src/reef';
-import { isToday } from './helper';
+import { agentSmithObj, isToday } from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
@@ -84,11 +84,15 @@ export function addProject(formData) {
 }
 
 export function editProject(formData, project) {
-  for (const prop in formData) {
-    if (project[prop] === formData[prop]) continue;
+  // Create a copy of 'formData' obj
+  const formDataObj = structuredClone(formData);
+  // Format the copy obj props to have the same structure as project obj
+  formDataObj.dueDate = {
+    date: formDataObj.date,
+    time: formDataObj.time,
+  };
 
-    project[prop] = formData[prop];
-  }
+  agentSmithObj(formDataObj, project);
 }
 
 export function addTask(formData) {
