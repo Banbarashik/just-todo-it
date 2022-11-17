@@ -16,7 +16,10 @@ export const state = store({
         id: '11',
         title: 'Create an inbox page',
         description: '',
-        dueDate: '2022-11-09T11:09:57.059Z',
+        dueDate: {
+          date: '2022-11-09',
+          time: '11:09',
+        },
       },
     ],
   },
@@ -30,13 +33,16 @@ export const state = store({
       id: '2',
       title: 'Test',
       description: 'A test project',
-      dueDate: null,
+      dueDate: {
+        date: null,
+        time: null,
+      },
       tasks: [
         {
           id: '22',
           title: 'Stronglifts',
           description: 'Complete a set of exercises',
-          dueDate: '2022-11-09',
+          dueDate: { date: '2022-11-09', time: '' },
         },
       ],
     },
@@ -46,9 +52,7 @@ export const state = store({
 
 export function setTodayTasks() {
   state.today.tasks = [state.inbox, ...state.projects]
-    .map(project =>
-      project.tasks.filter(task => isToday(new Date(task.dueDate)))
-    )
+    .map(project => project.tasks.filter(task => isToday(task.dueDate.date)))
     .flat();
 }
 
@@ -59,13 +63,16 @@ export function setProjectAsActive(id) {
 }
 
 export function addProject(formData) {
-  const { title, description, dueDate } = formData;
+  const { title, description, date, time } = formData;
 
   const project = {
     id: Date.now().toString(),
     title,
     description,
-    dueDate,
+    dueDate: {
+      date,
+      time,
+    },
     tasks: [],
   };
 
@@ -85,13 +92,16 @@ export function editProject(formData, project) {
 }
 
 export function addTask(formData) {
-  const { project: projectId, title, description, dueDate } = formData;
+  const { project: projectId, title, description, date, time } = formData;
 
   const task = {
     id: Date.now().toString(),
     title,
     description,
-    dueDate,
+    dueDate: {
+      date,
+      time,
+    },
   };
 
   const project = [state.inbox, ...state.projects].find(
