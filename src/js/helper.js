@@ -42,3 +42,14 @@ export const formatDate = (date, time) => {
   // prettier-ignore
   return `${dayOfMonth} ${month} ${year !== now.getFullYear() ? year : ''} ${time}`;
 };
+
+export const agentSmithObj = (smithObj, origObj) => {
+  Object.keys(smithObj).forEach(key => {
+    if (smithObj[key] === origObj[key]) return;
+
+    if (typeof smithObj[key] === 'object')
+      agentSmithObj(smithObj[key], origObj[key]);
+
+    origObj[key] = smithObj[key];
+  });
+};
