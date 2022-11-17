@@ -26,9 +26,10 @@ class Project {
               : ''
           }
             ${
-              project.dueDate
+              project.dueDate?.date
                 ? `<div class="project__due-date"><p>Due date:</p><p>${formatDate(
-                    new Date(project.dueDate)
+                    project.dueDate.date,
+                    project.dueDate.time
                   )}</div>`
                 : ''
             }
@@ -48,9 +49,10 @@ class Project {
             <p class="task__title">${task.title}</p>
             <p class="task__description">${task.description}</p>
             ${
-              task.dueDate
+              task.dueDate?.date
                 ? `<p class="task__due-date">${formatDate(
-                    new Date(task.dueDate)
+                    task.dueDate.date,
+                    task.dueDate.time
                   )}</p>`
                 : ''
             }
