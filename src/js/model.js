@@ -62,6 +62,18 @@ export function setProjectAsActive(id) {
   );
 }
 
+function editItem(formData, item) {
+  // Create a copy of 'formData' obj
+  const formDataObj = structuredClone(formData);
+  // Format the copy obj props to have the same structure as project obj
+  formDataObj.dueDate = {
+    date: formDataObj.date,
+    time: formDataObj.time,
+  };
+
+  agentSmithObj(formDataObj, item);
+}
+
 export function addProject(formData) {
   const { title, description, date, time } = formData;
 
@@ -84,15 +96,7 @@ export function addProject(formData) {
 }
 
 export function editProject(formData, project) {
-  // Create a copy of 'formData' obj
-  const formDataObj = structuredClone(formData);
-  // Format the copy obj props to have the same structure as project obj
-  formDataObj.dueDate = {
-    date: formDataObj.date,
-    time: formDataObj.time,
-  };
-
-  agentSmithObj(formDataObj, project);
+  editItem(formData, project);
 }
 
 export function addTask(formData) {
@@ -116,22 +120,14 @@ export function addTask(formData) {
 }
 
 export function editTask(formData, project, task) {
-  // Create a copy of 'formData' obj
-  const formDataObj = structuredClone(formData);
-  // Format the copy obj props to have the same structure as project obj
-  formDataObj.dueDate = {
-    date: formDataObj.date,
-    time: formDataObj.time,
-  };
+  editItem(formData, task);
 
-  agentSmithObj(formDataObj, task);
-
-  if (formDataObj.project !== project.id) {
+  if (formData.project !== project.id) {
     const index = project.tasks.findIndex(taskEl => taskEl.id === task.id);
     project.tasks.splice(index, 1);
 
     const newProject = [state.inbox, ...state.projects].find(
-      project => project.id === formDataObj.project
+      project => project.id === formData.project
     );
     newProject.tasks.push(task);
   }
