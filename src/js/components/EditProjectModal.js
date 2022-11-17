@@ -24,6 +24,7 @@ class EditProjectModal extends EditModal {
   }
 
   _fillInputs() {
+    if (!this.state.isModalOpened) return;
     super._fillInputs(model.ProjectControls.project);
   }
 }
