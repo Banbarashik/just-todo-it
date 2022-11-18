@@ -117,6 +117,7 @@ export function addTask(formData) {
   );
 
   project.tasks.push(task);
+  if (state.activeProject.id === 'today') setTodayTasks();
 }
 
 export function editTask(formData, project, task) {
