@@ -133,3 +133,19 @@ export function editTask(formData, project, task) {
     newProject.tasks.push(task);
   }
 }
+
+export function deleteProject(projectId) {
+  const index = state.projects.findIndex(project => project.id === projectId);
+
+  state.projects.splice(index, 1);
+
+  if (state.activeProject.id === projectId) state.activeProject = {};
+}
+
+export function deleteTask(project, taskId) {
+  const index = project.tasks.findIndex(task => task.id === taskId);
+
+  project.tasks.splice(index, 1);
+
+  if (state.activeProject.id === 'today') setTodayTasks();
+}
