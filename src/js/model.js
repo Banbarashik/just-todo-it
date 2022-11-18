@@ -132,6 +132,8 @@ export function editTask(formData, project, task) {
     );
     newProject.tasks.push(task);
   }
+
+  if (state.activeProject.id === 'today') setTodayTasks();
 }
 
 export function deleteProject(project) {
