@@ -58,6 +58,8 @@ class TaskControls extends Controls {
     );
 
     this.project.tasks.splice(index, 1);
+
+    if (model.state.activeProject.id === 'today') model.setTodayTasks();
   }
 }
 
