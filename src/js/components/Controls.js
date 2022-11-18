@@ -10,6 +10,16 @@ export default class Controls {
     `;
   }
 
+  _openEditModal(e, handler) {
+    const btn = e.target.closest('.btn--edit-item');
+    if (btn) handler();
+  }
+
+  _deleteItem(e, handler, project, task) {
+    const btn = e.target.closest('.btn--delete-item');
+    if (btn) handler(project, task);
+  }
+
   _addHandlerOpenControls() {
     document.addEventListener('click', this._openControls.bind(this));
   }

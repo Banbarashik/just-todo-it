@@ -45,13 +45,11 @@ class TaskControls extends Controls {
   }
 
   _openEditModal(e) {
-    const btn = e.target.closest('.btn--edit-item');
-    if (btn) model.EditTaskModal.openModal();
+    super._openEditModal(e, model.EditTaskModal.openModal);
   }
 
   _deleteItem(e) {
-    const btn = e.target.closest('.btn--delete-item');
-    if (btn) model.deleteTask(this.project, this.task.id);
+    super._deleteItem(e, model.deleteTask, this.project, this.task);
   }
 }
 

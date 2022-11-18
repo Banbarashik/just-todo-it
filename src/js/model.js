@@ -134,16 +134,20 @@ export function editTask(formData, project, task) {
   }
 }
 
-export function deleteProject(projectId) {
-  const index = state.projects.findIndex(project => project.id === projectId);
+export function deleteProject(project) {
+  const { id } = project;
+
+  const index = state.projects.findIndex(project => project.id === id);
 
   state.projects.splice(index, 1);
 
-  if (state.activeProject.id === projectId) state.activeProject = {};
+  if (state.activeProject.id === id) state.activeProject = {};
 }
 
-export function deleteTask(project, taskId) {
-  const index = project.tasks.findIndex(task => task.id === taskId);
+export function deleteTask(project, task) {
+  const { id } = task;
+
+  const index = project.tasks.findIndex(task => task.id === id);
 
   project.tasks.splice(index, 1);
 

@@ -44,13 +44,11 @@ class ProjectControls extends Controls {
   }
 
   _openEditModal(e) {
-    const btn = e.target.closest('.btn--edit-item');
-    if (btn) model.EditProjectModal.openModal();
+    super._openEditModal(e, model.EditProjectModal.openModal);
   }
 
   _deleteItem(e) {
-    const btn = e.target.closest('.btn--delete-item');
-    if (btn) model.deleteProject(this.project.id);
+    super._deleteItem(e, model.deleteProject, this.project);
   }
 }
 
