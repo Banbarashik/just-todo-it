@@ -74,8 +74,8 @@ class Project {
       window.addEventListener(ev, function () {
         const id = window.location.hash.slice(1);
         if (!id) return;
+        else if (id === 'today') model.setTodayTasks();
 
-        if (id === 'today') model.setTodayTasks();
         model.setProjectAsActive(id);
       })
     );
