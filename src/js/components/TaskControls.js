@@ -51,15 +51,7 @@ class TaskControls extends Controls {
 
   _deleteItem(e) {
     const btn = e.target.closest('.btn--delete-item');
-    if (!btn) return;
-
-    const index = this.project.tasks.findIndex(
-      task => task.id === this.task.id
-    );
-
-    this.project.tasks.splice(index, 1);
-
-    if (model.state.activeProject.id === 'today') model.setTodayTasks();
+    if (btn) model.deleteTask(this.project, this.task.id);
   }
 }
 

@@ -50,16 +50,7 @@ class ProjectControls extends Controls {
 
   _deleteItem(e) {
     const btn = e.target.closest('.btn--delete-item');
-    if (!btn) return;
-
-    const index = model.state.projects.findIndex(
-      project => project.id === this.project.id
-    );
-
-    model.state.projects.splice(index, 1);
-
-    if (model.state.activeProject.id === this.project.id)
-      model.state.activeProject = {};
+    if (btn) model.deleteProject(this.project.id);
   }
 }
 
