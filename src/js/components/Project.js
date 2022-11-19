@@ -7,6 +7,7 @@ class Project {
 
   constructor() {
     this._addHandlerMakeProjectActive();
+    this._addHandlerSort();
 
     component(this._parentElement, this._template.bind(this));
   }
@@ -19,6 +20,9 @@ class Project {
     return `
       <div class="project" data-id="${project.id}">
         <h1 class="project__title">${project.title}</h1>
+
+        <button class="sort--by-due-date">Sort by due date</button>
+
         <div class="project__details">
           ${
             project.description
@@ -79,6 +83,15 @@ class Project {
         model.setProjectAsActive(id);
       })
     );
+  }
+
+  _addHandlerSort() {
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.sort--by-due-date');
+      if (!btn) return;
+
+      model.sortByDueDate();
+    });
   }
 }
 
