@@ -182,13 +182,12 @@ export function deleteTask(project, task) {
 
 export function sortByDueDate() {
   state.activeProject.tasks.sort(function (a, b) {
+    const { date: dateA, time: timeA } = a.dueDate;
+    const { date: dateB, time: timeB } = b.dueDate;
+
     return (
-      new Date(
-        `${a.dueDate.date}T${a.dueDate.time ? a.dueDate.time : '23:59:59.999'}Z`
-      ) -
-      new Date(
-        `${b.dueDate.date}T${b.dueDate.time ? b.dueDate.time : '23:59:59.999'}Z`
-      )
+      new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`) -
+      new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`)
     );
   });
 }
