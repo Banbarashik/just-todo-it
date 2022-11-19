@@ -155,3 +155,13 @@ export function deleteTask(project, task) {
 
   if (state.activeProject.id === 'today') setTodayTasks();
 }
+
+export function sortByDueDate() {
+  state.activeProject.tasks.sort(
+    (a, b) =>
+      new Date(
+        `${a.dueDate.date}T${a.dueDate.time ? a.dueDate.time : '00:00'}`
+      ) -
+      new Date(`${b.dueDate.date}T${b.dueDate.time ? b.dueDate.time : '00:00'}`)
+  );
+}
