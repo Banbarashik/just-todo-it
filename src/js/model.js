@@ -44,6 +44,30 @@ export const state = store({
           description: 'Complete a set of exercises',
           dueDate: { date: '2022-11-09', time: '' },
         },
+        {
+          id: '33',
+          title: 'Test task',
+          description: '',
+          dueDate: { date: '2022-11-09', time: '13:00' },
+        },
+        {
+          id: '44',
+          title: 'Test task2',
+          description: '',
+          dueDate: { date: '2022-11-09', time: '11:00' },
+        },
+        {
+          id: '55',
+          title: 'Test task3',
+          description: '',
+          dueDate: { date: '2022-11-10', time: '' },
+        },
+        {
+          id: '66',
+          title: 'Test task4',
+          description: '',
+          dueDate: { date: '2022-11-10', time: '12:00' },
+        },
       ],
     },
   ],
@@ -157,11 +181,14 @@ export function deleteTask(project, task) {
 }
 
 export function sortByDueDate() {
-  state.activeProject.tasks.sort(
-    (a, b) =>
+  state.activeProject.tasks.sort(function (a, b) {
+    return (
       new Date(
-        `${a.dueDate.date}T${a.dueDate.time ? a.dueDate.time : '00:00'}`
+        `${a.dueDate.date}T${a.dueDate.time ? a.dueDate.time : '23:59:59.999'}Z`
       ) -
-      new Date(`${b.dueDate.date}T${b.dueDate.time ? b.dueDate.time : '00:00'}`)
-  );
+      new Date(
+        `${b.dueDate.date}T${b.dueDate.time ? b.dueDate.time : '23:59:59.999'}Z`
+      )
+    );
+  });
 }
