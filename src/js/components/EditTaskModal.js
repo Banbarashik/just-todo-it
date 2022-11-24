@@ -26,7 +26,12 @@ class EditTaskModal extends EditModal {
       model.TaskControls.project,
       model.TaskControls.task
     );
-    model.state.activeProject.sortMethod();
+
+    const id = e.target.querySelector('[name=project]').value;
+    const project = [model.state.inbox, ...model.state.projects].find(
+      project => project.id === id
+    );
+    project.tasks.sort(project.sortMethod);
   }
 
   _fillInputs() {

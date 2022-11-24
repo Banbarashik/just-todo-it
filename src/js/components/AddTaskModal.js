@@ -20,7 +20,12 @@ class AddTaskModal extends AddModal {
 
   _submit(e) {
     super._submit(e, model.addTask);
-    model.state.activeProject.sortMethod();
+
+    const id = e.target.querySelector('[name=project]').value;
+    const project = [model.state.inbox, ...model.state.projects].find(
+      project => project.id === id
+    );
+    project.tasks.sort(project.sortMethod);
   }
 
   _generateProjectsList() {
