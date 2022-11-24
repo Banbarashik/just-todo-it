@@ -20,6 +20,7 @@ class AddTaskModal extends AddModal {
 
   _submit(e) {
     super._submit(e, model.addTask);
+    model.state.activeProject.sortMethod();
   }
 
   _generateProjectsList() {

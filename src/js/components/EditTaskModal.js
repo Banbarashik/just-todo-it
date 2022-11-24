@@ -26,6 +26,7 @@ class EditTaskModal extends EditModal {
       model.TaskControls.project,
       model.TaskControls.task
     );
+    model.state.activeProject.sortMethod();
   }
 
   _fillInputs() {
