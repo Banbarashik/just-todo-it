@@ -81,16 +81,17 @@ class Project {
         else if (id === 'today') model.setTodayTasks();
 
         model.setProjectAsActive(id);
+        model.state.activeProject.sortMethod();
       })
     );
   }
 
   _addHandlerSort() {
     this._parentElement.addEventListener('click', function (e) {
-      const btn = e.target.closest('.sort--by-due-date');
-      if (!btn) return;
+      const btnDueDate = e.target.closest('.sort--by-due-date');
+      if (btnDueDate) model.setSortingMethod(model.sortByDueDate);
 
-      model.sortByDueDate();
+      model.state.activeProject.sortMethod();
     });
   }
 }
