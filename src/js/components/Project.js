@@ -81,7 +81,6 @@ class Project {
         else if (id === 'today') model.setTodayTasks();
 
         model.setProjectAsActive(id);
-        model.state.activeProject.sortMethod();
       })
     );
   }
@@ -89,9 +88,14 @@ class Project {
   _addHandlerSort() {
     this._parentElement.addEventListener('click', function (e) {
       const btnDueDate = e.target.closest('.sort--by-due-date');
-      if (btnDueDate) model.setSortingMethod(model.sortByDueDate);
 
-      model.state.activeProject.sortMethod();
+      if (btnDueDate) {
+        model.setSortingMethod(model.sortByDueDate);
+
+        model.state.activeProject.tasks.sort(
+          model.state.activeProject.sortMethod
+        );
+      }
     });
   }
 }
