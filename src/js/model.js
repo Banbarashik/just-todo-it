@@ -9,6 +9,7 @@ export { default as EditTaskModal } from './components/EditTaskModal';
 
 export const state = store({
   inbox: {
+    sortMethod: function () {},
     id: 'inbox',
     title: 'Inbox',
     tasks: [
@@ -30,6 +31,7 @@ export const state = store({
   },
   projects: [
     {
+      sortMethod: function () {},
       id: '2',
       title: 'Test',
       description: 'A test project',
@@ -102,6 +104,7 @@ export function addProject(formData) {
   const { title, description, date, time } = formData;
 
   const project = {
+    sortMethod: function () {},
     id: Date.now().toString(),
     title,
     description,
@@ -178,6 +181,10 @@ export function deleteTask(project, task) {
   project.tasks.splice(index, 1);
 
   if (state.activeProject.id === 'today') setTodayTasks();
+}
+
+export function setSortingMethod(func) {
+  state.activeProject.sortMethod = func;
 }
 
 export function sortByDueDate() {
