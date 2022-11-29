@@ -1,8 +1,10 @@
 import { store, component } from '../../../node_modules/reefjs/src/reef';
 import * as model from '../model';
+import { mix } from '../helper';
 import EditModal from './EditModal';
+import TaskModalMixin from './TaskModal';
 
-class EditTaskModal extends EditModal {
+class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
   _parentElement = document.querySelector('.edit-task-modal');
   _itemType = 'task';
 
@@ -37,20 +39,6 @@ class EditTaskModal extends EditModal {
   _fillInputs() {
     if (!this.state.isModalOpened) return;
     super._fillInputs(model.TaskControls.task);
-  }
-
-  _generateProjectsList() {
-    const { id } = model.state.activeProject;
-
-    return [model.state.inbox, ...model.state.projects]
-      .map(
-        project =>
-          // not very robust cause the edited task (not now, but theoretically)
-          // can belong to a project that is not active
-          `<option ${project.id === id ? 'selected' : ''}
-             value="${project.id}">${project.title}</option>`
-      )
-      .join('');
   }
 }
 

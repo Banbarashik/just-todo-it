@@ -1,8 +1,10 @@
 import { store, component } from '../../../node_modules/reefjs/src/reef';
 import * as model from '../model';
+import { mix } from '../helper';
 import AddModal from './AddModal';
+import TaskModalMixin from './TaskModal';
 
-class AddTaskModal extends AddModal {
+class AddTaskModal extends mix(AddModal).with(TaskModalMixin) {
   _parentElement = document.querySelector('.add-task-modal');
   _itemType = 'task';
 
@@ -26,18 +28,6 @@ class AddTaskModal extends AddModal {
       project => project.id === id
     );
     project.tasks.sort(project.sortMethod);
-  }
-
-  _generateProjectsList() {
-    const { id } = model.state.activeProject;
-
-    return [model.state.inbox, ...model.state.projects]
-      .map(
-        project =>
-          `<option ${project.id === id ? 'selected' : ''}
-           value="${project.id}">${project.title}</option>`
-      )
-      .join('');
   }
 }
 
