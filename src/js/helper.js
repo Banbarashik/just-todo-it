@@ -53,3 +53,15 @@ export const agentSmithObj = (smithObj, origObj) => {
     origObj[key] = smithObj[key];
   });
 };
+
+export const mix = superclass => new MixinBuilder(superclass);
+
+class MixinBuilder {
+  constructor(superclass) {
+    this.superclass = superclass;
+  }
+
+  with(...mixins) {
+    return mixins.reduce((c, mixin) => mixin(c), this.superclass);
+  }
+}
