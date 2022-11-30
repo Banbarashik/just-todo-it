@@ -15,4 +15,16 @@ export default superclass =>
         )
         .join('');
     }
+
+    _getSelectedProject() {
+      const id = this._parentElement.querySelector('[name=project]').value;
+      return [model.state.inbox, ...model.state.projects].find(
+        project => project.id === id
+      );
+    }
+
+    _sortTasks() {
+      const project = this._getSelectedProject();
+      project.tasks.sort(project.sortMethod);
+    }
   };

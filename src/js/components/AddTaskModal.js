@@ -22,12 +22,7 @@ class AddTaskModal extends mix(AddModal).with(TaskModalMixin) {
 
   _submit(e) {
     super._submit(e, model.addTask);
-
-    const id = e.target.querySelector('[name=project]').value;
-    const project = [model.state.inbox, ...model.state.projects].find(
-      project => project.id === id
-    );
-    project.tasks.sort(project.sortMethod);
+    this._sortTasks();
   }
 }
 

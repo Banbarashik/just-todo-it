@@ -28,12 +28,7 @@ class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
       model.TaskControls.project,
       model.TaskControls.task
     );
-
-    const id = e.target.querySelector('[name=project]').value;
-    const project = [model.state.inbox, ...model.state.projects].find(
-      project => project.id === id
-    );
-    project.tasks.sort(project.sortMethod);
+    this._sortTasks();
   }
 
   _fillInputs() {
