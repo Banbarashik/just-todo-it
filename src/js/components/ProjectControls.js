@@ -3,7 +3,7 @@ import * as model from '../model';
 import Controls from './Controls';
 
 class ProjectControls extends Controls {
-  _parentElement = document.querySelector('.project-controls');
+  _parentElement = document.querySelector('.dropdown--project-controls');
   _itemType = 'project';
 
   constructor(state) {

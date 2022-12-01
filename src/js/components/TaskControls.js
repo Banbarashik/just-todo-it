@@ -3,7 +3,7 @@ import * as model from '../model';
 import Controls from './Controls';
 
 class TaskControls extends Controls {
-  _parentElement = document.querySelector('.task-controls');
+  _parentElement = document.querySelector('.dropdown--task-controls');
   _itemType = 'task';
 
   constructor(state) {
