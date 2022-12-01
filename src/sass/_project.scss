@@ -10,9 +10,13 @@
   width: 80rem;
   margin-left: 27rem;
 
-  &__title {
+  &__title-and-settings {
     position: absolute;
     left: 11rem;
+  }
+
+  &__settings-list {
+    list-style: none;
   }
 
   &__details {
