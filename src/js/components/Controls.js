@@ -3,9 +3,11 @@ export default class Controls {
     if (!this.state.areControlsOpened) return '';
 
     return `
-      <div class="controls" style="top: ${this.state.y}px; left: ${this.state.x}px">
-        <button class="btn--edit-item">Edit ${this._itemType}</button>
-        <button class="btn--delete-item">Delete ${this._itemType}</button>
+      <div class="popper" style="top: ${this.state.y}px; left: ${this.state.x}px">
+        <ul class="menu-list">
+          <li class="menu-item btn--edit-item">Edit ${this._itemType}</li>
+          <li class="menu-item btn--delete-item">Delete ${this._itemType}</li>
+        </ul>
       </div>
     `;
   }
