@@ -14,12 +14,19 @@ class Project {
 
   _template() {
     const project = model.state.activeProject;
-
     if (!Object.keys(project).length) return '';
 
     return `
       <div class="project" data-id="${project.id}">
-        <h1 class="project__title">${project.title}</h1>
+
+        <div class="project__title-and-settings">
+          <h1>${project.title}</h1>
+          <ul class="project__settings-list">
+            <li>
+              <button class="project__settings-item btn--sort-by">Sorting method</button>
+            </li>
+          </ul>
+        </div>
 
         <button class="sort--by-due-date">Sort by due date</button>
 
