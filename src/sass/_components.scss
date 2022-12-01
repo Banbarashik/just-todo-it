@@ -49,28 +49,29 @@
   background-color: var(--main-color);
 }
 
-.controls {
-  position: absolute;
+.menu-list {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   border-radius: 0.5rem;
   border: 1px solid #ddd;
 
+  list-style: none;
+
   background-color: white;
   box-shadow: 0 1px 8px 0 rgb(0 0 0 / 8%);
+}
 
-  button {
-    border: none;
-    padding: 0.5rem 1rem;
+.menu-item {
+  border: none;
+  padding: 0.5rem 1rem;
 
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 
-    background-color: transparent;
-    cursor: pointer;
+  background-color: transparent;
+  cursor: pointer;
 
-    &:hover {
-      background-color: #eee;
-    }
+  &:hover {
+    background-color: #eee;
   }
 }
