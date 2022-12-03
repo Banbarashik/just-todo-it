@@ -7,7 +7,6 @@ class Project {
 
   constructor() {
     this._addHandlerMakeProjectActive();
-    this._addHandlerSort();
 
     component(this._parentElement, this._template.bind(this));
   }
@@ -27,8 +26,6 @@ class Project {
             </li>
           </ul>
         </div>
-
-        <button class="sort--by-due-date">Sort by due date</button>
 
         <div class="project__details">
           ${
@@ -90,20 +87,6 @@ class Project {
         model.setProjectAsActive(id);
       })
     );
-  }
-
-  _addHandlerSort() {
-    this._parentElement.addEventListener('click', function (e) {
-      const btnDueDate = e.target.closest('.sort--by-due-date');
-
-      if (btnDueDate) {
-        model.setSortingMethod(model.sortByDueDate);
-
-        model.state.activeProject.tasks.sort(
-          model.state.activeProject.sortMethod
-        );
-      }
-    });
   }
 }
 
