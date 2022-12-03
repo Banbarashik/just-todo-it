@@ -19,10 +19,34 @@ class SortingOptions {
     return `
       <div class="popper" style="top: ${this.state.y}px; left: ${this.state.x}px">
         <ul class="menu-list">
-          <li class="menu-item">
+          <li class="menu-item active">
             <span>Due date</span>
-            <button>Up</button>
-            <button>Down</button>
+            <div class="sorting-order-btns">
+              <button class="btn--arrow btn--ascending">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="48"
+                    d="M112 268l144 144 144-144M256 392V100"
+                  />
+                </svg>
+              </button>
+              <button class="btn--arrow btn--descending">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="48"
+                    d="M112 244l144-144 144 144M256 120v292"
+                  />
+                </svg>
+              </button>
+            </div>
           </li>
           <li class="menu-item">Default</li>
         </ul>
