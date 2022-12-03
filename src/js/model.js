@@ -183,16 +183,27 @@ export function deleteTask(project, task) {
   if (state.activeProject.id === 'today') setTodayTasks();
 }
 
+// Used in Array.prototype.sort()
 export function setSortingMethod(func) {
   state.activeProject.sortMethod = func;
 }
 
-export function sortByDueDate(a, b) {
+export function sortByDueDateAscending(a, b) {
   const { date: dateA, time: timeA } = a.dueDate;
   const { date: dateB, time: timeB } = b.dueDate;
 
   return (
     new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`) -
     new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`)
+  );
+}
+
+export function sortByDueDateDescending(a, b) {
+  const { date: dateA, time: timeA } = a.dueDate;
+  const { date: dateB, time: timeB } = b.dueDate;
+
+  return (
+    new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`) -
+    new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`)
   );
 }
