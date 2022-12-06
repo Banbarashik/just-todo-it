@@ -39,8 +39,10 @@ class ProjectControls extends Controls {
     );
 
     const rect = btn.getBoundingClientRect();
-    this.state.y = rect.bottom;
-    this.state.x = rect.left;
+    this.state.elementPosition = {
+      x: rect.left,
+      y: rect.bottom,
+    };
   }
 
   _openEditModal(e) {
@@ -55,8 +57,10 @@ class ProjectControls extends Controls {
 const state = store(
   {
     areControlsOpened: false,
-    x: null,
-    y: null,
+    elementPosition: {
+      x: null,
+      y: null,
+    },
   },
   'project-controls'
 );

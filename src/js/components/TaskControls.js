@@ -40,8 +40,10 @@ class TaskControls extends Controls {
     this.task = this.project.tasks.find(task => task.id === id);
 
     const rect = btn.getBoundingClientRect();
-    this.state.y = rect.bottom;
-    this.state.x = rect.left;
+    this.state.elementPosition = {
+      x: rect.left,
+      y: rect.bottom,
+    };
   }
 
   _openEditModal(e) {
@@ -50,14 +52,17 @@ class TaskControls extends Controls {
 
   _deleteItem(e) {
     super._deleteItem(e, model.deleteTask, this.project, this.task);
+    // this.project.tasks.sort(this.project.sortingMethod.body);
   }
 }
 
 const state = store(
   {
     areControlsOpened: false,
-    x: null,
-    y: null,
+    elementPosition: {
+      x: null,
+      y: null,
+    },
   },
   'task-controls'
 );
