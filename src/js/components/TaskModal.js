@@ -25,6 +25,6 @@ export default superclass =>
 
     _sortTasks() {
       const project = this._getSelectedProject();
-      project.tasks.sort(project.sortMethod);
+      project.tasks.sort(project.sortingMethod.body);
     }
   };
