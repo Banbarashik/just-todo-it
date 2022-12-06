@@ -18,23 +18,28 @@ class SortingOptions {
   _template() {
     if (!this.state.areSortOptsOpened) return '';
 
+    const project = model.state.activeProject;
+
     return `
       <div class="popper" style="top: ${
         this.state.elementPosition.y
       }px; left: ${this.state.elementPosition.x}px">
         <ul class="menu-list">
-          <li data-sorting-method-name="dueDate" class="menu-item dropdown--sort-by__due-date">
+          <li data-sorting-method-name="dueDate" class="menu-item ${
+            project.sortingMethod.name === 'dueDate' ? 'active' : ''
+          }">
             <span>Due date</span>
             <div class="sorting-order-btns">
-              <button data-sorting-order="ascending" class="btn--order btn--ascending ${
-                model.state.activeProject.sortingMethod.order === 'ascending'
+              <button data-sorting-order="ascending" class="btn--order ${
+                project.sortingMethod.name === 'dueDate' &&
+                project.sortingMethod.order === 'ascending'
                   ? 'active'
                   : ''
               }">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
                   <path
                     fill="none"
-                    stroke="currentColor"
+                    stroke="grey"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="48"
@@ -42,15 +47,16 @@ class SortingOptions {
                   />
                 </svg>
               </button>
-              <button data-sorting-order="descending" class="btn--order btn--descending ${
-                model.state.activeProject.sortingMethod.order === 'descending'
+              <button data-sorting-order="descending" class="btn--order ${
+                project.sortingMethod.name === 'dueDate' &&
+                project.sortingMethod.order === 'descending'
                   ? 'active'
                   : ''
               }">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
                   <path
                     fill="none"
-                    stroke="currentColor"
+                    stroke="grey"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="48"
@@ -60,7 +66,9 @@ class SortingOptions {
               </button>
             </div>
           </li>
-          <li data-sorting-method-name="default" class="menu-item">Default</li>
+          <li data-sorting-method-name="default" class="menu-item ${
+            project.sortingMethod.name === 'default' ? 'active' : ''
+          }">Default</li>
         </ul>
       </div>
     `;
