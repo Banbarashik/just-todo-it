@@ -6,7 +6,7 @@ class SortingOptions {
 
   constructor(state) {
     this._addHandlerOpenSortOpts();
-    this._addHandlerSort();
+    this._addHandlerSetSortingMethod();
 
     this.state = state;
 
@@ -19,15 +19,17 @@ class SortingOptions {
     if (!this.state.areSortOptsOpened) return '';
 
     return `
-      <div class="popper" style="top: ${this.state.y}px; left: ${
-      this.state.x
-    }px">
+      <div class="popper" style="top: ${
+        this.state.elementPosition.y
+      }px; left: ${this.state.elementPosition.x}px">
         <ul class="menu-list">
-          <li class="menu-item dropdown--sort-by__due-date">
+          <li data-sorting-method-name="dueDate" class="menu-item dropdown--sort-by__due-date">
             <span>Due date</span>
             <div class="sorting-order-btns">
-              <button class="btn--arrow btn--ascending ${
-                this.state.ascending ? 'active' : ''
+              <button data-sorting-order="ascending" class="btn--order btn--ascending ${
+                model.state.activeProject.sortingMethod.order === 'ascending'
+                  ? 'active'
+                  : ''
               }">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
                   <path
@@ -40,8 +42,10 @@ class SortingOptions {
                   />
                 </svg>
               </button>
-              <button class="btn--arrow btn--descending ${
-                this.state.descending ? 'active' : ''
+              <button data-sorting-order="descending" class="btn--order btn--descending ${
+                model.state.activeProject.sortingMethod.order === 'descending'
+                  ? 'active'
+                  : ''
               }">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
                   <path
@@ -56,7 +60,7 @@ class SortingOptions {
               </button>
             </div>
           </li>
-          <li class="menu-item">Default</li>
+          <li data-sorting-method-name="default" class="menu-item">Default</li>
         </ul>
       </div>
     `;
@@ -73,35 +77,31 @@ class SortingOptions {
     this.state.areSortOptsOpened = true;
 
     const rect = btn.getBoundingClientRect();
-    this.state.y = rect.bottom;
-    this.state.x = rect.left;
+    this.state.elementPosition = {
+      x: rect.left,
+      y: rect.bottom,
+    };
   }
 
   _setSortingMethod(e) {
-    const dueDateItem = e.target.closest('.dropdown--sort-by__due-date');
-    const ascending = e.target.closest('.btn--ascending');
-    const descending = e.target.closest('.btn--descending');
+    const item = e.target.closest('.menu-item');
+    const btn = e.target.closest('.btn--order');
 
-    if (dueDateItem || ascending) {
-      model.setSortingMethod(model.sortByDueDateAscending);
-      this.state.ascending = true;
-      this.state.descending = false;
-    }
+    model.setSortingMethod(
+      item.dataset.sortingMethodName,
+      btn?.dataset.sortingOrder
+    );
 
-    if (descending) {
-      model.setSortingMethod(model.sortByDueDateDescending);
-      this.state.descending = true;
-      this.state.ascending = false;
-    }
-
-    model.state.activeProject.tasks.sort(model.state.activeProject.sortMethod);
+    model.state.activeProject.tasks.sort(
+      model.state.activeProject.sortingMethod.body
+    );
   }
 
   _addHandlerOpenSortOpts() {
     document.addEventListener('click', this._openSortOpts.bind(this));
   }
 
-  _addHandlerSort() {
+  _addHandlerSetSortingMethod() {
     this._parentElement.addEventListener(
       'click',
       this._setSortingMethod.bind(this)
@@ -112,10 +112,10 @@ class SortingOptions {
 const state = store(
   {
     areSortOptsOpened: false,
-    ascending: false,
-    descending: false,
-    x: null,
-    y: null,
+    elementPosition: {
+      x: null,
+      y: null,
+    },
   },
   'sorting-options'
 );
