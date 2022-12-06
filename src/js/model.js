@@ -9,7 +9,11 @@ export { default as EditTaskModal } from './components/EditTaskModal';
 
 export const state = store({
   inbox: {
-    sortMethod: function () {},
+    sortingMethod: {
+      name: '',
+      order: '',
+      body: function () {},
+    },
     id: 'inbox',
     title: 'Inbox',
     tasks: [
@@ -31,7 +35,11 @@ export const state = store({
   },
   projects: [
     {
-      sortMethod: function () {},
+      sortingMethod: {
+        name: '',
+        order: '',
+        body: function () {},
+      },
       id: '2',
       title: 'Test',
       description: 'A test project',
@@ -76,6 +84,40 @@ export const state = store({
   activeProject: {},
 });
 
+const sortingMethods = [
+  {
+    name: 'dueDate',
+    order: 'ascending',
+    body: function (a, b) {
+      const { date: dateA, time: timeA } = a.dueDate;
+      const { date: dateB, time: timeB } = b.dueDate;
+
+      return (
+        new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`) -
+        new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`)
+      );
+    },
+  },
+  {
+    name: 'dueDate',
+    order: 'descending',
+    body: function (a, b) {
+      const { date: dateA, time: timeA } = a.dueDate;
+      const { date: dateB, time: timeB } = b.dueDate;
+
+      return (
+        new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`) -
+        new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`)
+      );
+    },
+  },
+  {
+    name: 'default',
+    order: 'ascending',
+    body: function () {},
+  },
+];
+
 export function setTodayTasks() {
   state.today.tasks = [state.inbox, ...state.projects]
     .map(project => project.tasks.filter(task => isToday(task.dueDate.date)))
@@ -104,7 +146,11 @@ export function addProject(formData) {
   const { title, description, date, time } = formData;
 
   const project = {
-    sortMethod: function () {},
+    sortingMethod: {
+      name: '',
+      order: '',
+      body: function () {},
+    },
     id: Date.now().toString(),
     title,
     description,
@@ -184,26 +230,8 @@ export function deleteTask(project, task) {
 }
 
 // Used in Array.prototype.sort()
-export function setSortingMethod(func) {
-  state.activeProject.sortMethod = func;
-}
-
-export function sortByDueDateAscending(a, b) {
-  const { date: dateA, time: timeA } = a.dueDate;
-  const { date: dateB, time: timeB } = b.dueDate;
-
-  return (
-    new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`) -
-    new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`)
-  );
-}
-
-export function sortByDueDateDescending(a, b) {
-  const { date: dateA, time: timeA } = a.dueDate;
-  const { date: dateB, time: timeB } = b.dueDate;
-
-  return (
-    new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`) -
-    new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`)
+export function setSortingMethod(name, order = 'ascending') {
+  state.activeProject.sortingMethod = sortingMethods.find(
+    method => method.name === name && method.order === order
   );
 }
