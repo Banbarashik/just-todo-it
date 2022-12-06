@@ -7,6 +7,17 @@
   cursor: pointer;
 }
 
+.btn--order {
+  @extend %btn;
+
+  background-color: transparent;
+
+  &:hover,
+  &.active {
+    background-color: #ddd;
+  }
+}
+
 .btn--project-controls {
   @extend %btn;
 
@@ -49,6 +60,11 @@
   background-color: var(--main-color);
 }
 
+.sorting-order-btns {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
 .menu-list {
   display: flex;
   flex-direction: column;
@@ -71,7 +87,12 @@
   background-color: transparent;
   cursor: pointer;
 
-  &:hover {
+  > * {
+    vertical-align: top;
+  }
+
+  &:hover,
+  &.active {
     background-color: #eee;
   }
 }
