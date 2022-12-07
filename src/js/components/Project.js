@@ -1,3 +1,4 @@
+import Sortable from 'sortablejs';
 import { component } from '../../../node_modules/reefjs/src/reef';
 import { formatDate } from '../helper';
 import * as model from '../model';
@@ -7,6 +8,7 @@ class Project {
 
   constructor() {
     this._addHandlerMakeProjectActive();
+    this._addHandlerMakeTasksListDND();
 
     component(this._parentElement, this._template.bind(this));
   }
@@ -17,7 +19,6 @@ class Project {
 
     return `
       <div class="project" data-id="${project.id}">
-
         <div class="project__title-and-settings">
           <h1>${project.title}</h1>
           <ul class="project__settings-list">
@@ -26,7 +27,6 @@ class Project {
             </li>
           </ul>
         </div>
-
         <div class="project__details">
           ${
             project.description
@@ -79,7 +79,7 @@ class Project {
 
   _addHandlerMakeProjectActive() {
     ['hashchange', 'load'].forEach(ev =>
-      window.addEventListener(ev, function () {
+      window.addEventListener(ev, () => {
         const id = window.location.hash.slice(1);
         if (!id) return;
         else if (id === 'today') model.setTodayTasks();
@@ -87,6 +87,14 @@ class Project {
         model.setProjectAsActive(id);
       })
     );
+  }
+
+  _addHandlerMakeTasksListDND() {
+    this._parentElement.addEventListener('reef:render', function () {
+      const tasks = this.querySelector('.tasks');
+      // need this check because '_parentElement' can be empty if there's no active project
+      if (tasks) Sortable.create(tasks);
+    });
   }
 }
 
