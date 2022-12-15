@@ -10,10 +10,16 @@ export { default as EditTaskModal } from './components/EditTaskModal';
 export const state = store({
   inbox: {
     sortingMethod: {
-      name: '',
-      order: '',
+      name: 'default',
+      order: 'ascending',
       defaultOrder: [],
-      body: function () {},
+      body() {
+        state.inbox.tasks.sort(
+          (a, b) =>
+            state.inbox.sortingMethod.defaultOrder.indexOf(a.id) -
+            state.inbox.sortingMethod.defaultOrder.indexOf(b.id)
+        );
+      },
     },
     id: 'inbox',
     title: 'Inbox',
