@@ -91,12 +91,12 @@ class SortingOptions {
     };
   }
 
-  _setSortingMethod(e) {
-    const item = e.target.closest('.menu-item');
-    const btn = e.target.closest('.btn--order');
+  setSortingMethod(e) {
+    const item = e?.target.closest('.menu-item');
+    const btn = e?.target.closest('.btn--order');
 
     model.setSortingMethod(
-      item.dataset.sortingMethodName,
+      item?.dataset.sortingMethodName,
       btn?.dataset.sortingOrder
     );
 
@@ -110,7 +110,7 @@ class SortingOptions {
   _addHandlerSetSortingMethod() {
     this._parentElement.addEventListener(
       'click',
-      this._setSortingMethod.bind(this)
+      this.setSortingMethod.bind(this)
     );
   }
 }

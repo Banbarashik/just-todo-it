@@ -6,6 +6,7 @@ export { default as EditProjectModal } from './components/EditProjectModal';
 export { default as TaskControls } from './components/TaskControls';
 export { default as AddTaskModal } from './components/AddTaskModal';
 export { default as EditTaskModal } from './components/EditTaskModal';
+export { default as SortingOptions } from './components/SortingOptions';
 
 export const state = store({
   inbox: {
@@ -139,7 +140,10 @@ const sortingMethods = [
   },
 ];
 
-export function setSortingMethod(nameAttr, orderAttr = 'ascending') {
+export function setSortingMethod(
+  nameAttr = 'default',
+  orderAttr = 'ascending'
+) {
   const { name, order, body } = sortingMethods.find(
     method => method.name === nameAttr && method.order === orderAttr
   );
