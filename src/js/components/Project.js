@@ -93,7 +93,17 @@ class Project {
     this._parentElement.addEventListener('reef:render', function () {
       const tasks = this.querySelector('.tasks');
       // need this check because '_parentElement' can be empty if there's no active project
-      if (tasks) Sortable.create(tasks);
+      if (tasks) {
+        const sortable = Sortable.create(tasks, {
+          onUpdate: function () {
+            // this === the Sortable instance
+            model.state.activeProject.sortingMethod.defaultOrder =
+              this.toArray();
+
+            model.state.activeProject.sortingMethod.body();
+          },
+        });
+      }
     });
   }
 }

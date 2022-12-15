@@ -100,9 +100,7 @@ class SortingOptions {
       btn?.dataset.sortingOrder
     );
 
-    model.state.activeProject.tasks.sort(
-      model.state.activeProject.sortingMethod.body
-    );
+    model.state.activeProject.sortingMethod.body();
   }
 
   _addHandlerOpenSortOpts() {

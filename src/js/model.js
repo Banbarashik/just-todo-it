@@ -12,6 +12,7 @@ export const state = store({
     sortingMethod: {
       name: '',
       order: '',
+      defaultOrder: [],
       body: function () {},
     },
     id: 'inbox',
@@ -38,6 +39,7 @@ export const state = store({
       sortingMethod: {
         name: '',
         order: '',
+        defaultOrder: [],
         body: function () {},
       },
       id: '2',
@@ -88,35 +90,60 @@ const sortingMethods = [
   {
     name: 'dueDate',
     order: 'ascending',
-    body: function (a, b) {
-      const { date: dateA, time: timeA } = a.dueDate;
-      const { date: dateB, time: timeB } = b.dueDate;
+    // this === project
+    body() {
+      this.tasks.sort((a, b) => {
+        const { date: dateA, time: timeA } = a.dueDate;
+        const { date: dateB, time: timeB } = b.dueDate;
 
-      return (
-        new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`) -
-        new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`)
-      );
+        return (
+          new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`) -
+          new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`)
+        );
+      });
     },
   },
   {
     name: 'dueDate',
     order: 'descending',
-    body: function (a, b) {
-      const { date: dateA, time: timeA } = a.dueDate;
-      const { date: dateB, time: timeB } = b.dueDate;
+    // this === project
+    body() {
+      this.tasks.sort((a, b) => {
+        const { date: dateA, time: timeA } = a.dueDate;
+        const { date: dateB, time: timeB } = b.dueDate;
 
-      return (
-        new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`) -
-        new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`)
-      );
+        return (
+          new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`) -
+          new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`)
+        );
+      });
     },
   },
   {
     name: 'default',
     order: 'ascending',
-    body: function () {},
+    // this === project
+    body() {
+      this.tasks.sort(
+        (a, b) =>
+          this.sortingMethod.defaultOrder.indexOf(a.id) -
+          this.sortingMethod.defaultOrder.indexOf(b.id)
+      );
+    },
   },
 ];
+
+export function setSortingMethod(nameAttr, orderAttr = 'ascending') {
+  const { name, order, body } = sortingMethods.find(
+    method => method.name === nameAttr && method.order === orderAttr
+  );
+
+  Object.assign(state.activeProject.sortingMethod, {
+    name,
+    order,
+    body: body.bind(state.activeProject),
+  });
+}
 
 export function setTodayTasks() {
   state.today.tasks = [state.inbox, ...state.projects]
@@ -132,12 +159,9 @@ export function setProjectAsActive(id) {
 
 function editItem(formData, item) {
   // Create a copy of 'formData' obj
-  const formDataObj = structuredClone(formData);
-  // Format the copy obj props to have the same structure as project obj
-  formDataObj.dueDate = {
-    date: formDataObj.date,
-    time: formDataObj.time,
-  };
+  const { date, time, ...formDataObj } = structuredClone(formData);
+  // Format the copy obj's props to have the same structure as project obj
+  formDataObj.dueDate = { date, time };
 
   agentSmithObj(formDataObj, item);
 }
@@ -149,6 +173,7 @@ export function addProject(formData) {
     sortingMethod: {
       name: '',
       order: '',
+      defaultOrder: [],
       body: function () {},
     },
     id: Date.now().toString(),
@@ -170,6 +195,16 @@ export function addProject(formData) {
 
 export function editProject(formData, project) {
   editItem(formData, project);
+}
+
+export function deleteProject(project) {
+  const { id } = project;
+
+  const index = state.projects.findIndex(project => project.id === id);
+
+  state.projects.splice(index, 1);
+
+  if (state.activeProject.id === id) state.activeProject = {};
 }
 
 export function addTask(formData) {
@@ -209,16 +244,6 @@ export function editTask(formData, project, task) {
   if (state.activeProject.id === 'today') setTodayTasks();
 }
 
-export function deleteProject(project) {
-  const { id } = project;
-
-  const index = state.projects.findIndex(project => project.id === id);
-
-  state.projects.splice(index, 1);
-
-  if (state.activeProject.id === id) state.activeProject = {};
-}
-
 export function deleteTask(project, task) {
   const { id } = task;
 
@@ -227,11 +252,4 @@ export function deleteTask(project, task) {
   project.tasks.splice(index, 1);
 
   if (state.activeProject.id === 'today') setTodayTasks();
-}
-
-// Used in Array.prototype.sort()
-export function setSortingMethod(name, order = 'ascending') {
-  state.activeProject.sortingMethod = sortingMethods.find(
-    method => method.name === name && method.order === order
-  );
 }
