@@ -10,6 +10,8 @@ export { default as SortingOptions } from './components/SortingOptions';
 
 export const state = store({
   inbox: {
+    id: 'inbox',
+    title: 'Inbox',
     sortingMethod: {
       name: 'default',
       order: 'ascending',
@@ -22,8 +24,6 @@ export const state = store({
         );
       },
     },
-    id: 'inbox',
-    title: 'Inbox',
     tasks: [
       {
         id: '11',
@@ -39,6 +39,18 @@ export const state = store({
   today: {
     id: 'today',
     title: 'Today',
+    sortingMethod: {
+      name: 'default',
+      order: 'ascending',
+      defaultOrder: [],
+      body() {
+        state.today.tasks.sort(
+          (a, b) =>
+            state.today.sortingMethod.defaultOrder.indexOf(a.id) -
+            state.today.sortingMethod.defaultOrder.indexOf(b.id)
+        );
+      },
+    },
     tasks: [],
   },
   projects: [
@@ -180,18 +192,18 @@ export function addProject(formData) {
   const { title, description, date, time } = formData;
 
   const project = {
-    sortingMethod: {
-      name: '',
-      order: '',
-      defaultOrder: [],
-      body: function () {},
-    },
     id: Date.now().toString(),
     title,
     description,
     dueDate: {
       date,
       time,
+    },
+    sortingMethod: {
+      name: '',
+      order: '',
+      defaultOrder: [],
+      body: function () {},
     },
     tasks: [],
   };
