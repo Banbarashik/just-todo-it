@@ -100,9 +100,7 @@ class Project {
       if (!this._sortable) {
         this._sortable = Sortable.create(tasks, {
           onUpdate: function () {
-            model.state.activeProject.sortingMethod.defaultOrder =
-              Sortable.active.toArray();
-
+            model.setDefaultOrder(Sortable.active.toArray());
             model.state.activeProject.sortingMethod.body();
           },
         });

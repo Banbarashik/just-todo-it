@@ -152,6 +152,10 @@ const sortingMethods = [
   },
 ];
 
+export function setDefaultOrder(orderArr) {
+  state.activeProject.sortingMethod.defaultOrder = orderArr;
+}
+
 export function setSortingMethod(
   nameAttr = 'default',
   orderAttr = 'ascending'
