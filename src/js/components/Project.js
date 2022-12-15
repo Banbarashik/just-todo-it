@@ -5,6 +5,7 @@ import * as model from '../model';
 
 class Project {
   _parentElement = document.querySelector('.project-window');
+  _sortable;
 
   constructor() {
     this._addHandlerMakeProjectActive();
@@ -90,20 +91,28 @@ class Project {
   }
 
   _addHandlerMakeTasksListDND() {
-    this._parentElement.addEventListener('reef:render', function () {
-      const tasks = this.querySelector('.tasks');
+    this._parentElement.addEventListener('reef:render', () => {
+      const tasks = this._parentElement.querySelector('.tasks');
       // need this check because '_parentElement' can be empty if there's no active project
-      if (tasks) {
-        const sortable = Sortable.create(tasks, {
+      if (!tasks) return;
+
+      // check if there's already a sortable instance
+      if (!this._sortable) {
+        this._sortable = Sortable.create(tasks, {
           onUpdate: function () {
-            // this === the Sortable instance
             model.state.activeProject.sortingMethod.defaultOrder =
-              this.toArray();
+              Sortable.active.toArray();
 
             model.state.activeProject.sortingMethod.body();
           },
         });
       }
+
+      // disable the DND functionality if the project's sorting method is 'default'
+      this._sortable.option(
+        'disabled',
+        model.state.activeProject.sortingMethod.name !== 'default'
+      );
     });
   }
 }
