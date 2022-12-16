@@ -4,12 +4,8 @@
 
 .task {
   position: relative;
-  padding-bottom: 1rem;
-  border-bottom: 0.1rem solid grey;
-
-  &:not(:last-child) {
-    margin-bottom: 1rem;
-  }
+  padding: 0.8rem 0 0.8rem 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
 
   &__description {
     font-size: 1.3rem;
@@ -18,5 +14,29 @@
 
   &__due-date {
     font-size: 1.1rem;
+  }
+
+  &:hover .btn--task-controls {
+    visibility: visible;
+  }
+}
+
+.sortable-drag {
+  opacity: 1 !important;
+  border-radius: 3px;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.16);
+  background-color: white;
+
+  .btn--task-controls {
+    visibility: hidden;
+  }
+}
+
+.sortable-ghost {
+  border-radius: 3px;
+  background-color: #f1f1f1;
+
+  * {
+    visibility: hidden;
   }
 }
