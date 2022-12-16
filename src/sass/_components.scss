@@ -47,6 +47,10 @@
 
   visibility: hidden;
 
+  &.active {
+    visibility: visible;
+  }
+
   &:hover {
     background-color: #eee;
   }
