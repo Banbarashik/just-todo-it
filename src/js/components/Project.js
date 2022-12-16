@@ -99,6 +99,7 @@ class Project {
       // check if there's already a sortable instance
       if (!this._sortable) {
         this._sortable = Sortable.create(tasks, {
+          forceFallback: true,
           onUpdate: function () {
             model.setDefaultOrder(Sortable.active.toArray());
             model.state.activeProject.sortingMethod.body();
