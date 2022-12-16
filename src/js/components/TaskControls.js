@@ -12,14 +12,9 @@ class TaskControls extends Controls {
     this._addHandlerOpenEditModal();
     this._addHandlerDeleteItem();
 
-    this.project = {};
-    this.task = {};
-
     this.state = state;
 
-    component(this._parentElement, this._template.bind(this), {
-      stores: ['task-controls'],
-    });
+    component(this._parentElement, this._template.bind(this));
   }
 
   _openControls(e) {
@@ -27,6 +22,7 @@ class TaskControls extends Controls {
 
     if (!btn) {
       this.state.areControlsOpened = false;
+      this.state.task = {};
       return;
     }
 
@@ -34,10 +30,10 @@ class TaskControls extends Controls {
 
     const task = btn.closest('.task');
     const { id } = task.dataset;
-    this.project = [model.state.inbox, ...model.state.projects].find(project =>
-      project.tasks.some(task => task.id === id)
+    this.state.project = [model.state.inbox, ...model.state.projects].find(
+      project => project.tasks.some(task => task.id === id)
     );
-    this.task = this.project.tasks.find(task => task.id === id);
+    this.state.task = this.state.project.tasks.find(task => task.id === id);
 
     const rect = btn.getBoundingClientRect();
     this.state.elementPosition = {
@@ -51,20 +47,18 @@ class TaskControls extends Controls {
   }
 
   _deleteItem(e) {
-    super._deleteItem(e, model.deleteTask, this.project, this.task);
-    // this.project.tasks.sort(this.project.sortingMethod.body);
+    super._deleteItem(e, model.deleteTask, this.state.project, this.state.task);
   }
 }
 
-const state = store(
-  {
-    areControlsOpened: false,
-    elementPosition: {
-      x: null,
-      y: null,
-    },
+const state = store({
+  areControlsOpened: false,
+  task: {},
+  project: {},
+  elementPosition: {
+    x: null,
+    y: null,
   },
-  'task-controls'
-);
+});
 
 export default new TaskControls(state);

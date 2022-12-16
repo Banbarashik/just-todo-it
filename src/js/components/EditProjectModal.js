@@ -20,12 +20,12 @@ class EditProjectModal extends EditModal {
   }
 
   _submit(e) {
-    super._submit(e, model.editProject, model.ProjectControls.project);
+    super._submit(e, model.editProject, model.ProjectControls.state.project);
   }
 
   _fillInputs() {
     if (!this.state.isModalOpened) return;
-    super._fillInputs(model.ProjectControls.project);
+    super._fillInputs(model.ProjectControls.state.project);
   }
 }
 

@@ -12,8 +12,6 @@ class ProjectControls extends Controls {
     this._addHandlerOpenEditModal();
     this._addHandlerDeleteItem();
 
-    this.project = {};
-
     this.state = state;
 
     component(this._parentElement, this._template.bind(this), {
@@ -34,7 +32,7 @@ class ProjectControls extends Controls {
     const projectItem = btn.closest('.project-item');
     const project = btn.closest('.project');
     const { id } = projectItem?.dataset || project?.dataset;
-    this.project = [model.state.inbox, ...model.state.projects].find(
+    this.state.project = [model.state.inbox, ...model.state.projects].find(
       project => project.id === id
     );
 
@@ -50,13 +48,14 @@ class ProjectControls extends Controls {
   }
 
   _deleteItem(e) {
-    super._deleteItem(e, model.deleteProject, this.project);
+    super._deleteItem(e, model.deleteProject, this.state.project);
   }
 }
 
 const state = store(
   {
     areControlsOpened: false,
+    project: {},
     elementPosition: {
       x: null,
       y: null,

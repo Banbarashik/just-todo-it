@@ -25,15 +25,15 @@ class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
     super._submit(
       e,
       model.editTask,
-      model.TaskControls.project,
-      model.TaskControls.task
+      model.TaskControls.state.project,
+      model.TaskControls.state.task
     );
     this._sortTasks();
   }
 
   _fillInputs() {
     if (!this.state.isModalOpened) return;
-    super._fillInputs(model.TaskControls.task);
+    super._fillInputs(model.TaskControls.state.task);
   }
 }
 
