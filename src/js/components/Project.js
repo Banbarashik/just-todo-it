@@ -102,7 +102,17 @@ class Project {
       if (!this._sortable) {
         this._sortable = Sortable.create(tasks, {
           forceFallback: true,
-          onUpdate: function () {
+          onStart(e) {
+            e.from
+              .querySelectorAll('.btn--task-controls')
+              .forEach(btn => (btn.style.visibility = 'hidden'));
+          },
+          onEnd(e) {
+            e.from
+              .querySelectorAll('.btn--task-controls')
+              .forEach(btn => (btn.style.visibility = ''));
+          },
+          onUpdate() {
             model.setDefaultOrder(Sortable.active.toArray());
             model.state.activeProject.sortingMethod.body();
           },
