@@ -66,7 +66,7 @@ class Project {
                 : ''
             }
             <button class="btn--task-controls ${
-              model.TaskControls.state.task.id === task.id ? 'active' : ''
+              model.TaskControls.state.areControlsOpened && model.TaskControls.state.task.id === task.id ? 'active' : ''
             }">
               <svg width="15" height="3">
                 <path d="M1.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6
