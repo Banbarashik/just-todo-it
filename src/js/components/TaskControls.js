@@ -22,7 +22,6 @@ class TaskControls extends Controls {
 
     if (!btn) {
       this.state.areControlsOpened = false;
-      this.state.task = {};
       return;
     }
 
