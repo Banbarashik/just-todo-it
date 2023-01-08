@@ -38,6 +38,10 @@ button {
   opacity: 0;
 }
 
+.grabbing * {
+  cursor: grabbing;
+}
+
 .overlay {
   position: absolute;
   z-index: 1;

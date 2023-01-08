@@ -106,11 +106,15 @@ class Project {
             e.from
               .querySelectorAll('.btn--task-controls')
               .forEach(btn => (btn.style.visibility = 'hidden'));
+
+              document.documentElement.classList.add('grabbing');
           },
           onEnd(e) {
             e.from
               .querySelectorAll('.btn--task-controls')
               .forEach(btn => (btn.style.visibility = ''));
+
+              document.documentElement.classList.remove('grabbing');
           },
           onUpdate() {
             model.setDefaultOrder(Sortable.active.toArray());
