@@ -119,7 +119,7 @@ class Project {
         });
       }
 
-      // disable the DND functionality if the project's sorting method is 'default'
+      // disable the sortable if true (= the project's sorting method isn't 'default')
       this._sortable.option(
         'disabled',
         model.state.activeProject.sortingMethod.name !== 'default'
