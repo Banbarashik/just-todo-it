@@ -38,7 +38,11 @@ button {
   opacity: 0;
 }
 
-.grabbing * {
+.draggable * {
+  cursor: grab;
+}
+
+.dragging * {
   cursor: grabbing;
 }
 

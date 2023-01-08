@@ -107,14 +107,14 @@ class Project {
               .querySelectorAll('.btn--task-controls')
               .forEach(btn => (btn.style.visibility = 'hidden'));
 
-              document.documentElement.classList.add('grabbing');
+              document.documentElement.classList.add('dragging');
           },
           onEnd(e) {
             e.from
               .querySelectorAll('.btn--task-controls')
               .forEach(btn => (btn.style.visibility = ''));
 
-              document.documentElement.classList.remove('grabbing');
+              document.documentElement.classList.remove('dragging');
           },
           onUpdate() {
             model.setDefaultOrder(Sortable.active.toArray());
@@ -128,6 +128,9 @@ class Project {
         'disabled',
         model.state.activeProject.sortingMethod.name !== 'default'
       );
+
+      // 'cursor: grab' when hovering a task if the sortable isn't disabled
+      if (!this._sortable.options.disabled) this._sortable.el.classList.add('draggable');
     });
   }
 }
