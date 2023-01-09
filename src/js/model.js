@@ -196,6 +196,7 @@ function editItem(formData, item) {
   formDataObj.dueDate = { date, time };
 
   agentSmithObj(formDataObj, item);
+
 }
 
 export function addProject(formData) {
@@ -240,7 +241,7 @@ export function deleteProject(project) {
 }
 
 export function addTask(formData) {
-  const { project: projectId, title, description, date, time } = formData;
+  const { projectId, title, description, date, time } = formData;
 
   const task = {
     id: Date.now().toString(),
@@ -264,12 +265,12 @@ export function addTask(formData) {
 export function editTask(formData, project, task) {
   editItem(formData, task);
 
-  if (formData.project !== project.id) {
+  if (formData.projectId !== project.id) {
     const index = project.tasks.findIndex(taskEl => taskEl.id === task.id);
     project.tasks.splice(index, 1);
 
     const newProject = [state.inbox, ...state.projects].find(
-      project => project.id === formData.project
+      project => project.id === formData.projectId
     );
     newProject.tasks.push(task);
   }

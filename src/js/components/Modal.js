@@ -30,7 +30,7 @@ export default class Modal {
             <div class="form-field form-field--project">
               ${
                 this._itemType === 'task'
-                  ? `<label>Project</label><select name="project">${this._generateProjectsList()}</select>`
+                  ? `<label>Project</label><select name="projectId">${this._generateProjectsList()}</select>`
                   : ''
               }
             </div>

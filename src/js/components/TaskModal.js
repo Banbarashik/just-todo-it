@@ -23,7 +23,7 @@ export default superclass =>
     }
 
     _getSelectedProject() {
-      const id = this._parentElement.querySelector('[name=project]').value;
+      const id = this._parentElement.querySelector('[name=projectId]').value;
       return [model.state.inbox, ...model.state.projects].find(
         project => project.id === id
       );
