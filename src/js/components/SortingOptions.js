@@ -25,6 +25,9 @@ class SortingOptions {
         this.state.elementPosition.y
       }px; left: ${this.state.elementPosition.x}px">
         <ul class="menu-list">
+          <li data-sorting-method-name="default" class="menu-item ${
+              project.sortingMethod.name === 'default' ? 'active' : ''
+            }">Default</li>
           <li data-sorting-method-name="dueDate" class="menu-item ${
             project.sortingMethod.name === 'dueDate' ? 'active' : ''
           }">
@@ -66,9 +69,6 @@ class SortingOptions {
               </button>
             </div>
           </li>
-          <li data-sorting-method-name="default" class="menu-item ${
-            project.sortingMethod.name === 'default' ? 'active' : ''
-          }">Default</li>
         </ul>
       </div>
     `;
