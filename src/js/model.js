@@ -33,6 +33,7 @@ export const state = store({
           date: '2022-11-09',
           time: '11:09',
         },
+        projectId: 'inbox',
       },
     ],
   },
@@ -74,30 +75,35 @@ export const state = store({
           title: 'Stronglifts',
           description: 'Complete a set of exercises',
           dueDate: { date: '2022-11-09', time: '' },
+          projectId: '2',
         },
         {
           id: '33',
           title: 'Test task',
           description: '',
           dueDate: { date: '2022-11-09', time: '13:00' },
+          projectId: '2',
         },
         {
           id: '44',
           title: 'Test task2',
           description: '',
           dueDate: { date: '2022-11-09', time: '11:00' },
+          projectId: '2',
         },
         {
           id: '55',
           title: 'Test task3',
           description: '',
           dueDate: { date: '2022-11-10', time: '' },
+          projectId: '2',
         },
         {
           id: '66',
           title: 'Test task4',
           description: '',
-          dueDate: { date: '2022-11-10', time: '12:00' },
+          dueDate: { date: '2023-01-09', time: '12:00' },
+          projectId: '2',
         },
       ],
     },
@@ -244,6 +250,7 @@ export function addTask(formData) {
       date,
       time,
     },
+    projectId,
   };
 
   const project = [state.inbox, ...state.projects].find(
