@@ -66,7 +66,10 @@ class Project {
                 : ''
             }
             <button class="btn--task-controls ${
-              model.TaskControls.state.areControlsOpened && model.TaskControls.state.task.id === task.id ? 'active' : ''
+              model.TaskControls.state.areControlsOpened &&
+              model.TaskControls.state.task.id === task.id
+                ? 'active'
+                : ''
             }">
               <svg width="15" height="3">
                 <path d="M1.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6
@@ -74,6 +77,15 @@ class Project {
                 1 0-3 1.5 1.5 0 0 1 0 3z" fill="currentColor" fill-rule="evenodd"></path>
               </svg>
             </button>
+            ${
+              model.state.activeProject.id !== 'today'
+                ? ''
+                : `<a href="#${task.projectId}" class="task__project-title">${
+                    [model.state.inbox, ...model.state.projects].find(
+                      project => project.id === task.projectId
+                    ).title
+                  }</a>`
+            }
           </li>
         `;
       })
@@ -107,14 +119,14 @@ class Project {
               .querySelectorAll('.btn--task-controls')
               .forEach(btn => (btn.style.visibility = 'hidden'));
 
-              document.documentElement.classList.add('dragging');
+            document.documentElement.classList.add('dragging');
           },
           onEnd(e) {
             e.from
               .querySelectorAll('.btn--task-controls')
               .forEach(btn => (btn.style.visibility = ''));
 
-              document.documentElement.classList.remove('dragging');
+            document.documentElement.classList.remove('dragging');
           },
           onUpdate() {
             model.setDefaultOrder(Sortable.active.toArray());
@@ -130,7 +142,8 @@ class Project {
       );
 
       // 'cursor: grab' when hovering a task if the sortable isn't disabled
-      if (!this._sortable.options.disabled) this._sortable.el.classList.add('draggable');
+      if (!this._sortable.options.disabled)
+        this._sortable.el.classList.add('draggable');
     });
   }
 }

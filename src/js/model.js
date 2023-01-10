@@ -102,7 +102,7 @@ export const state = store({
           id: '66',
           title: 'Test task4',
           description: '',
-          dueDate: { date: '2023-01-09', time: '12:00' },
+          dueDate: { date: '2023-01-10', time: '12:00' },
           projectId: '2',
         },
       ],
