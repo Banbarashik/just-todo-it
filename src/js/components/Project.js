@@ -92,18 +92,6 @@ class Project {
       .join('');
   }
 
-  _addHandlerMakeProjectActive() {
-    ['hashchange', 'load'].forEach(ev =>
-      window.addEventListener(ev, () => {
-        const id = window.location.hash.slice(1);
-        if (!id) return;
-        else if (id === 'today') model.setTodayTasks();
-
-        model.setProjectAsActive(id);
-      })
-    );
-  }
-
   _addHandlerMakeTasksListDND() {
     this._parentElement.addEventListener('reef:render', () => {
       const tasks = this._parentElement.querySelector('.tasks');
@@ -145,6 +133,18 @@ class Project {
       if (!this._sortable.options.disabled)
         this._sortable.el.classList.add('draggable');
     });
+  }
+
+  _addHandlerMakeProjectActive() {
+    ['hashchange', 'load'].forEach(ev =>
+      window.addEventListener(ev, () => {
+        const id = window.location.hash.slice(1);
+        if (!id) return;
+        else if (id === 'today') model.setTodayTasks();
+
+        model.setProjectAsActive(id);
+      })
+    );
   }
 }
 

@@ -74,35 +74,35 @@ export const state = store({
           id: '22',
           title: 'Stronglifts',
           description: 'Complete a set of exercises',
-          dueDate: { date: '2022-11-09', time: '' },
+          dueDate: { date: '2023-01-11', time: '' },
           projectId: '2',
         },
         {
           id: '33',
           title: 'Test task',
           description: '',
-          dueDate: { date: '2022-11-09', time: '13:00' },
+          dueDate: { date: '2023-01-11', time: '13:00' },
           projectId: '2',
         },
         {
           id: '44',
           title: 'Test task2',
           description: '',
-          dueDate: { date: '2022-11-09', time: '11:00' },
+          dueDate: { date: '2023-01-11', time: '11:00' },
           projectId: '2',
         },
         {
           id: '55',
           title: 'Test task3',
           description: '',
-          dueDate: { date: '2022-11-10', time: '' },
+          dueDate: { date: '2023-11-11', time: '' },
           projectId: '2',
         },
         {
           id: '66',
           title: 'Test task4',
           description: '',
-          dueDate: { date: '2023-01-10', time: '12:00' },
+          dueDate: { date: '2023-01-11', time: '12:00' },
           projectId: '2',
         },
       ],
@@ -196,7 +196,6 @@ function editItem(formData, item) {
   formDataObj.dueDate = { date, time };
 
   agentSmithObj(formDataObj, item);
-
 }
 
 export function addProject(formData) {
@@ -232,11 +231,8 @@ export function editProject(formData, project) {
 
 export function deleteProject(project) {
   const { id } = project;
-
   const index = state.projects.findIndex(project => project.id === id);
-
   state.projects.splice(index, 1);
-
   if (state.activeProject.id === id) state.activeProject = {};
 }
 
@@ -280,10 +276,7 @@ export function editTask(formData, project, task) {
 
 export function deleteTask(project, task) {
   const { id } = task;
-
   const index = project.tasks.findIndex(task => task.id === id);
-
   project.tasks.splice(index, 1);
-
   if (state.activeProject.id === 'today') setTodayTasks();
 }

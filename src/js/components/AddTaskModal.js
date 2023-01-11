@@ -22,7 +22,7 @@ class AddTaskModal extends mix(AddModal).with(TaskModalMixin) {
 
   _submit(e) {
     super._submit(e, model.addTask);
-    this._sortTasks();
+    model.state.activeProject.sortingMethod.body();
   }
 }
 
