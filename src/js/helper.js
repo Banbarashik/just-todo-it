@@ -65,3 +65,13 @@ class MixinBuilder {
     return mixins.reduce((c, mixin) => mixin(c), this.superclass);
   }
 }
+
+export function emit (type, elem = document) {
+
+	// Create a new event
+	let event = new CustomEvent(type);
+
+	// Dispatch the event
+	return elem.dispatchEvent(event);
+
+}

@@ -99,8 +99,6 @@ class SortingOptions {
       item?.dataset.sortingMethodName,
       btn?.dataset.sortingOrder
     );
-
-    model.state.activeProject.sortingMethod.body();
   }
 
   _addHandlerOpenSortOpts() {

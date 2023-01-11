@@ -47,7 +47,6 @@ class TaskControls extends Controls {
 
   _deleteItem(e) {
     super._deleteItem(e, model.deleteTask, this.state.project, this.state.task);
-    model.state.activeProject.sortingMethod.body();
   }
 }
 

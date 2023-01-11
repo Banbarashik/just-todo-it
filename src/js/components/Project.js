@@ -10,6 +10,7 @@ class Project {
   constructor() {
     this._addHandlerMakeProjectActive();
     this._addHandlerMakeTasksListDND();
+    this._addHandlerSubscribeToTaskEvents();
 
     component(this._parentElement, this._template.bind(this));
   }
@@ -141,9 +142,16 @@ class Project {
         const id = window.location.hash.slice(1);
         if (!id) return;
         else if (id === 'today') model.setTodayTasks();
-
         model.setProjectAsActive(id);
       })
+    );
+  }
+
+  _addHandlerSubscribeToTaskEvents() {
+    ['add', 'edit', 'delete'].forEach(ev =>
+      document.addEventListener(ev + '-task', () =>
+        model.state.activeProject.sortingMethod.body()
+      )
     );
   }
 }

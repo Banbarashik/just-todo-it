@@ -28,7 +28,6 @@ class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
       model.TaskControls.state.project,
       model.TaskControls.state.task
     );
-    model.state.activeProject.sortingMethod.body();
   }
 
   _fillInputs() {

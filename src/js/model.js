@@ -1,5 +1,5 @@
 import { store } from '../../node_modules/reefjs/src/reef';
-import { agentSmithObj, isToday } from './helper';
+import { agentSmithObj, isToday, emit } from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
@@ -175,6 +175,8 @@ export function setSortingMethod(
     order,
     body: body.bind(state.activeProject),
   });
+
+  state.activeProject.sortingMethod.body();
 }
 
 export function setTodayTasks() {
@@ -256,6 +258,8 @@ export function addTask(formData) {
 
   project.tasks.push(task);
   if (state.activeProject.id === 'today') setTodayTasks();
+
+  emit('add-task');
 }
 
 export function editTask(formData, project, task) {
@@ -272,6 +276,8 @@ export function editTask(formData, project, task) {
   }
 
   if (state.activeProject.id === 'today') setTodayTasks();
+
+  emit('edit-task');
 }
 
 export function deleteTask(project, task) {
@@ -279,4 +285,6 @@ export function deleteTask(project, task) {
   const index = project.tasks.findIndex(task => task.id === id);
   project.tasks.splice(index, 1);
   if (state.activeProject.id === 'today') setTodayTasks();
+
+  emit('delete-task');
 }
