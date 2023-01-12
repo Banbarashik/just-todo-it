@@ -118,10 +118,14 @@ class Project {
             document.documentElement.classList.remove('dragging');
           },
           onUpdate() {
-            model.setDefaultOrder(Sortable.active.toArray());
+            model.setDefaultOrder(this.toArray());
             model.state.activeProject.sortingMethod.body();
           },
         });
+
+        // Store tasks when the list is created (to prevent the 'defaultOrder' array
+        // from being empty if there was no 'onUpdate' event before)
+        model.setDefaultOrder(this._sortable.toArray());
       }
 
       // disable the sortable if true (= the project's sorting method isn't 'default')
