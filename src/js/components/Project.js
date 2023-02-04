@@ -153,9 +153,16 @@ class Project {
 
   _addHandlerSubscribeToTaskEvents() {
     ['add', 'edit', 'delete'].forEach(ev =>
-      document.addEventListener(ev + '-task', () =>
-        model.state.activeProject.sortingMethod.body()
-      )
+      // quick and dirty solution :p
+      document.addEventListener(ev + '-task', e => {
+        const DOMIdTasksOrder =
+          ev !== 'add'
+            ? this._sortable.toArray()
+            : this._sortable.toArray().concat(e.detail.id);
+
+        model.setDefaultOrder(DOMIdTasksOrder);
+        model.state.activeProject.sortingMethod.body();
+      })
     );
   }
 }

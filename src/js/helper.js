@@ -66,12 +66,14 @@ class MixinBuilder {
   }
 }
 
-export function emit (type, elem = document) {
+export function emit(type, detail, elem = document) {
+  // Create a new event
+  let event = new CustomEvent(type, {
+    cancelable: true,
+    bubbles: true,
+    detail: detail,
+  });
 
-	// Create a new event
-	let event = new CustomEvent(type);
-
-	// Dispatch the event
-	return elem.dispatchEvent(event);
-
+  // Dispatch the event
+  return elem.dispatchEvent(event);
 }

@@ -259,7 +259,7 @@ export function addTask(formData) {
   project.tasks.push(task);
   if (state.activeProject.id === 'today') setTodayTasks();
 
-  emit('add-task');
+  emit('add-task', {id: task.id});
 }
 
 export function editTask(formData, project, task) {
@@ -277,7 +277,7 @@ export function editTask(formData, project, task) {
 
   if (state.activeProject.id === 'today') setTodayTasks();
 
-  emit('edit-task');
+  emit('edit-task', {id: task.id});
 }
 
 export function deleteTask(project, task) {
@@ -286,5 +286,5 @@ export function deleteTask(project, task) {
   project.tasks.splice(index, 1);
   if (state.activeProject.id === 'today') setTodayTasks();
 
-  emit('delete-task');
+  emit('delete-task', {id: task.id});
 }
