@@ -265,34 +265,32 @@ export function addTask(formData) {
   );
 
   project.tasks.push(task);
-  if (state.activeProject.id === 'today') setTodayTasks();
 
-  emit('add-task', { id: task.id });
+  emit('add-task', { projects: [project], task });
 }
 
 export function editTask(formData, project, task) {
   editItem(formData, task);
 
+  let newProject;
+
   if (formData.projectId !== project.id) {
     const index = project.tasks.findIndex(taskEl => taskEl.id === task.id);
     project.tasks.splice(index, 1);
 
-    const newProject = [state.inbox, ...state.projects].find(
+    newProject = [state.inbox, ...state.projects].find(
       project => project.id === formData.projectId
     );
     newProject.tasks.push(task);
   }
-
-  if (state.activeProject.id === 'today') setTodayTasks();
-
-  emit('edit-task', { id: task.id });
+  
+  emit('edit-task', { projects: [project, newProject], task });
 }
 
 export function deleteTask(project, task) {
   const { id } = task;
   const index = project.tasks.findIndex(task => task.id === id);
   project.tasks.splice(index, 1);
-  if (state.activeProject.id === 'today') setTodayTasks();
 
-  emit('delete-task', { id: task.id });
+  emit('delete-task', { projects: [project], task });
 }

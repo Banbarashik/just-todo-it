@@ -1,6 +1,6 @@
 import Sortable from 'sortablejs';
 import { component } from '../../../node_modules/reefjs/src/reef';
-import { formatDate } from '../helper';
+import { formatDate, storeInLocalStorage } from '../helper';
 import * as model from '../model';
 
 class Project {
@@ -155,13 +155,19 @@ class Project {
     ['add', 'edit', 'delete'].forEach(ev =>
       // quick and dirty solution :p
       document.addEventListener(ev + '-task', e => {
+        e.detail.projects.forEach(project =>
+          storeInLocalStorage(project.title, project)
+        );
+
         const DOMIdTasksOrder =
           ev !== 'add'
             ? this._sortable.toArray()
-            : this._sortable.toArray().concat(e.detail.id);
+            : this._sortable.toArray().concat(e.detail.task.projectId);
 
         model.setDefaultOrder(DOMIdTasksOrder);
         model.state.activeProject.sortingMethod.body();
+
+        if (model.state.activeProject.id === 'today') model.setTodayTasks();
       })
     );
   }
