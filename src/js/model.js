@@ -122,8 +122,12 @@ const sortingMethods = [
         const { date: dateB, time: timeB } = b.dueDate;
 
         return (
-          new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`) -
-          new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`)
+          new Date(
+            `${dateA ? dateA : '2100-01-01'}T${timeA ? timeA : '23:59:59.999'}Z`
+          ) -
+          new Date(
+            `${dateB ? dateB : '2100-01-01'}T${timeB ? timeB : '23:59:59.999'}Z`
+          )
         );
       });
     },
@@ -138,8 +142,12 @@ const sortingMethods = [
         const { date: dateB, time: timeB } = b.dueDate;
 
         return (
-          new Date(`${dateB}T${timeB ? timeB : '23:59:59.999'}Z`) -
-          new Date(`${dateA}T${timeA ? timeA : '23:59:59.999'}Z`)
+          new Date(
+            `${dateB ? dateB : '2100-01-01'}T${timeB ? timeB : '23:59:59.999'}Z`
+          ) -
+          new Date(
+            `${dateA ? dateA : '2100-01-01'}T${timeA ? timeA : '23:59:59.999'}Z`
+          )
         );
       });
     },
@@ -259,7 +267,7 @@ export function addTask(formData) {
   project.tasks.push(task);
   if (state.activeProject.id === 'today') setTodayTasks();
 
-  emit('add-task', {id: task.id});
+  emit('add-task', { id: task.id });
 }
 
 export function editTask(formData, project, task) {
@@ -277,7 +285,7 @@ export function editTask(formData, project, task) {
 
   if (state.activeProject.id === 'today') setTodayTasks();
 
-  emit('edit-task', {id: task.id});
+  emit('edit-task', { id: task.id });
 }
 
 export function deleteTask(project, task) {
@@ -286,5 +294,5 @@ export function deleteTask(project, task) {
   project.tasks.splice(index, 1);
   if (state.activeProject.id === 'today') setTodayTasks();
 
-  emit('delete-task', {id: task.id});
+  emit('delete-task', { id: task.id });
 }
