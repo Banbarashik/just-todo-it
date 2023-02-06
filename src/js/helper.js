@@ -77,3 +77,7 @@ export function emit(type, detail, elem = document) {
   // Dispatch the event
   return elem.dispatchEvent(event);
 }
+
+export const storeInLocalStorage = function (key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+};
