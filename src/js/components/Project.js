@@ -159,9 +159,9 @@ class Project {
     ['add', 'edit', 'delete'].forEach(ev => {
       // quick and dirty solution :p
       document.addEventListener(ev + '-task', e => {
-        e.detail.projects.forEach(project =>
-          storeInLocalStorage(project.id, project)
-        );
+        e.detail.projects.forEach(project => {
+          if (project) storeInLocalStorage(project.id, project);
+        });
 
         const DOMIdTasksOrder =
           ev !== 'add'
