@@ -1,5 +1,5 @@
 import { store } from '../../node_modules/reefjs/src/reef';
-import { agentSmithObj, isToday, emit } from './helper';
+import { agentSmithObj, isToday, emit, loadFromLocalStorage } from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
@@ -7,6 +7,14 @@ export { default as TaskControls } from './components/TaskControls';
 export { default as AddTaskModal } from './components/AddTaskModal';
 export { default as EditTaskModal } from './components/EditTaskModal';
 export { default as SortingOptions } from './components/SortingOptions';
+
+function retrieveProjectsFromLocalStorage() {
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const project = loadFromLocalStorage(key);
+    key !== 'inbox' ? state.projects.push(project) : (state[key] = project);
+  }
+}
 
 export const state = store({
   inbox: {
@@ -45,71 +53,20 @@ export const state = store({
       order: 'ascending',
       defaultOrder: [],
       body() {
-        state.today.tasks.sort(
+        this.today.tasks.sort(
           (a, b) =>
-            state.today.sortingMethod.defaultOrder.indexOf(a.id) -
-            state.today.sortingMethod.defaultOrder.indexOf(b.id)
+            this.today.sortingMethod.defaultOrder.indexOf(a.id) -
+            this.today.sortingMethod.defaultOrder.indexOf(b.id)
         );
       },
     },
     tasks: [],
   },
-  projects: [
-    {
-      sortingMethod: {
-        name: '',
-        order: '',
-        defaultOrder: [],
-        body: function () {},
-      },
-      id: '2',
-      title: 'Test',
-      description: 'A test project',
-      dueDate: {
-        date: null,
-        time: null,
-      },
-      tasks: [
-        {
-          id: '22',
-          title: 'Stronglifts',
-          description: 'Complete a set of exercises',
-          dueDate: { date: '2023-01-12', time: '' },
-          projectId: '2',
-        },
-        {
-          id: '33',
-          title: 'Test task',
-          description: '',
-          dueDate: { date: '2023-01-12', time: '13:00' },
-          projectId: '2',
-        },
-        {
-          id: '44',
-          title: 'Test task2',
-          description: '',
-          dueDate: { date: '2023-01-12', time: '11:00' },
-          projectId: '2',
-        },
-        {
-          id: '55',
-          title: 'Test task3',
-          description: '',
-          dueDate: { date: '2023-11-11', time: '' },
-          projectId: '2',
-        },
-        {
-          id: '66',
-          title: 'Test task4',
-          description: '',
-          dueDate: { date: '2023-01-12', time: '12:00' },
-          projectId: '2',
-        },
-      ],
-    },
-  ],
+  projects: [],
   activeProject: {},
 });
+
+retrieveProjectsFromLocalStorage();
 
 const sortingMethods = [
   {
@@ -220,10 +177,10 @@ export function addProject(formData) {
       time,
     },
     sortingMethod: {
-      name: '',
-      order: '',
+      name: 'default',
+      order: 'ascending',
       defaultOrder: [],
-      body: function () {},
+      body: function() {},
     },
     tasks: [],
   };
@@ -234,13 +191,13 @@ export function addProject(formData) {
   // Change ID in URL (doesn't invoke the 'hashchange' event)
   window.history.pushState(null, '', `#${project.id}`);
 
-  emit('add-project', {project});
+  emit('add-project', { project });
 }
 
 export function editProject(formData, project) {
   editItem(formData, project);
 
-  emit('edit-project', {project});
+  emit('edit-project', { project });
 }
 
 export function deleteProject(project) {
@@ -249,7 +206,7 @@ export function deleteProject(project) {
   state.projects.splice(index, 1);
   if (state.activeProject.id === id) state.activeProject = {};
 
-  emit('delete-project', {project});
+  emit('delete-project', { project });
 }
 
 export function addTask(formData) {
@@ -289,7 +246,7 @@ export function editTask(formData, project, task) {
     );
     newProject.tasks.push(task);
   }
-  
+
   emit('edit-task', { projects: [project, newProject], task });
 }
 
