@@ -85,3 +85,8 @@ export function storeInLocalStorage(key, value) {
 export function removeFromLocalStorage(key) {
   localStorage.removeItem(key);
 }
+
+export function loadFromLocalStorage(key) {
+  const str = localStorage.getItem(key);
+  if (str) return JSON.parse(str);
+}
