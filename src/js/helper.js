@@ -78,6 +78,10 @@ export function emit(type, detail, elem = document) {
   return elem.dispatchEvent(event);
 }
 
-export const storeInLocalStorage = function (key, value) {
+export function storeInLocalStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
-};
+}
+
+export function removeFromLocalStorage(key) {
+  localStorage.removeItem(key);
+}

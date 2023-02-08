@@ -233,10 +233,14 @@ export function addProject(formData) {
 
   // Change ID in URL (doesn't invoke the 'hashchange' event)
   window.history.pushState(null, '', `#${project.id}`);
+
+  emit('add-project', {project});
 }
 
 export function editProject(formData, project) {
   editItem(formData, project);
+
+  emit('edit-project', {project});
 }
 
 export function deleteProject(project) {
@@ -244,6 +248,8 @@ export function deleteProject(project) {
   const index = state.projects.findIndex(project => project.id === id);
   state.projects.splice(index, 1);
   if (state.activeProject.id === id) state.activeProject = {};
+
+  emit('delete-project', {project});
 }
 
 export function addTask(formData) {
