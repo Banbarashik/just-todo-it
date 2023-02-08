@@ -124,6 +124,8 @@ class Project {
           onUpdate() {
             model.setDefaultOrder(this.toArray());
             model.state.activeProject.sortingMethod.body();
+
+            storeInLocalStorage(model.state.activeProject.id, model.state.activeProject)
           },
         });
 
