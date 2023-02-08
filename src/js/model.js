@@ -13,6 +13,12 @@ function retrieveProjectsFromLocalStorage() {
     const key = localStorage.key(i);
     const project = loadFromLocalStorage(key);
     key !== 'inbox' ? state.projects.push(project) : (state[key] = project);
+
+    setSortingMethod(
+      project.sortingMethod.name,
+      project.sortingMethod.order,
+      project
+    );
   }
 }
 
@@ -53,10 +59,10 @@ export const state = store({
       order: 'ascending',
       defaultOrder: [],
       body() {
-        this.today.tasks.sort(
+        state.today.tasks.sort(
           (a, b) =>
-            this.today.sortingMethod.defaultOrder.indexOf(a.id) -
-            this.today.sortingMethod.defaultOrder.indexOf(b.id)
+            state.today.sortingMethod.defaultOrder.indexOf(a.id) -
+            state.today.sortingMethod.defaultOrder.indexOf(b.id)
         );
       },
     },
@@ -65,8 +71,6 @@ export const state = store({
   projects: [],
   activeProject: {},
 });
-
-retrieveProjectsFromLocalStorage();
 
 const sortingMethods = [
   {
@@ -123,25 +127,28 @@ const sortingMethods = [
   },
 ];
 
+retrieveProjectsFromLocalStorage();
+
 export function setDefaultOrder(orderArr) {
   state.activeProject.sortingMethod.defaultOrder = orderArr;
 }
 
 export function setSortingMethod(
   nameAttr = 'default',
-  orderAttr = 'ascending'
+  orderAttr = 'ascending',
+  project = state.activeProject
 ) {
   const { name, order, body } = sortingMethods.find(
     method => method.name === nameAttr && method.order === orderAttr
   );
 
-  Object.assign(state.activeProject.sortingMethod, {
+  Object.assign(project.sortingMethod, {
     name,
     order,
-    body: body.bind(state.activeProject),
+    body: body.bind(project),
   });
 
-  state.activeProject.sortingMethod.body();
+  project.sortingMethod.body();
 }
 
 export function setTodayTasks() {
@@ -180,7 +187,7 @@ export function addProject(formData) {
       name: 'default',
       order: 'ascending',
       defaultOrder: [],
-      body: function() {},
+      body: function () {},
     },
     tasks: [],
   };
