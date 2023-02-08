@@ -160,7 +160,7 @@ class Project {
       // quick and dirty solution :p
       document.addEventListener(ev + '-task', e => {
         e.detail.projects.forEach(project =>
-          storeInLocalStorage(project.title, project)
+          storeInLocalStorage(project.id, project)
         );
 
         const DOMIdTasksOrder =
@@ -176,8 +176,8 @@ class Project {
 
       document.addEventListener(ev + '-project', e => {
         ev !== 'delete'
-          ? storeInLocalStorage(e.detail.project.title, e.detail.project)
-          : removeFromLocalStorage(e.detail.project.title);
+          ? storeInLocalStorage(e.detail.project.id, e.detail.project)
+          : removeFromLocalStorage(e.detail.project.id);
       });
     });
   }
