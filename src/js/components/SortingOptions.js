@@ -26,8 +26,8 @@ class SortingOptions {
       }px; left: ${this.state.elementPosition.x}px">
         <ul class="menu-list">
           <li data-sorting-method-name="default" class="menu-item ${
-              project.sortingMethod.name === 'default' ? 'active' : ''
-            }">Default</li>
+            project.sortingMethod.name === 'default' ? 'active' : ''
+          }">Default</li>
           <li data-sorting-method-name="dueDate" class="menu-item ${
             project.sortingMethod.name === 'dueDate' ? 'active' : ''
           }">
@@ -91,16 +91,6 @@ class SortingOptions {
     };
   }
 
-  setSortingMethod(e) {
-    const item = e?.target.closest('.menu-item');
-    const btn = e?.target.closest('.btn--order');
-
-    model.setSortingMethod(
-      item?.dataset.sortingMethodName,
-      btn?.dataset.sortingOrder
-    );
-  }
-
   _addHandlerOpenSortOpts() {
     document.addEventListener('click', this._openSortOpts.bind(this));
   }
@@ -108,7 +98,15 @@ class SortingOptions {
   _addHandlerSetSortingMethod() {
     this._parentElement.addEventListener(
       'click',
-      this.setSortingMethod.bind(this)
+      function (e) {
+        const item = e?.target.closest('.menu-item');
+        const btn = e?.target.closest('.btn--order');
+
+        model.setSortingMethod(
+          item?.dataset.sortingMethodName,
+          btn?.dataset.sortingOrder
+        );
+      }
     );
   }
 }
