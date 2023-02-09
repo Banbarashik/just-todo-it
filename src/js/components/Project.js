@@ -125,13 +125,12 @@ class Project {
             model.setDefaultOrder(this.toArray());
             model.state.activeProject.sortingMethod.body();
 
-            storeInLocalStorage(model.state.activeProject.id, model.state.activeProject)
+            storeInLocalStorage(
+              model.state.activeProject.id,
+              model.state.activeProject
+            );
           },
         });
-
-        // Store tasks when the list is created (to prevent the 'defaultOrder' array
-        // from being empty if there was no 'onUpdate' event before)
-        model.setDefaultOrder(this._sortable.toArray());
       }
 
       // disable the sortable if true (= the project's sorting method isn't 'default')
@@ -161,19 +160,19 @@ class Project {
     ['add', 'edit', 'delete'].forEach(ev => {
       // quick and dirty solution :p
       document.addEventListener(ev + '-task', e => {
-        e.detail.projects.forEach(project => {
-          if (project) storeInLocalStorage(project.id, project);
-        });
-
         const DOMIdTasksOrder =
           ev !== 'add'
             ? this._sortable.toArray()
-            : this._sortable.toArray().concat(e.detail.task.projectId);
+            : this._sortable.toArray().concat(e.detail.task.id);
 
         model.setDefaultOrder(DOMIdTasksOrder);
         model.state.activeProject.sortingMethod.body();
 
         if (model.state.activeProject.id === 'today') model.setTodayTasks();
+
+        e.detail.projects.forEach(project => {
+          if (project) storeInLocalStorage(project.id, project);
+        });
       });
 
       document.addEventListener(ev + '-project', e => {

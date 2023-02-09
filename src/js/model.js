@@ -1,5 +1,5 @@
 import { store } from '../../node_modules/reefjs/src/reef';
-import { agentSmithObj, isToday, emit, loadFromLocalStorage } from './helper';
+import { agentSmithObj, isToday, emit, storeInLocalStorage, loadFromLocalStorage } from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
@@ -129,8 +129,8 @@ const sortingMethods = [
 
 retrieveProjectsFromLocalStorage();
 
-export function setDefaultOrder(orderArr) {
-  state.activeProject.sortingMethod.defaultOrder = orderArr;
+export function setDefaultOrder(orderArr, project = state.activeProject) {
+  project.sortingMethod.defaultOrder = orderArr;
 }
 
 export function setSortingMethod(
@@ -149,6 +149,8 @@ export function setSortingMethod(
   });
 
   project.sortingMethod.body();
+
+  storeInLocalStorage(project.id, project);
 }
 
 export function setTodayTasks() {
