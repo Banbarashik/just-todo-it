@@ -163,12 +163,15 @@ class Project {
       document.addEventListener(ev + '-task', e => {
         const { task, project, newProject } = e.detail;
 
-        const DOMIdTasksOrder =
-          ev !== 'add'
-            ? this._sortable.toArray()
-            : this._sortable.toArray().concat(task.id);
+        if (project.sortingMethod.name === 'default') {
+          const DOMIdTasksOrder =
+            ev !== 'add'
+              ? this._sortable.toArray()
+              : this._sortable.toArray().concat(task.id);
 
-        model.setDefaultOrder(DOMIdTasksOrder);
+          model.setDefaultOrder(DOMIdTasksOrder);
+        }
+
         project.sortingMethod.body();
         storeInLocalStorage(project.id, project);
 
