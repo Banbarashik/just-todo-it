@@ -238,7 +238,7 @@ export function addTask(formData) {
 
   project.tasks.push(task);
 
-  emit('add-task', { projects: [project], task });
+  emit('add-task', { project, task });
 }
 
 export function editTask(formData, project, task) {
@@ -256,7 +256,7 @@ export function editTask(formData, project, task) {
     newProject.tasks.push(task);
   }
 
-  emit('edit-task', { projects: [project, newProject], task });
+  emit('edit-task', { project, newProject, task });
 }
 
 export function deleteTask(project, task) {
@@ -264,5 +264,5 @@ export function deleteTask(project, task) {
   const index = project.tasks.findIndex(task => task.id === id);
   project.tasks.splice(index, 1);
 
-  emit('delete-task', { projects: [project], task });
+  emit('delete-task', { project, task });
 }

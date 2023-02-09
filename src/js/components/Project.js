@@ -14,7 +14,7 @@ class Project {
   constructor() {
     this._addHandlerMakeProjectActive();
     this._addHandlerMakeTasksListDND();
-    this._addHandlerSubscribeToTaskEvents();
+    this._addHandlerSubscribeToItemEvents();
 
     component(this._parentElement, this._template.bind(this));
   }
@@ -156,23 +156,29 @@ class Project {
     );
   }
 
-  _addHandlerSubscribeToTaskEvents() {
+  // items: tasks & projects
+  _addHandlerSubscribeToItemEvents() {
     ['add', 'edit', 'delete'].forEach(ev => {
       // quick and dirty solution :p
       document.addEventListener(ev + '-task', e => {
+        const { task, project, newProject } = e.detail;
+
         const DOMIdTasksOrder =
           ev !== 'add'
             ? this._sortable.toArray()
-            : this._sortable.toArray().concat(e.detail.task.id);
+            : this._sortable.toArray().concat(task.id);
 
         model.setDefaultOrder(DOMIdTasksOrder);
-        model.state.activeProject.sortingMethod.body();
+        project.sortingMethod.body();
+        storeInLocalStorage(project.id, project);
 
-        if (model.state.activeProject.id === 'today') model.setTodayTasks();
+        if (newProject) {
+          newProject.sortingMethod.defaultOrder.push(task.id);
+          newProject.sortingMethod.body();
+          storeInLocalStorage(newProject.id, newProject);
+        }
 
-        e.detail.projects.forEach(project => {
-          if (project) storeInLocalStorage(project.id, project);
-        });
+        if (project.id === 'today') model.setTodayTasks();
       });
 
       document.addEventListener(ev + '-project', e => {
