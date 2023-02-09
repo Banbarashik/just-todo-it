@@ -181,7 +181,7 @@ class Project {
           storeInLocalStorage(newProject.id, newProject);
         }
 
-        if (project.id === 'today') model.setTodayTasks();
+        if (model.state.activeProject.id === 'today') model.setTodayTasks();
       });
 
       document.addEventListener(ev + '-project', e => {
