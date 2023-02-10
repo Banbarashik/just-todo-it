@@ -1,5 +1,11 @@
 import { store } from '../../node_modules/reefjs/src/reef';
-import { agentSmithObj, isToday, emit, storeInLocalStorage, loadFromLocalStorage } from './helper';
+import {
+  agentSmithObj,
+  isToday,
+  emit,
+  storeInLocalStorage,
+  loadFromLocalStorage,
+} from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
@@ -12,7 +18,9 @@ function retrieveProjectsFromLocalStorage() {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     const project = loadFromLocalStorage(key);
-    key !== 'inbox' ? state.projects.push(project) : (state[key] = project);
+    key !== 'inbox' && key !== 'today'
+      ? state.projects.push(project)
+      : (state[key] = project);
 
     setSortingMethod(
       project.sortingMethod.name,
