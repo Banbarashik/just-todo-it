@@ -165,6 +165,9 @@ export function setTodayTasks() {
   state.today.tasks = [state.inbox, ...state.projects]
     .map(project => project.tasks.filter(task => isToday(task.dueDate.date)))
     .flat();
+
+  state.today.sortingMethod.body();
+  storeInLocalStorage(state.today.id, state.today);
 }
 
 export function setProjectAsActive(id) {

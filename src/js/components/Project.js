@@ -159,7 +159,6 @@ class Project {
   // items: tasks & projects
   _addHandlerSubscribeToItemEvents() {
     ['add', 'edit', 'delete'].forEach(ev => {
-      // quick and dirty solution :p
       document.addEventListener(ev + '-task', e => {
         const { task, project, newProject } = e.detail;
 
@@ -180,6 +179,8 @@ class Project {
           newProject.sortingMethod.body();
           storeInLocalStorage(newProject.id, newProject);
         }
+
+        model.setTodayTasks();
       });
 
       document.addEventListener(ev + '-project', e => {
@@ -188,6 +189,8 @@ class Project {
         ev !== 'delete'
           ? storeInLocalStorage(project.id, project)
           : removeFromLocalStorage(project.id);
+
+        model.setTodayTasks();
       });
     });
   }
