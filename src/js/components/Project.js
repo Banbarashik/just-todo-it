@@ -150,7 +150,7 @@ class Project {
       window.addEventListener(ev, () => {
         const id = window.location.hash.slice(1);
         if (!id) return;
-        else if (id === 'today') model.setTodayTasks();
+        if (id === 'today') model.setTodayTasks();
         model.setProjectAsActive(id);
       })
     );
@@ -169,7 +169,7 @@ class Project {
               ? this._sortable.toArray()
               : this._sortable.toArray().concat(task.id);
 
-          model.setDefaultOrder(DOMIdTasksOrder);
+          model.setDefaultOrder(DOMIdTasksOrder, project);
         }
 
         project.sortingMethod.body();
@@ -180,14 +180,14 @@ class Project {
           newProject.sortingMethod.body();
           storeInLocalStorage(newProject.id, newProject);
         }
-
-        if (model.state.activeProject.id === 'today') model.setTodayTasks();
       });
 
       document.addEventListener(ev + '-project', e => {
+        const { project } = e.detail;
+
         ev !== 'delete'
-          ? storeInLocalStorage(e.detail.project.id, e.detail.project)
-          : removeFromLocalStorage(e.detail.project.id);
+          ? storeInLocalStorage(project.id, project)
+          : removeFromLocalStorage(project.id);
       });
     });
   }
