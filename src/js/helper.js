@@ -19,12 +19,11 @@ export const isToday = date => {
   const now = new Date();
   const [year, monthIndex, dayOfMonth] = date.split('-').map(Number);
 
-  if (
+  return (
     year === now.getFullYear() &&
     monthIndex - 1 === now.getMonth() &&
     dayOfMonth === now.getDate()
-  )
-    return true;
+  );
 };
 
 export const formatDate = (date, time) => {
