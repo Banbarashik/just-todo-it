@@ -167,14 +167,25 @@ class Project {
             [...project.sortingMethod.defaultOrder, task.id],
             project
           );
-        else if (project.sortingMethod.name === 'default')
+        else if (ev === 'delete') {
+          const index = project.sortingMethod.defaultOrder.findIndex(
+            id => id === task.id
+          );
+          const order = [...project.sortingMethod.defaultOrder];
+          order.splice(index, 1);
+          model.setDefaultOrder(order, project);
+        } else if (project.sortingMethod.name === 'default')
           model.setDefaultOrder(this._sortable.toArray(), project);
 
         project.sortingMethod.body();
         storeInLocalStorage(project.id, project);
 
         if (newProject) {
-          newProject.sortingMethod.defaultOrder.push(task.id);
+          // newProject.sortingMethod.defaultOrder.push(task.id);
+          model.setDefaultOrder(
+            [...newProject.sortingMethod.defaultOrder, task.id],
+            newProject
+          );
           newProject.sortingMethod.body();
           storeInLocalStorage(newProject.id, newProject);
         }
