@@ -37,7 +37,7 @@ export const state = store({
     sortingMethod: {
       name: 'default',
       order: 'ascending',
-      defaultOrder: [],
+      defaultOrder: ['11'],
       body() {
         state.inbox.tasks.sort(
           (a, b) =>
