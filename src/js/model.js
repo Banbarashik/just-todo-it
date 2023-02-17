@@ -63,15 +63,26 @@ export const state = store({
     id: 'today',
     title: 'Today',
     sortingMethod: {
-      name: 'default',
+      name: 'dueDate',
       order: 'ascending',
-      defaultOrder: [],
       body() {
-        state.today.tasks.sort(
-          (a, b) =>
-            state.today.sortingMethod.defaultOrder.indexOf(a.id) -
-            state.today.sortingMethod.defaultOrder.indexOf(b.id)
-        );
+        state.today.tasks.sort((a, b) => {
+          const { date: dateA, time: timeA } = a.dueDate;
+          const { date: dateB, time: timeB } = b.dueDate;
+
+          return (
+            new Date(
+              `${dateA ? dateA : '2100-01-01'}T${
+                timeA ? timeA : '23:59:59.999'
+              }Z`
+            ) -
+            new Date(
+              `${dateB ? dateB : '2100-01-01'}T${
+                timeB ? timeB : '23:59:59.999'
+              }Z`
+            )
+          );
+        });
       },
     },
     tasks: [],
