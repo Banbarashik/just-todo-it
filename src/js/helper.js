@@ -89,3 +89,8 @@ export function loadFromLocalStorage(key) {
   const str = localStorage.getItem(key);
   if (str) return JSON.parse(str);
 }
+
+export function changeHash(hash) {
+  window.history.pushState(null, '', `#${hash}`);
+  window.dispatchEvent(new HashChangeEvent('hashchange'));
+}

@@ -5,6 +5,7 @@ import {
   emit,
   storeInLocalStorage,
   loadFromLocalStorage,
+  changeHash,
 } from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
@@ -215,12 +216,9 @@ export function addProject(formData) {
     },
     tasks: [],
   };
-
   state.projects.push(project);
-  state.activeProject = project;
 
-  // Change ID in URL (doesn't invoke the 'hashchange' event)
-  window.history.pushState(null, '', `#${project.id}`);
+  changeHash(project.id);
 
   emit('add-project', { project });
 }
@@ -235,7 +233,7 @@ export function deleteProject(project) {
   const { id } = project;
   const index = state.projects.findIndex(project => project.id === id);
   state.projects.splice(index, 1);
-  if (state.activeProject.id === id) state.activeProject = {};
+  if (state.activeProject.id === id) changeHash(state.inbox.id);
 
   emit('delete-project', { project });
 }
