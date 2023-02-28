@@ -167,7 +167,7 @@ class Project {
             [...project.sortingMethod.defaultOrder, task.id],
             project
           );
-        else if (ev === 'delete') {
+        else if (ev === 'delete' || (ev === 'edit' && newProject)) {
           const index = project.sortingMethod.defaultOrder.findIndex(
             id => id === task.id
           );
@@ -181,7 +181,6 @@ class Project {
         storeInLocalStorage(project.id, project);
 
         if (newProject) {
-          // newProject.sortingMethod.defaultOrder.push(task.id);
           model.setDefaultOrder(
             [...newProject.sortingMethod.defaultOrder, task.id],
             newProject
