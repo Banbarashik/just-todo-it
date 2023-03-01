@@ -149,7 +149,7 @@ const sortingMethods = [
 
 function init() {
   retrieveProjectsFromLocalStorage();
-  state.projects.sort((a, b) => a.position - b.position);
+  state.projects.sort((a, b) => a.index - b.index);
 }
 
 init();
@@ -204,13 +204,17 @@ function editItem(formData, item) {
 
 export function addProject(formData) {
   const { title, description, date, time } = formData;
+  const index =
+    state.projects.length > 0
+      ? state.projects[state.projects.length - 1].index + 1
+      : 0;
 
   const project = {
     id: Date.now().toString(),
     title,
     description,
     dueDate: { date, time },
-    position: null,
+    index,
     tasks: [],
     sortingMethod: {
       name: 'default',
@@ -219,7 +223,7 @@ export function addProject(formData) {
       body: function () {},
     },
   };
-  project.position = state.projects.push(project);
+  state.projects.push(project);
 
   changeHash(project.id);
 
