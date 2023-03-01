@@ -147,7 +147,12 @@ const sortingMethods = [
   },
 ];
 
-retrieveProjectsFromLocalStorage();
+function init() {
+  retrieveProjectsFromLocalStorage();
+  state.projects.sort((a, b) => a.position - b.position);
+}
+
+init();
 
 export function setDefaultOrder(orderArr, project = state.activeProject) {
   project.sortingMethod.defaultOrder = orderArr;
@@ -204,19 +209,17 @@ export function addProject(formData) {
     id: Date.now().toString(),
     title,
     description,
-    dueDate: {
-      date,
-      time,
-    },
+    dueDate: { date, time },
+    position: null,
+    tasks: [],
     sortingMethod: {
       name: 'default',
       order: 'ascending',
       defaultOrder: [],
       body: function () {},
     },
-    tasks: [],
   };
-  state.projects.push(project);
+  project.position = state.projects.push(project);
 
   changeHash(project.id);
 
