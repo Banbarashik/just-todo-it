@@ -21,6 +21,7 @@ class Project {
 
   _template() {
     const project = model.state.activeProject;
+    if (!project) return '<p class="error">Project not found</p>';
     if (!Object.keys(project).length) return '';
 
     return `

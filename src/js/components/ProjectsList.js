@@ -14,7 +14,7 @@ class ProjectList {
         return `
           <li data-id="${
             project.id
-          }" class="project-item ${project.id === model.state.activeProject.id ? 'active' : ''}">
+          }" class="project-item ${project.id === model.state.activeProject?.id ? 'active' : ''}">
             <a href="#${project.id}" class="project-item--link">
               <span>${project.title}</span>
             </a>
