@@ -7,9 +7,6 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   devServer: {
     static: './dist',
-    hot: false,
-    liveReload: false,
-    port: 1234,
   },
   output: {
     filename: 'bundle.js',
