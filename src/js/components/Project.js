@@ -4,6 +4,7 @@ import {
   formatDate,
   storeInLocalStorage,
   removeFromLocalStorage,
+  changeHash,
 } from '../helper';
 import * as model from '../model';
 
@@ -150,9 +151,9 @@ class Project {
     ['hashchange', 'load'].forEach(ev =>
       window.addEventListener(ev, () => {
         const id = window.location.hash.slice(1);
-        if (!id) return;
-        if (id === 'today') model.setTodayTasks();
-        model.setProjectAsActive(id);
+        if (!id) changeHash(model.state.today.id);
+        else model.setProjectAsActive(id);
+        model.setTodayTasks();
       })
     );
   }
