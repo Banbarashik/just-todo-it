@@ -202,8 +202,7 @@ function editItem(formData, item) {
   agentSmithObj(formDataObj, item);
 }
 
-export function addProject(formData) {
-  const { title, description, date, time } = formData;
+export function addProject({ title, description, date, time }) {
   const index =
     state.projects.length > 0
       ? state.projects[state.projects.length - 1].index + 1
@@ -245,9 +244,7 @@ export function deleteProject(project) {
   emit('delete-project', { project });
 }
 
-export function addTask(formData) {
-  const { projectId, title, description, date, time } = formData;
-
+export function addTask({ projectId, title, description, date, time }) {
   const task = {
     id: Date.now().toString(),
     title,
