@@ -38,6 +38,10 @@ button {
   opacity: 0;
 }
 
+.completed {
+  opacity: 0.3;
+}
+
 .draggable * {
   cursor: grab;
 }

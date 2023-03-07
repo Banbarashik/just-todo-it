@@ -61,7 +61,7 @@ class Project {
     return tasks
       .map(function (task) {
         return `
-          <li class="task" data-id="${task.id}">
+          <li class="task ${task.isCompleted ? 'completed' : ''}" data-id="${task.id}">
             <p class="task__title">${task.title}</p>
             <p class="task__description">${task.description}</p>
             ${

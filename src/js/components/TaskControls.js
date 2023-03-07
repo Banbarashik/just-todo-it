@@ -11,6 +11,7 @@ class TaskControls extends Controls {
     this._addHandlerOpenControls();
     this._addHandlerOpenEditModal();
     this._addHandlerDeleteItem();
+    this._addHandlerToggleCompletion();
 
     this.state = state;
 
@@ -47,6 +48,18 @@ class TaskControls extends Controls {
 
   _deleteItem(e) {
     super._deleteItem(e, model.deleteTask, this.state.project, this.state.task);
+  }
+
+  _toggleCompletion(e) {
+    const btn = e.target.closest('.btn--complete-task');
+    if (btn) model.toggleTaskCompletion(this.state.task);
+  }
+
+  _addHandlerToggleCompletion() {
+    this._parentElement.addEventListener(
+      'click',
+      this._toggleCompletion.bind(this)
+    );
   }
 }
 

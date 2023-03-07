@@ -57,6 +57,7 @@ export const state = store({
           time: '11:09',
         },
         projectId: 'inbox',
+        isCompleted: true,
       },
     ],
   },
@@ -254,6 +255,7 @@ export function addTask({ projectId, title, description, date, time }) {
       time,
     },
     projectId,
+    isCompleted: false,
   };
 
   const project = [state.inbox, ...state.projects].find(
@@ -289,4 +291,8 @@ export function deleteTask(project, task) {
   project.tasks.splice(index, 1);
 
   emit('delete-task', { project, task });
+}
+
+export function toggleTaskCompletion(task) {
+  task.isCompleted = !task.isCompleted;
 }

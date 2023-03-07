@@ -3,8 +3,17 @@ export default class Controls {
     if (!this.state.areControlsOpened) return '';
 
     return `
-      <div class="popper" style="top: ${this.state.elementPosition.y}px; left: ${this.state.elementPosition.x}px">
+      <div class="popper" style="top: ${
+        this.state.elementPosition.y
+      }px; left: ${this.state.elementPosition.x}px">
         <ul class="menu-list">
+          ${
+            this._itemType === 'task'
+              ? `<li class="menu-item btn--complete-task">Mark ${
+                  this.state.task.isCompleted ? 'un' : ''
+                }completed</li>`
+              : ''
+          }
           <li class="menu-item btn--edit-item">Edit ${this._itemType}</li>
           <li class="menu-item btn--delete-item">Delete ${this._itemType}</li>
         </ul>
