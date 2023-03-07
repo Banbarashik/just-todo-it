@@ -35,6 +35,10 @@
   &:hover .btn--task-controls {
     visibility: visible;
   }
+
+  &.completed &__title {
+    text-decoration: line-through;
+  }
 }
 
 .sortable-drag {
