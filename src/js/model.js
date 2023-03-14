@@ -2,9 +2,9 @@ import { store } from '../../node_modules/reefjs/src/reef';
 import {
   agentSmithObj,
   isToday,
-  emit,
   storeInLocalStorage,
   loadFromLocalStorage,
+  removeFromLocalStorage,
   changeHash,
 } from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
@@ -227,13 +227,13 @@ export function addProject({ title, description, date, time }) {
 
   changeHash(project.id);
 
-  emit('add-project', { project });
+  storeInLocalStorage(project.id, project);
 }
 
 export function editProject(formData, project) {
   editItem(formData, project);
 
-  emit('edit-project', { project });
+  storeInLocalStorage(project.id, project);
 }
 
 export function deleteProject(project) {
@@ -242,18 +242,10 @@ export function deleteProject(project) {
   state.projects.splice(index, 1);
   if (state.activeProject.id === id) changeHash(state.inbox.id);
 
-  emit('delete-project', { project });
+  removeFromLocalStorage(project.id);
+
+  setTodayTasks();
 }
-
-// UPDATES ONLY DEFAULT ORDER, EVEN IF THE CURRENT METHOD IS NOT DEFAULT
-// 1) [...sortingMethod.defaultOrder, task.id]
-// events: 'add-task', 'edit-task' when a task was moved to another project
-// 2) [...sortingMethod.defaultOrder] then order.splice(index, 1);
-// events: 'delete-task'
-
-// 1) sort a project's tasks
-// 2) store the project in the local storage
-// 3) update Today's tasks
 
 function updateOnTaskChange(project) {
   project.sortingMethod.body();

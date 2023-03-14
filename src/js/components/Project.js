@@ -1,11 +1,6 @@
 import Sortable from 'sortablejs';
 import { component } from '../../../node_modules/reefjs/src/reef';
-import {
-  formatDate,
-  storeInLocalStorage,
-  removeFromLocalStorage,
-  changeHash,
-} from '../helper';
+import { formatDate, storeInLocalStorage, changeHash } from '../helper';
 import * as model from '../model';
 
 class Project {
@@ -15,7 +10,6 @@ class Project {
   constructor() {
     this._addHandlerMakeProjectActive();
     this._addHandlerMakeTasksListDND();
-    this._addHandlerSubscribeToItemEvents();
 
     component(this._parentElement, this._template.bind(this));
   }
@@ -158,21 +152,6 @@ class Project {
         model.setTodayTasks();
       })
     );
-  }
-
-  // items: tasks & projects
-  _addHandlerSubscribeToItemEvents() {
-    ['add', 'edit', 'delete'].forEach(ev => {
-      document.addEventListener(ev + '-project', e => {
-        const { project } = e.detail;
-
-        ev !== 'delete'
-          ? storeInLocalStorage(project.id, project)
-          : removeFromLocalStorage(project.id);
-
-        model.setTodayTasks();
-      });
-    });
   }
 }
 
