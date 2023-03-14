@@ -245,6 +245,22 @@ export function deleteProject(project) {
   emit('delete-project', { project });
 }
 
+// UPDATES ONLY DEFAULT ORDER, EVEN IF THE CURRENT METHOD IS NOT DEFAULT
+// 1) [...sortingMethod.defaultOrder, task.id]
+// events: 'add-task', 'edit-task' when a task was moved to another project
+// 2) [...sortingMethod.defaultOrder] then order.splice(index, 1);
+// events: 'delete-task'
+
+// 1) sort a project's tasks
+// 2) store the project in the local storage
+// 3) update Today's tasks
+
+function updateOnTaskChange(project) {
+  project.sortingMethod.body();
+  storeInLocalStorage(project.id, project);
+  setTodayTasks();
+}
+
 export function addTask({ projectId, title, description, date, time }) {
   const task = {
     id: Date.now().toString(),
@@ -263,34 +279,40 @@ export function addTask({ projectId, title, description, date, time }) {
   );
 
   project.tasks.push(task);
+  project.sortingMethod.defaultOrder.push(task.id);
 
-  emit('add-task', { project, task });
+  updateOnTaskChange(project);
 }
 
 export function editTask(formData, project, task) {
   editItem(formData, task);
 
-  let newProject;
-
   if (formData.projectId !== project.id) {
-    const index = project.tasks.findIndex(taskEl => taskEl.id === task.id);
-    project.tasks.splice(index, 1);
+    deleteTask(project, task);
 
-    newProject = [state.inbox, ...state.projects].find(
+    const newProject = [state.inbox, ...state.projects].find(
       project => project.id === formData.projectId
     );
     newProject.tasks.push(task);
+    newProject.sortingMethod.defaultOrder.push(task.id);
+
+    updateOnTaskChange(newProject);
   }
 
-  emit('edit-task', { project, newProject, task });
+  updateOnTaskChange(project);
 }
 
 export function deleteTask(project, task) {
   const { id } = task;
-  const index = project.tasks.findIndex(task => task.id === id);
-  project.tasks.splice(index, 1);
+  const taskIndex = project.tasks.findIndex(task => task.id === id);
+  const taskIdIndex = project.sortingMethod.defaultOrder.findIndex(
+    id => id === task.id
+  );
 
-  emit('delete-task', { project, task });
+  project.tasks.splice(taskIndex, 1);
+  project.sortingMethod.defaultOrder.splice(taskIdIndex, 1);
+
+  updateOnTaskChange(project);
 }
 
 export function toggleTaskCompletion(task) {

@@ -61,7 +61,9 @@ class Project {
     return tasks
       .map(function (task) {
         return `
-          <li class="task ${task.isCompleted ? 'completed' : ''}" data-id="${task.id}">
+          <li class="task ${
+            task.isCompleted ? 'completed' : ''
+          }" data-id="${task.id}">
             <p class="task__title">${task.title}</p>
             <p class="task__description">${task.description}</p>
             ${
@@ -161,39 +163,6 @@ class Project {
   // items: tasks & projects
   _addHandlerSubscribeToItemEvents() {
     ['add', 'edit', 'delete'].forEach(ev => {
-      document.addEventListener(ev + '-task', e => {
-        const { task, project, newProject } = e.detail;
-
-        if (ev === 'add')
-          model.setDefaultOrder(
-            [...project.sortingMethod.defaultOrder, task.id],
-            project
-          );
-        else if (ev === 'delete' || (ev === 'edit' && newProject)) {
-          const index = project.sortingMethod.defaultOrder.findIndex(
-            id => id === task.id
-          );
-          const order = [...project.sortingMethod.defaultOrder];
-          order.splice(index, 1);
-          model.setDefaultOrder(order, project);
-        } else if (project.sortingMethod.name === 'default')
-          model.setDefaultOrder(this._sortable.toArray(), project);
-
-        project.sortingMethod.body();
-        storeInLocalStorage(project.id, project);
-
-        if (newProject) {
-          model.setDefaultOrder(
-            [...newProject.sortingMethod.defaultOrder, task.id],
-            newProject
-          );
-          newProject.sortingMethod.body();
-          storeInLocalStorage(newProject.id, newProject);
-        }
-
-        model.setTodayTasks();
-      });
-
       document.addEventListener(ev + '-project', e => {
         const { project } = e.detail;
 
