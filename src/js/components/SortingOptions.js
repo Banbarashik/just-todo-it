@@ -26,7 +26,7 @@ class SortingOptions {
       }px; left: ${this.state.elementPosition.x}px">
         <ul class="menu-list">
           ${
-            project.id !== 'today'
+            project.id !== model.state.today.id
               ? `<li data-sorting-method-name="default" class="menu-item ${
                   project.sortingMethod.name === 'default' ? 'active' : ''
                 }">Default</li>`

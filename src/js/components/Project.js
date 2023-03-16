@@ -81,7 +81,7 @@ class Project {
               </svg>
             </button>
             ${
-              model.state.activeProject.id !== 'today'
+              model.state.activeProject.id !== model.state.today.id
                 ? ''
                 : `<a href="#${task.projectId}" class="task__project-title">${
                     model
