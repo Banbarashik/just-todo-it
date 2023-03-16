@@ -15,22 +15,6 @@ export { default as AddTaskModal } from './components/AddTaskModal';
 export { default as EditTaskModal } from './components/EditTaskModal';
 export { default as SortingOptions } from './components/SortingOptions';
 
-function retrieveProjectsFromLocalStorage() {
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    const project = loadFromLocalStorage(key);
-    key !== 'inbox' && key !== 'today'
-      ? state.projects.push(project)
-      : (state[key] = project);
-
-    setSortingMethod(
-      project.sortingMethod.name,
-      project.sortingMethod.order,
-      project
-    );
-  }
-}
-
 export const state = store({
   inbox: {
     id: 'inbox',
@@ -148,12 +132,73 @@ const sortingMethods = [
   },
 ];
 
-function init() {
-  retrieveProjectsFromLocalStorage();
-  state.projects.sort((a, b) => a.index - b.index);
+function retrieveProjectsFromLocalStorage() {
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const project = loadFromLocalStorage(key);
+    key !== state.inbox.id && key !== state.today.id
+      ? state.projects.push(project)
+      : (state[key] = project);
+
+    setSortingMethod(
+      project.sortingMethod.name,
+      project.sortingMethod.order,
+      project
+    );
+  }
 }
 
-init();
+function editItem(formData, item) {
+  // Create a copy of 'formData' obj
+  const { date, time, ...formDataObj } = structuredClone(formData);
+  // Format the copy obj's props to have the same structure as project obj
+  formDataObj.dueDate = { date, time };
+
+  agentSmithObj(formDataObj, item);
+}
+
+function formatProjectObj({ title, description, date, time }) {
+  const listItemIndex =
+    state.projects.length > 0
+      ? state.projects[state.projects.length - 1].listItemIndex + 1
+      : 0;
+
+  return {
+    id: Date.now().toString(),
+    title,
+    description,
+    dueDate: { date, time },
+    listItemIndex,
+    tasks: [],
+    sortingMethod: {
+      name: 'default',
+      order: 'ascending',
+      defaultOrder: [],
+      body: function () {},
+    },
+  };
+}
+
+function formatTaskObj({ projectId, title, description, date, time }) {
+  return {
+    id: Date.now().toString(),
+    title,
+    description,
+    dueDate: {
+      date,
+      time,
+    },
+    projectId,
+    isCompleted: false,
+  };
+}
+
+// Updates to be made when a task changes (e.g., added, edited, deleted)
+function updateStateOnTaskChange(project) {
+  project.sortingMethod.body();
+  storeInLocalStorage(project.id, project);
+  setTodayTasks();
+}
 
 export function setDefaultOrder(orderArr, project = state.activeProject) {
   project.sortingMethod.defaultOrder = orderArr;
@@ -194,45 +239,15 @@ export function setProjectAsActive(id) {
   );
 }
 
-function editItem(formData, item) {
-  // Create a copy of 'formData' obj
-  const { date, time, ...formDataObj } = structuredClone(formData);
-  // Format the copy obj's props to have the same structure as project obj
-  formDataObj.dueDate = { date, time };
-
-  agentSmithObj(formDataObj, item);
-}
-
-export function addProject({ title, description, date, time }) {
-  const index =
-    state.projects.length > 0
-      ? state.projects[state.projects.length - 1].index + 1
-      : 0;
-
-  const project = {
-    id: Date.now().toString(),
-    title,
-    description,
-    dueDate: { date, time },
-    index,
-    tasks: [],
-    sortingMethod: {
-      name: 'default',
-      order: 'ascending',
-      defaultOrder: [],
-      body: function () {},
-    },
-  };
+export function addProject({ formData }) {
+  const project = formatProjectObj(formData);
   state.projects.push(project);
-
   changeHash(project.id);
-
   storeInLocalStorage(project.id, project);
 }
 
-export function editProject(formData, project) {
+export function editProject({ formData, project }) {
   editItem(formData, project);
-
   storeInLocalStorage(project.id, project);
 }
 
@@ -244,54 +259,29 @@ export function deleteProject(project) {
 
   removeFromLocalStorage(project.id);
 
-  setTodayTasks();
+  setTodayTasks(); // to remove the today's tasks from the deleted project from the state
 }
 
-function updateOnTaskChange(project) {
-  project.sortingMethod.body();
-  storeInLocalStorage(project.id, project);
-  setTodayTasks();
-}
-
-export function addTask({ projectId, title, description, date, time }) {
-  const task = {
-    id: Date.now().toString(),
-    title,
-    description,
-    dueDate: {
-      date,
-      time,
-    },
-    projectId,
-    isCompleted: false,
-  };
-
+export function addTask({ formData, task }) {
+  task = task ? task : formatTaskObj(formData);
   const project = [state.inbox, ...state.projects].find(
-    project => project.id === projectId
+    project => project.id === task.projectId
   );
-
   project.tasks.push(task);
   project.sortingMethod.defaultOrder.push(task.id);
 
-  updateOnTaskChange(project);
+  updateStateOnTaskChange(project);
 }
 
-export function editTask(formData, project, task) {
+export function editTask({ formData, project, task }) {
   editItem(formData, task);
 
-  if (formData.projectId !== project.id) {
+  if (task.projectId !== project.id) {
     deleteTask(project, task);
-
-    const newProject = [state.inbox, ...state.projects].find(
-      project => project.id === formData.projectId
-    );
-    newProject.tasks.push(task);
-    newProject.sortingMethod.defaultOrder.push(task.id);
-
-    updateOnTaskChange(newProject);
+    addTask({ task });
   }
 
-  updateOnTaskChange(project);
+  updateStateOnTaskChange(project);
 }
 
 export function deleteTask(project, task) {
@@ -304,9 +294,16 @@ export function deleteTask(project, task) {
   project.tasks.splice(taskIndex, 1);
   project.sortingMethod.defaultOrder.splice(taskIdIndex, 1);
 
-  updateOnTaskChange(project);
+  updateStateOnTaskChange(project);
 }
 
 export function toggleTaskCompletion(task) {
   task.isCompleted = !task.isCompleted;
 }
+
+function init() {
+  retrieveProjectsFromLocalStorage();
+  state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
+}
+
+init();

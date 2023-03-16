@@ -61,8 +61,8 @@ export default class Modal {
     e.preventDefault();
     const form = e.target;
     const dataArr = [...new FormData(form)];
-    const data = Object.fromEntries(dataArr);
-    handler(data, project, task);
+    const formData = Object.fromEntries(dataArr);
+    handler({ formData, project, task });
     this.state.isModalOpened = false;
   }
 
