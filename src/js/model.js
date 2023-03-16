@@ -132,6 +132,14 @@ const sortingMethods = [
   },
 ];
 
+export function getAllProjects() {
+  return [...getProjectsWithOwnTasks(), state.today];
+}
+
+export function getProjectsWithOwnTasks() {
+  return [state.inbox, ...state.projects];
+}
+
 function retrieveProjectsFromLocalStorage() {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
@@ -225,7 +233,7 @@ export function setSortingMethod(
 }
 
 export function setTodayTasks() {
-  state.today.tasks = [state.inbox, ...state.projects]
+  state.today.tasks = getProjectsWithOwnTasks()
     .map(project => project.tasks.filter(task => isToday(task.dueDate.date)))
     .flat();
 
@@ -234,9 +242,7 @@ export function setTodayTasks() {
 }
 
 export function setProjectAsActive(id) {
-  state.activeProject = [state.inbox, state.today, ...state.projects].find(
-    project => project.id === id
-  );
+  state.activeProject = getAllProjects().find(project => project.id === id);
 }
 
 export function addProject({ formData }) {
@@ -264,7 +270,7 @@ export function deleteProject(project) {
 
 export function addTask({ formData, task }) {
   task = task ? task : formatTaskObj(formData);
-  const project = [state.inbox, ...state.projects].find(
+  const project = getProjectsWithOwnTasks().find(
     project => project.id === task.projectId
   );
   project.tasks.push(task);

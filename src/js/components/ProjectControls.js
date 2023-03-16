@@ -32,9 +32,9 @@ class ProjectControls extends Controls {
     const projectItem = btn.closest('.project-item');
     const project = btn.closest('.project');
     const { id } = projectItem?.dataset || project?.dataset;
-    this.state.project = [model.state.inbox, ...model.state.projects].find(
-      project => project.id === id
-    );
+    this.state.project = model
+      .getProjectsWithOwnTasks()
+      .find(project => project.id === id);
 
     const rect = btn.getBoundingClientRect();
     this.state.elementPosition = {

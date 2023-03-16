@@ -84,9 +84,9 @@ class Project {
               model.state.activeProject.id !== 'today'
                 ? ''
                 : `<a href="#${task.projectId}" class="task__project-title">${
-                    [model.state.inbox, ...model.state.projects].find(
-                      project => project.id === task.projectId
-                    ).title
+                    model
+                      .getProjectsWithOwnTasks()
+                      .find(project => project.id === task.projectId).title
                   }</a>`
             }
           </li>

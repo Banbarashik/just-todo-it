@@ -30,9 +30,9 @@ class TaskControls extends Controls {
 
     const task = btn.closest('.task');
     const { id } = task.dataset;
-    this.state.project = [model.state.inbox, ...model.state.projects].find(
-      project => project.tasks.some(task => task.id === id)
-    );
+    this.state.project = model
+      .getProjectsWithOwnTasks()
+      .find(project => project.tasks.some(task => task.id === id));
     this.state.task = this.state.project.tasks.find(task => task.id === id);
 
     const rect = btn.getBoundingClientRect();
