@@ -66,10 +66,10 @@ export default class Modal {
     this.state.isModalOpened = false;
   }
 
-  _addHandlerCloseModal() {
-    this._parentElement.addEventListener('click', this._closeModal.bind(this));
+  _addHandlerCloseModal(handler) {
+    this._parentElement.addEventListener('click', handler);
   }
-  _addHandlerSubmit() {
-    this._parentElement.addEventListener('submit', this._submit.bind(this));
+  _addHandlerSubmit(handler) {
+    this._parentElement.addEventListener('submit', handler);
   }
 }

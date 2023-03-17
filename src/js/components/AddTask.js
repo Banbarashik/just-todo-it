@@ -5,7 +5,7 @@ class AddTask {
   _parentElement = document.querySelector('.btn--quick-add-task');
 
   constructor() {
-    this._addHandlerOpenModal();
+    this._addHandlerOpenModal(model.AddTaskModal.openModal);
 
     component(this._parentElement, this._template);
   }
@@ -19,10 +19,10 @@ class AddTask {
     `;
   }
 
-  _addHandlerOpenModal() {
+  _addHandlerOpenModal(handler) {
     document.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--add-task');
-      if (btn) model.AddTaskModal.openModal();
+      if (btn) handler();
     });
   }
 }

@@ -8,9 +8,9 @@ class ProjectControls extends Controls {
 
   constructor(state) {
     super();
-    this._addHandlerOpenControls();
-    this._addHandlerOpenEditModal();
-    this._addHandlerDeleteItem();
+    this._addHandlerOpenControls(this._openControls.bind(this));
+    this._addHandlerOpenEditModal(this._openEditModal);
+    this._addHandlerDeleteItem(this._deleteItem.bind(this));
 
     this.state = state;
 

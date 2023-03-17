@@ -313,3 +313,7 @@ function init() {
 }
 
 init();
+
+// TODO:
+// 2) use destructuring when accessing state from the models where it's possible
+// 3) refactor 'Project's' handler functions

@@ -8,10 +8,10 @@ class TaskControls extends Controls {
 
   constructor(state) {
     super();
-    this._addHandlerOpenControls();
-    this._addHandlerOpenEditModal();
-    this._addHandlerDeleteItem();
-    this._addHandlerToggleCompletion();
+    this._addHandlerOpenControls(this._openControls.bind(this));
+    this._addHandlerOpenEditModal(this._openEditModal);
+    this._addHandlerDeleteItem(this._deleteItem.bind(this));
+    this._addHandlerToggleCompletion(this._toggleCompletion.bind(this));
 
     this.state = state;
 
@@ -55,11 +55,8 @@ class TaskControls extends Controls {
     if (btn) model.toggleTaskCompletion(this.state.task);
   }
 
-  _addHandlerToggleCompletion() {
-    this._parentElement.addEventListener(
-      'click',
-      this._toggleCompletion.bind(this)
-    );
+  _addHandlerToggleCompletion(handler) {
+    this._parentElement.addEventListener('click', handler);
   }
 }
 

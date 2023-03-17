@@ -5,8 +5,8 @@ class SortingOptions {
   _parentElement = document.querySelector('.dropdown--sort-by');
 
   constructor(state) {
-    this._addHandlerOpenSortOpts();
-    this._addHandlerSetSortingMethod();
+    this._addHandlerOpenSortOpts(this._openSortOpts.bind(this));
+    this._addHandlerSetSortingMethod(model.setSortingMethod);
 
     this.state = state;
 
@@ -95,16 +95,16 @@ class SortingOptions {
     };
   }
 
-  _addHandlerOpenSortOpts() {
-    document.addEventListener('click', this._openSortOpts.bind(this));
+  _addHandlerOpenSortOpts(handler) {
+    document.addEventListener('click', handler);
   }
 
-  _addHandlerSetSortingMethod() {
+  _addHandlerSetSortingMethod(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const item = e?.target.closest('.menu-item');
       const btn = e?.target.closest('.btn--order');
 
-      model.setSortingMethod(
+      handler(
         item?.dataset.sortingMethodName,
         btn?.dataset.sortingOrder
       );

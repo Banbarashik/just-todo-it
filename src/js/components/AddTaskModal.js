@@ -10,8 +10,8 @@ class AddTaskModal extends mix(AddModal).with(TaskModalMixin) {
 
   constructor(state) {
     super();
-    this._addHandlerCloseModal();
-    this._addHandlerSubmit();
+    this._addHandlerCloseModal(this._closeModal.bind(this));
+    this._addHandlerSubmit(this._submit.bind(this));
 
     this.state = state;
 
@@ -25,11 +25,6 @@ class AddTaskModal extends mix(AddModal).with(TaskModalMixin) {
   }
 }
 
-const state = store(
-  {
-    isModalOpened: false,
-  },
-  'add-task-modal'
-);
+const state = store({ isModalOpened: false }, 'add-task-modal');
 
 export default new AddTaskModal(state);

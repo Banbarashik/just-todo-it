@@ -8,9 +8,9 @@ class EditProjectModal extends EditModal {
 
   constructor(state) {
     super();
-    this._addHandlerCloseModal();
-    this._addHandlerFillInputs();
-    this._addHandlerSubmit();
+    this._addHandlerCloseModal(this._closeModal.bind(this));
+    this._addHandlerFillInputs(this._fillInputs.bind(this));
+    this._addHandlerSubmit(this._submit.bind(this));
 
     this.state = state;
 
@@ -29,11 +29,6 @@ class EditProjectModal extends EditModal {
   }
 }
 
-const state = store(
-  {
-    isModalOpened: false,
-  },
-  'edit-project-modal'
-);
+const state = store({ isModalOpened: false }, 'edit-project-modal');
 
 export default new EditProjectModal(state);

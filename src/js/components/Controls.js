@@ -31,13 +31,13 @@ export default class Controls {
     if (btn) handler(project, task);
   }
 
-  _addHandlerOpenControls() {
-    document.addEventListener('click', this._openControls.bind(this));
+  _addHandlerOpenControls(handler) {
+    document.addEventListener('click', handler);
   }
-  _addHandlerOpenEditModal() {
-    this._parentElement.addEventListener('click', this._openEditModal);
+  _addHandlerOpenEditModal(handler) {
+    this._parentElement.addEventListener('click', handler);
   }
-  _addHandlerDeleteItem() {
-    this._parentElement.addEventListener('click', this._deleteItem.bind(this));
+  _addHandlerDeleteItem(handler) {
+    this._parentElement.addEventListener('click', handler);
   }
 }

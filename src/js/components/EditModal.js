@@ -16,10 +16,7 @@ export default class EditModal extends Modal {
     inputTime.value = time;
   }
 
-  _addHandlerFillInputs() {
-    this._parentElement.addEventListener(
-      'reef:render',
-      this._fillInputs.bind(this)
-    );
+  _addHandlerFillInputs(handler) {
+    this._parentElement.addEventListener('reef:render', handler);
   }
 }

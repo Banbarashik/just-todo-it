@@ -8,8 +8,8 @@ class AddProjectModal extends AddModal {
 
   constructor(state) {
     super();
-    this._addHandlerCloseModal();
-    this._addHandlerSubmit();
+    this._addHandlerCloseModal(this._closeModal.bind(this));
+    this._addHandlerSubmit(this._submit.bind(this));
 
     this.state = state;
 
@@ -24,11 +24,6 @@ class AddProjectModal extends AddModal {
   }
 }
 
-const state = store(
-  {
-    isModalOpened: false,
-  },
-  'add-project-modal'
-);
+const state = store({ isModalOpened: false }, 'add-project-modal');
 
 export default new AddProjectModal(state);

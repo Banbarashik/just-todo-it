@@ -10,9 +10,9 @@ class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
 
   constructor(state) {
     super();
-    this._addHandlerCloseModal();
-    this._addHandlerFillInputs();
-    this._addHandlerSubmit();
+    this._addHandlerCloseModal(this._closeModal.bind(this));
+    this._addHandlerFillInputs(this._fillInputs.bind(this));
+    this._addHandlerSubmit(this._submit.bind(this));
 
     this.state = state;
 
@@ -36,11 +36,6 @@ class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
   }
 }
 
-const state = store(
-  {
-    isModalOpened: false,
-  },
-  'edit-task-modal'
-);
+const state = store({ isModalOpened: false }, 'edit-task-modal');
 
 export default new EditTaskModal(state);

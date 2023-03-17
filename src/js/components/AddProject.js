@@ -5,7 +5,7 @@ class AddProject {
   _parentElement = document.querySelector('.btn--add-project');
 
   constructor() {
-    this._addHandlerOpenModal();
+    this._addHandlerOpenModal(model.AddProjectModal.openModal);
 
     component(this._parentElement, this._template);
   }
@@ -14,11 +14,8 @@ class AddProject {
     return '+';
   }
 
-  _addHandlerOpenModal() {
-    this._parentElement.addEventListener(
-      'click',
-      model.AddProjectModal.openModal
-    );
+  _addHandlerOpenModal(handler) {
+    this._parentElement.addEventListener('click', handler);
   }
 }
 
