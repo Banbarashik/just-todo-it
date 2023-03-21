@@ -18,28 +18,30 @@ class SortingOptions {
   _template() {
     if (!this.state.areSortOptsOpened) return '';
 
-    const project = model.state.activeProject;
+    const {
+      activeProject,
+      activeProject: { sortingMethod },
+    } = model.state;
 
     return `
-      <div class="popper" style="top: ${
-        this.state.elementPosition.y
-      }px; left: ${this.state.elementPosition.x}px">
+      <div class="popper"
+      style="top: ${this.state.elCoords.y}px; left: ${this.state.elCoords.x}px">
         <ul class="menu-list">
           ${
-            project.id !== model.state.today.id
+            activeProject.id !== model.state.today.id
               ? `<li data-sorting-method-name="default" class="menu-item ${
-                  project.sortingMethod.name === 'default' ? 'active' : ''
+                  sortingMethod.name === 'default' ? 'active' : ''
                 }">Default</li>`
               : ''
           }
           <li data-sorting-method-name="dueDate" class="menu-item ${
-            project.sortingMethod.name === 'dueDate' ? 'active' : ''
+            sortingMethod.name === 'dueDate' ? 'active' : ''
           }">
             <span>Due date</span>
             <div class="sorting-order-btns">
               <button data-sorting-order="ascending" class="btn--order ${
-                project.sortingMethod.name === 'dueDate' &&
-                project.sortingMethod.order === 'ascending'
+                sortingMethod.name === 'dueDate' &&
+                sortingMethod.order === 'ascending'
                   ? 'active'
                   : ''
               }">
@@ -55,8 +57,8 @@ class SortingOptions {
                 </svg>
               </button>
               <button data-sorting-order="descending" class="btn--order ${
-                project.sortingMethod.name === 'dueDate' &&
-                project.sortingMethod.order === 'descending'
+                sortingMethod.name === 'dueDate' &&
+                sortingMethod.order === 'descending'
                   ? 'active'
                   : ''
               }">
@@ -88,11 +90,8 @@ class SortingOptions {
 
     this.state.areSortOptsOpened = true;
 
-    const rect = btn.getBoundingClientRect();
-    this.state.elementPosition = {
-      x: rect.left,
-      y: rect.bottom,
-    };
+    const { left: x, bottom: y } = btn.getBoundingClientRect();
+    this.state.elCoords = { x, y };
   }
 
   _addHandlerOpenSortOpts(handler) {
@@ -104,10 +103,7 @@ class SortingOptions {
       const item = e?.target.closest('.menu-item');
       const btn = e?.target.closest('.btn--order');
 
-      handler(
-        item?.dataset.sortingMethodName,
-        btn?.dataset.sortingOrder
-      );
+      handler(item?.dataset.sortingMethodName, btn?.dataset.sortingOrder);
     });
   }
 }
@@ -115,10 +111,7 @@ class SortingOptions {
 const state = store(
   {
     areSortOptsOpened: false,
-    elementPosition: {
-      x: null,
-      y: null,
-    },
+    elCoords: { x: null, y: null },
   },
   'sorting-options'
 );

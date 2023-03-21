@@ -16,6 +16,7 @@ class Project {
 
   _template() {
     const project = model.state.activeProject;
+
     if (!project) return '<p class="error">Project not found</p>';
     if (!Object.keys(project).length) return '';
 
@@ -120,13 +121,12 @@ class Project {
             document.documentElement.classList.remove('dragging');
           },
           onUpdate() {
-            model.setDefaultOrder(this.toArray());
-            model.state.activeProject.sortingMethod.body();
+            const { activeProject } = model.state;
 
-            storeInLocalStorage(
-              model.state.activeProject.id,
-              model.state.activeProject
-            );
+            model.setDefaultOrder(this.toArray());
+            activeProject.sortingMethod.body();
+
+            storeInLocalStorage(activeProject.id, activeProject);
           },
         });
       }

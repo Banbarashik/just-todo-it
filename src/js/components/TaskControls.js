@@ -35,11 +35,8 @@ class TaskControls extends Controls {
       .find(project => project.tasks.some(task => task.id === id));
     this.state.task = this.state.project.tasks.find(task => task.id === id);
 
-    const rect = btn.getBoundingClientRect();
-    this.state.elementPosition = {
-      x: rect.left,
-      y: rect.bottom,
-    };
+    const { left: x, bottom: y } = btn.getBoundingClientRect();
+    this.state.elCoords = { x, y };
   }
 
   _openEditModal(e) {
@@ -64,10 +61,7 @@ const state = store({
   areControlsOpened: false,
   task: {},
   project: {},
-  elementPosition: {
-    x: null,
-    y: null,
-  },
+  elCoords: { x: null, y: null },
 });
 
 export default new TaskControls(state);

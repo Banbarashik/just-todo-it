@@ -3,9 +3,8 @@ export default class Controls {
     if (!this.state.areControlsOpened) return '';
 
     return `
-      <div class="popper" style="top: ${
-        this.state.elementPosition.y
-      }px; left: ${this.state.elementPosition.x}px">
+      <div class="popper"
+      style="top: ${this.state.elCoords.y}px; left: ${this.state.elCoords.x}px">
         <ul class="menu-list">
           ${
             this._itemType === 'task'
