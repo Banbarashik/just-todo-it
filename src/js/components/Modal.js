@@ -46,10 +46,11 @@ export default class Modal {
     `;
   }
 
-  openModal() {
-    this.state.isModalOpened = true;
+  get openModal() {
+    return function () {
+      this.state.isModalOpened = true;
+    }.bind(this);
   }
-  openModal = this.openModal.bind(this);
 
   _closeModal(e) {
     const btn = e.target.closest('.btn--close-modal');
