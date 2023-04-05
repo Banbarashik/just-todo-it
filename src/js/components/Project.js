@@ -17,8 +17,8 @@ class Project {
   _template() {
     const project = model.state.activeProject;
 
-    if (!project) return '<p class="error">Project not found</p>';
-    if (!Object.keys(project).length) return '';
+    if (!Object.keys(project).length)
+      return '<p class="error">Project not found</p>';
 
     return `
       <div class="project" data-id="${project.id}">
@@ -96,40 +96,41 @@ class Project {
       .join('');
   }
 
+  _createSortableInstance() {
+    const htmlEl = document.documentElement;
+    const listOfTasks = this._parentElement.querySelector('.tasks'); // rename 'tasks' to 'tasks-list' or smth
+    const controlBtns = listOfTasks.querySelectorAll('.btn--task-controls');
+
+    function toggleClasses() {
+      controlBtns.forEach(btn => btn.classList.toggle('hidden'));
+      htmlEl.classList.toggle('dragging');
+    }
+
+    this._sortable = Sortable.create(listOfTasks, {
+      forceFallback: true,
+      onStart: toggleClasses,
+      onEnd: toggleClasses,
+      onUpdate() {
+        const { activeProject } = model.state;
+
+        model.setDefaultOrder(activeProject, this.toArray());
+        activeProject.sortingMethod.body();
+
+        storeInLocalStorage(activeProject.id, activeProject);
+      },
+    });
+  }
+
   _addHandlerMakeTasksListDND() {
     this._parentElement.addEventListener('reef:render', () => {
-      const tasks = this._parentElement.querySelector('.tasks');
-      // need this check because '_parentElement' can be empty if there's no active project
-      if (!tasks) return;
+      const project = this._parentElement.querySelector('.project');
 
-      // check if there's already a sortable instance
-      if (!this._sortable) {
-        this._sortable = Sortable.create(tasks, {
-          forceFallback: true,
-          onStart(e) {
-            e.from
-              .querySelectorAll('.btn--task-controls')
-              .forEach(btn => (btn.style.visibility = 'hidden'));
+      // check whether the component has been rendered and thereof the list
+      // of tasks is available to create a Sortable instance upon (or it will throw an err)
+      if (!project) return;
 
-            document.documentElement.classList.add('dragging');
-          },
-          onEnd(e) {
-            e.from
-              .querySelectorAll('.btn--task-controls')
-              .forEach(btn => (btn.style.visibility = ''));
-
-            document.documentElement.classList.remove('dragging');
-          },
-          onUpdate() {
-            const { activeProject } = model.state;
-
-            model.setDefaultOrder(this.toArray());
-            activeProject.sortingMethod.body();
-
-            storeInLocalStorage(activeProject.id, activeProject);
-          },
-        });
-      }
+      // check that there's no sortable instance yet (executes only once)
+      if (!this._sortable) this._createSortableInstance();
 
       // disable the sortable if true (= the project's sorting method isn't 'default')
       this._sortable.option(

@@ -20,7 +20,6 @@ class AddProjectModal extends AddModal {
 
   _submit(e) {
     super._submit(e, model.addProject);
-    model.setSortingMethod();
   }
 }
 

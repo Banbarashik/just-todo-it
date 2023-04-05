@@ -144,20 +144,20 @@ function retrieveProjectsFromLocalStorage() {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     const project = loadFromLocalStorage(key);
-    key !== state.inbox.id && key !== state.today.id
-      ? state.projects.push(project)
-      : (state[key] = project);
+
+    if (key === state.inbox.id || key === state.today.id) state[key] = project;
+    else state.projects.push(project);
 
     setSortingMethod(
+      project,
       project.sortingMethod.name,
-      project.sortingMethod.order,
-      project
+      project.sortingMethod.order
     );
   }
 }
 
 function editItem(formData, item) {
-  // Create a copy of 'formData' obj
+  // Create a copy of the 'formData' obj
   const { date, time, ...formDataObj } = structuredClone(formData);
   // Format the copy obj's props to have the same structure as project obj
   formDataObj.dueDate = { date, time };
@@ -208,22 +208,21 @@ function updateStateOnTaskChange(project) {
   setTodayTasks();
 }
 
-export function setDefaultOrder(orderArr, project = state.activeProject) {
-  project.sortingMethod.defaultOrder = orderArr;
+export function setDefaultOrder(project, order) {
+  project.sortingMethod.defaultOrder = order;
 }
 
 export function setSortingMethod(
-  nameAttr = 'default',
-  orderAttr = 'ascending',
-  project = state.activeProject
+  project,
+  name = 'default',
+  order = 'ascending'
 ) {
-  const { name, order, body } = sortingMethods.find(
-    method => method.name === nameAttr && method.order === orderAttr
+  const { body, ...sortingMethod } = sortingMethods.find(
+    method => method.name === name && method.order === order
   );
 
   Object.assign(project.sortingMethod, {
-    name,
-    order,
+    ...sortingMethod,
     body: body.bind(project),
   });
 
@@ -242,14 +241,18 @@ export function setTodayTasks() {
 }
 
 export function setProjectAsActive(id) {
-  state.activeProject = getAllProjects().find(project => project.id === id);
+  const project = getAllProjects().find(project => project.id === id);
+  state.activeProject = project ? project : {};
 }
 
 export function addProject({ formData }) {
   const project = formatProjectObj(formData);
+
+  setSortingMethod(project);
   state.projects.push(project);
-  changeHash(project.id);
   storeInLocalStorage(project.id, project);
+
+  changeHash(project.id);
 }
 
 export function editProject({ formData, project }) {
@@ -258,23 +261,24 @@ export function editProject({ formData, project }) {
 }
 
 export function deleteProject(project) {
-  const { id } = project;
-  const index = state.projects.findIndex(project => project.id === id);
-  state.projects.splice(index, 1);
-  if (state.activeProject.id === id) changeHash(state.inbox.id);
+  const index = state.projects.findIndex(({ id }) => id === project.id);
 
+  state.projects.splice(index, 1);
   removeFromLocalStorage(project.id);
 
-  setTodayTasks(); // to remove the today's tasks from the deleted project from the state
+  setTodayTasks(); // remove today's tasks that belonged to the deleted project
+
+  if (state.activeProject.id === project.id) changeHash(state.inbox.id);
 }
 
-export function addTask({ formData, task }) {
-  task = task ? task : formatTaskObj(formData);
+export function addTask({ formData, task = formatTaskObj(formData) }) {
   const project = getProjectsWithOwnTasks().find(
-    project => project.id === task.projectId
+    ({ id }) => id === task.projectId
   );
+  const updatedDefOrder = [...project.sortingMethod.defaultOrder, task.id];
+
   project.tasks.push(task);
-  project.sortingMethod.defaultOrder.push(task.id);
+  setDefaultOrder(project, updatedDefOrder);
 
   updateStateOnTaskChange(project);
 }
@@ -291,14 +295,13 @@ export function editTask({ formData, project, task }) {
 }
 
 export function deleteTask(project, task) {
-  const { id } = task;
-  const taskIndex = project.tasks.findIndex(task => task.id === id);
-  const taskIdIndex = project.sortingMethod.defaultOrder.findIndex(
-    id => id === task.id
+  const taskIndex = project.tasks.findIndex(({ id }) => id === task.id);
+  const updatedDefOrder = project.sortingMethod.defaultOrder.filter(
+    id => id !== task.id
   );
 
   project.tasks.splice(taskIndex, 1);
-  project.sortingMethod.defaultOrder.splice(taskIdIndex, 1);
+  setDefaultOrder(project, updatedDefOrder);
 
   updateStateOnTaskChange(project);
 }
@@ -313,7 +316,3 @@ function init() {
 }
 
 init();
-
-// TODO:
-// 2) use destructuring when accessing state from the models where it's possible
-// 3) refactor 'Project's' handler functions

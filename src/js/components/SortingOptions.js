@@ -100,10 +100,14 @@ class SortingOptions {
 
   _addHandlerSetSortingMethod(handler) {
     this._parentElement.addEventListener('click', function (e) {
-      const item = e?.target.closest('.menu-item');
-      const btn = e?.target.closest('.btn--order');
+      const item = e.target.closest('.menu-item');
+      const btn = e.target.closest('.btn--order');
 
-      handler(item?.dataset.sortingMethodName, btn?.dataset.sortingOrder);
+      handler(
+        model.state.activeProject,
+        item.dataset.sortingMethodName,
+        btn?.dataset.sortingOrder
+      );
     });
   }
 }
