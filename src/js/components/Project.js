@@ -16,6 +16,7 @@ class Project {
 
   _template() {
     const project = model.state.activeProject;
+    const displayDate = formatDate(project.dueDate);
 
     if (!Object.keys(project).length)
       return '<p class="error">Project not found</p>';
@@ -33,15 +34,12 @@ class Project {
         <div class="project__details">
           ${
             project.description
-              ? `<div class="project__description"><p>Description:</p><p>${project.description}</div>`
+              ? `<div class="project__description"><p>Description:</p><p>${project.description}</p></div>`
               : ''
           }
             ${
-              project.dueDate?.date
-                ? `<div class="project__due-date"><p>Due date:</p><p>${formatDate(
-                    project.dueDate.date,
-                    project.dueDate.time
-                  )}</div>`
+              displayDate
+                ? `<div class="project__due-date"><p>Due date:</p><p>${displayDate}</p></div>`
                 : ''
             }
         </div>
@@ -55,20 +53,15 @@ class Project {
   _generateTasksMarkup(tasks) {
     return tasks
       .map(function (task) {
+        const displayDate = formatDate(task.dueDate);
+
         return `
           <li class="task ${
             task.isCompleted ? 'completed' : ''
           }" data-id="${task.id}">
             <p class="task__title">${task.title}</p>
             <p class="task__description">${task.description}</p>
-            ${
-              task.dueDate?.date
-                ? `<p class="task__due-date">${formatDate(
-                    task.dueDate.date,
-                    task.dueDate.time
-                  )}</p>`
-                : ''
-            }
+            ${displayDate ? `<p class="task__due-date">${displayDate}</p>` : ''}
             <button class="btn--task-controls ${
               model.TaskControls.state.areControlsOpened &&
               model.TaskControls.state.task.id === task.id
@@ -145,14 +138,14 @@ class Project {
   }
 
   _addHandlerMakeProjectActive() {
-    ['hashchange', 'load'].forEach(ev =>
-      window.addEventListener(ev, () => {
+    ['hashchange', 'load'].forEach(function (ev) {
+      window.addEventListener(ev, function () {
         const id = window.location.hash.slice(1);
         if (!id) changeHash(model.state.today.id);
         else model.setProjectAsActive(id);
         model.setTodayTasks();
-      })
-    );
+      });
+    });
   }
 }
 

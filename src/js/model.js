@@ -80,49 +80,33 @@ export const state = store({
 const sortingMethods = [
   {
     name: 'dueDate',
-    order: 'ascending',
-    // this === project
     body() {
+      // this === project
       this.tasks.sort((a, b) => {
-        const { date: dateA, time: timeA } = a.dueDate;
-        const { date: dateB, time: timeB } = b.dueDate;
+        const {
+          date: dateA = dateA ? dateA : '2100-01-01',
+          time: timeA = timeA ? timeA : '23:59:59.999',
+        } = a.dueDate;
 
-        return (
-          new Date(
-            `${dateA ? dateA : '2100-01-01'}T${timeA ? timeA : '23:59:59.999'}Z`
-          ) -
-          new Date(
-            `${dateB ? dateB : '2100-01-01'}T${timeB ? timeB : '23:59:59.999'}Z`
-          )
-        );
-      });
-    },
-  },
-  {
-    name: 'dueDate',
-    order: 'descending',
-    // this === project
-    body() {
-      this.tasks.sort((a, b) => {
-        const { date: dateA, time: timeA } = a.dueDate;
-        const { date: dateB, time: timeB } = b.dueDate;
+        const {
+          date: dateB = dateB ? dateB : '2100-01-01',
+          time: timeB = timeB ? timeB : '23:59:59.999',
+        } = b.dueDate;
 
-        return (
-          new Date(
-            `${dateB ? dateB : '2100-01-01'}T${timeB ? timeB : '23:59:59.999'}Z`
-          ) -
-          new Date(
-            `${dateA ? dateA : '2100-01-01'}T${timeA ? timeA : '23:59:59.999'}Z`
-          )
-        );
+        const taskAdate = new Date(`${dateA}T${timeA}Z`);
+        const taskBdate = new Date(`${dateB}T${timeB}Z`);
+
+        if (this.sortingMethod.order === 'ascending')
+          return taskAdate - taskBdate;
+        if (this.sortingMethod.order === 'descending')
+          return taskBdate - taskAdate;
       });
     },
   },
   {
     name: 'default',
-    order: 'ascending',
-    // this === project
     body() {
+      // this === project
       this.tasks.sort(
         (a, b) =>
           this.sortingMethod.defaultOrder.indexOf(a.id) -
@@ -192,10 +176,7 @@ function formatTaskObj({ projectId, title, description, date, time }) {
     id: Date.now().toString(),
     title,
     description,
-    dueDate: {
-      date,
-      time,
-    },
+    dueDate: { date, time },
     projectId,
     isCompleted: false,
   };
@@ -217,12 +198,11 @@ export function setSortingMethod(
   name = 'default',
   order = 'ascending'
 ) {
-  const { body, ...sortingMethod } = sortingMethods.find(
-    method => method.name === name && method.order === order
-  );
+  const { body } = sortingMethods.find(method => method.name === name);
 
   Object.assign(project.sortingMethod, {
-    ...sortingMethod,
+    name,
+    order,
     body: body.bind(project),
   });
 

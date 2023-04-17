@@ -58,6 +58,8 @@ export default class Modal {
     this.state.isModalOpened = false;
   }
 
+  // TODO: think if the '_submit' function should use an object
+  // as its argument (the same as in the 'handler')
   _submit(e, handler, project, task) {
     e.preventDefault();
     const form = e.target;
