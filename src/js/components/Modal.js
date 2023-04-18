@@ -58,11 +58,9 @@ export default class Modal {
     this.state.isModalOpened = false;
   }
 
-  // TODO: think if the '_submit' function should use an object
-  // as its argument (the same as in the 'handler')
-  _submit(e, handler, project, task) {
-    e.preventDefault();
-    const form = e.target;
+  _submit({ event, handler, project, task }) {
+    event.preventDefault();
+    const form = event.target;
     const dataArr = [...new FormData(form)];
     const formData = Object.fromEntries(dataArr);
     handler({ formData, project, task });
