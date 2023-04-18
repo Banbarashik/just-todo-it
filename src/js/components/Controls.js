@@ -25,9 +25,9 @@ export default class Controls {
     if (btn) handler();
   }
 
-  _deleteItem(e, handler, project, task) {
-    const btn = e.target.closest('.btn--delete-item');
-    if (btn) handler(project, task);
+  _deleteItem({ event, handler, project, task }) {
+    const btn = event.target.closest('.btn--delete-item');
+    if (btn) handler({ project, task });
   }
 
   _addHandlerOpenControls(handler) {
