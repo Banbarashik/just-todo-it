@@ -20,7 +20,11 @@ class EditProjectModal extends EditModal {
   }
 
   _submit(e) {
-    super._submit(e, model.editProject, model.ProjectControls.state.project);
+    super._submit({
+      event: e,
+      handler: model.editProject,
+      project: model.ProjectControls.state.project,
+    });
   }
 
   _fillInputs() {

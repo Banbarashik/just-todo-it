@@ -22,12 +22,12 @@ class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
   }
 
   _submit(e) {
-    super._submit(
-      e,
-      model.editTask,
-      model.TaskControls.state.project,
-      model.TaskControls.state.task
-    );
+    super._submit({
+      event: e,
+      handler: model.editTask,
+      project: model.TaskControls.state.project,
+      task: model.TaskControls.state.task,
+    });
   }
 
   _fillInputs() {

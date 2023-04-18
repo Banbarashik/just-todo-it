@@ -19,7 +19,7 @@ class AddProjectModal extends AddModal {
   }
 
   _submit(e) {
-    super._submit(e, model.addProject);
+    super._submit({ event: e, handler: model.addProject });
   }
 }
 

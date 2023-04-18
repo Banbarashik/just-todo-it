@@ -21,7 +21,7 @@ class AddTaskModal extends mix(AddModal).with(TaskModalMixin) {
   }
 
   _submit(e) {
-    super._submit(e, model.addTask);
+    super._submit({ event: e, handler: model.addTask });
   }
 }
 
