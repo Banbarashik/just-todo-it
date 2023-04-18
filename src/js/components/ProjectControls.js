@@ -45,7 +45,11 @@ class ProjectControls extends Controls {
   }
 
   _deleteItem(e) {
-    super._deleteItem(e, model.deleteProject, this.state.project);
+    super._deleteItem({
+      event: e,
+      handler: model.deleteProject,
+      project: this.state.project,
+    });
   }
 }
 

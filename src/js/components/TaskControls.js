@@ -44,7 +44,12 @@ class TaskControls extends Controls {
   }
 
   _deleteItem(e) {
-    super._deleteItem(e, model.deleteTask, this.state.project, this.state.task);
+    super._deleteItem({
+      event: e,
+      handler: model.deleteTask,
+      project: this.state.project,
+      task: this.state.task,
+    });
   }
 
   _toggleCompletion(e) {

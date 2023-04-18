@@ -240,7 +240,7 @@ export function editProject({ formData, project }) {
   storeInLocalStorage(project.id, project);
 }
 
-export function deleteProject(project) {
+export function deleteProject({ project }) {
   const index = state.projects.findIndex(({ id }) => id === project.id);
 
   state.projects.splice(index, 1);
@@ -274,7 +274,7 @@ export function editTask({ formData, project, task }) {
   updateStateOnTaskChange(project);
 }
 
-export function deleteTask(project, task) {
+export function deleteTask({ project, task }) {
   const taskIndex = project.tasks.findIndex(({ id }) => id === task.id);
   const updatedDefOrder = project.sortingMethod.defaultOrder.filter(
     id => id !== task.id
