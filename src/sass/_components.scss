@@ -17,7 +17,18 @@
     background-color: #ddd;
   }
 
-  &.active path {
+  svg {
+    width: 2rem;
+    height: 2rem;
+
+    fill: none;
+    stroke: grey;
+    stroke-width: 48;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &.active svg {
     stroke: black;
   }
 }
@@ -29,6 +40,11 @@
   align-self: center;
 
   background-color: transparent;
+
+  svg {
+    width: 1.5rem;
+    height: 0.3rem;
+  }
 }
 
 .btn--task-controls {
@@ -54,6 +70,11 @@
   &:hover {
     background-color: #eee;
   }
+
+  svg {
+    width: 1.5rem;
+    height: 0.3rem;
+  }
 }
 
 .btn--quick-add-task {
@@ -70,6 +91,15 @@
   font-weight: 600;
 
   background-color: var(--main-color);
+
+  svg {
+    width: 4rem;
+    max-height: 100%;
+
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 50;
+  }
 }
 
 .sorting-order-btns {

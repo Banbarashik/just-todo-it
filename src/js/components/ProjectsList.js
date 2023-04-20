@@ -1,3 +1,5 @@
+import icons from '../../img/icons.svg';
+
 import { component } from '../../../node_modules/reefjs/src/reef';
 import * as model from '../model';
 
@@ -19,10 +21,7 @@ class ProjectList {
               <span>${project.title}</span>
             </a>
             <button class="btn--project-controls">
-            <svg width="15" height="3">
-              <path d="M1.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0
-              1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="currentColor" fill-rule="evenodd"></path>
-            </svg>
+            <svg><use href="${icons}#icon-controls"></use></svg>
           </button>
           </li>
         `;

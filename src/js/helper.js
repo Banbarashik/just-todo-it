@@ -16,7 +16,9 @@ class MixinBuilder {
 export const cap1stLtr = str => str.replace(/^\w/, c => c.toUpperCase());
 
 export function isToday(date) {
-  const now = new Date();
+  // TODO: note that the date is a string, not a Date object
+  // or make it work with a Date object instead
+  const now = new Date(); // TODO: rename 'now' to 'today'
   const [year, monthIndex, dayOfMonth] = date.split('-').map(Number);
 
   return (

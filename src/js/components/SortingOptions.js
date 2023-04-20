@@ -1,3 +1,5 @@
+import icons from '../../img/icons.svg';
+
 import { component, store } from '../../../node_modules/reefjs/src/reef';
 import * as model from '../model';
 
@@ -45,16 +47,7 @@ class SortingOptions {
                   ? 'active'
                   : ''
               }">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
-                  <path
-                    fill="none"
-                    stroke="grey"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="48"
-                    d="M112 268l144 144 144-144M256 392V100"
-                  />
-                </svg>
+                <svg><use href="${icons}#icon-sort--ascending"></use></svg>
               </button>
               <button data-sorting-order="descending" class="btn--order ${
                 sortingMethod.name === 'dueDate' &&
@@ -62,16 +55,7 @@ class SortingOptions {
                   ? 'active'
                   : ''
               }">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
-                  <path
-                    fill="none"
-                    stroke="grey"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="48"
-                    d="M112 244l144-144 144 144M256 120v292"
-                  />
-                </svg>
+                <svg><use href="${icons}#icon-sort--descending"></use></svg>
               </button>
             </div>
           </li>

@@ -11,7 +11,3 @@ import './components/EditTaskModal';
 import './components/TaskControls';
 import './components/FiltersList';
 import './components/SortingOptions';
-
-// TODO:
-// - move all svg code to a dedicated file
-// - check if ' activeProject?. ' is necessary in the 'FiltersList' component 

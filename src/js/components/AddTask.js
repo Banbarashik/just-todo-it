@@ -1,3 +1,5 @@
+import icons from '../../img/icons.svg';
+
 import { component } from '../../../node_modules/reefjs/src/reef';
 import * as model from '../model';
 
@@ -11,12 +13,7 @@ class AddTask {
   }
 
   _template() {
-    return `
-      <svg width="40" viewBox="0 0 512 512">
-        <title>Add task</title>
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" d="M256 112v288M400 256H112"/>
-      </svg>
-    `;
+    return `<svg><title>Add task</title><use href="${icons}#icon-add-task"></use></svg>`;
   }
 
   _addHandlerOpenModal(handler) {
