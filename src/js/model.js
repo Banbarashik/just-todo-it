@@ -19,6 +19,7 @@ export const state = store({
   inbox: {
     id: 'inbox',
     title: 'Inbox',
+    dueDate: { date: '', time: '' },
     sortingMethod: {
       name: 'default',
       order: 'ascending',
@@ -48,6 +49,7 @@ export const state = store({
   today: {
     id: 'today',
     title: 'Today',
+    dueDate: { date: '', time: '' },
     sortingMethod: {
       name: 'dueDate',
       order: 'ascending',
@@ -149,6 +151,7 @@ function editItem(formData, item) {
   agentSmithObj(formDataObj, item);
 }
 
+// todo: think if it possible to create a class for creating project objects
 function formatProjectObj({ title, description, date, time }) {
   const listItemIndex =
     state.projects.length > 0
