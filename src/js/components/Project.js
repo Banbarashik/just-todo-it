@@ -18,10 +18,12 @@ class Project {
 
   _template() {
     const project = model.state.activeProject;
-    const displayDate = formatDate(project.dueDate);
 
+    // TODO: fix displaying 'Project not found' on first page load
     if (!Object.keys(project).length)
       return '<p class="error">Project not found</p>';
+
+    const displayDate = formatDate(project.dueDate.date, project.dueDate.time);
 
     return `
       <div class="project" data-id="${project.id}">
@@ -45,9 +47,7 @@ class Project {
                 : ''
             }
         </div>
-        <ul class="tasks">
-          ${this._generateTasksMarkup(project.tasks)}
-        </ul>
+        <ul class="tasks">${this._generateTasksMarkup(project.tasks)}</ul>
       </div>
     `;
   }
@@ -55,7 +55,7 @@ class Project {
   _generateTasksMarkup(tasks) {
     return tasks
       .map(function (task) {
-        const displayDate = formatDate(task.dueDate);
+        const displayDate = formatDate(task.dueDate.date, task.dueDate.time);
 
         return `
           <li class="task ${
