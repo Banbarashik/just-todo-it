@@ -84,24 +84,22 @@ const sortingMethods = [
     name: 'dueDate',
     body() {
       // this === project
+      // an arrow function is used so that 'this' is defined lexically
+      // (the scope it was called from, in this case - project)
       this.tasks.sort((a, b) => {
-        const {
-          date: dateA = dateA ? dateA : '2100-01-01',
-          time: timeA = timeA ? timeA : '23:59:59.999',
-        } = a.dueDate;
+        function createDate(dateStr, time) {
+          const dateISO =
+            `${dateStr ? dateStr : '2100-01-01'}` +
+            `T${time ? time : '23:59:59.999'}Z`;
 
-        const {
-          date: dateB = dateB ? dateB : '2100-01-01',
-          time: timeB = timeB ? timeB : '23:59:59.999',
-        } = b.dueDate;
+          return new Date(dateISO);
+        }
 
-        const taskAdate = new Date(`${dateA}T${timeA}Z`);
-        const taskBdate = new Date(`${dateB}T${timeB}Z`);
+        const dateA = createDate(a.dueDate.date, a.dueDate.time);
+        const dateB = createDate(b.dueDate.date, b.dueDate.time);
 
-        if (this.sortingMethod.order === 'ascending')
-          return taskAdate - taskBdate;
-        if (this.sortingMethod.order === 'descending')
-          return taskBdate - taskAdate;
+        if (this.sortingMethod.order === 'ascending') return dateA - dateB;
+        if (this.sortingMethod.order === 'descending') return dateB - dateA;
       });
     },
   },
