@@ -116,13 +116,8 @@ const sortingMethods = [
   },
 ];
 
-export function getAllProjects() {
-  return [...getProjectsWithOwnTasks(), state.today];
-}
-
-export function getProjectsWithOwnTasks() {
-  return [state.inbox, ...state.projects];
-}
+export const getAllProjects = () => [...getProjectsWithOwnTasks(), state.today];
+export const getProjectsWithOwnTasks = () => [state.inbox, ...state.projects];
 
 function retrieveProjectsFromLocalStorage() {
   for (let i = 0; i < localStorage.length; i++) {
