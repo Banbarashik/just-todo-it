@@ -31,6 +31,7 @@ export const isToday = dateStr => isTheDate(0, dateStr);
 const isTomorrow = dateStr => isTheDate(1, dateStr);
 
 export function formatDate(dateStr, time) {
+  console.log(dateStr, time);
   if (!dateStr) return;
 
   if (isYesterday(dateStr)) return `Yesterday ${time}`;

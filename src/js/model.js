@@ -19,7 +19,7 @@ export const state = store({
   inbox: {
     id: 'inbox',
     title: 'Inbox',
-    dueDate: { date: '', time: '' },
+    dueDate: { dateStr: '', time: '' },
     sortingMethod: {
       name: 'default',
       order: 'ascending',
@@ -38,7 +38,7 @@ export const state = store({
         title: 'Create an inbox page',
         description: '',
         dueDate: {
-          date: '2022-11-09',
+          dateStr: '2022-11-09',
           time: '11:09',
         },
         projectId: 'inbox',
@@ -49,14 +49,14 @@ export const state = store({
   today: {
     id: 'today',
     title: 'Today',
-    dueDate: { date: '', time: '' },
+    dueDate: { dateStr: '', time: '' },
     sortingMethod: {
       name: 'dueDate',
       order: 'ascending',
       body() {
         state.today.tasks.sort((a, b) => {
-          const { date: dateA, time: timeA } = a.dueDate;
-          const { date: dateB, time: timeB } = b.dueDate;
+          const { dateStr: dateA, time: timeA } = a.dueDate;
+          const { dateStr: dateB, time: timeB } = b.dueDate;
 
           return (
             new Date(
@@ -95,8 +95,8 @@ const sortingMethods = [
           return new Date(dateISO);
         }
 
-        const dateA = createDate(a.dueDate.date, a.dueDate.time);
-        const dateB = createDate(b.dueDate.date, b.dueDate.time);
+        const dateA = createDate(a.dueDate.dateStr, a.dueDate.time);
+        const dateB = createDate(b.dueDate.dateStr, b.dueDate.time);
 
         if (this.sortingMethod.order === 'ascending') return dateA - dateB;
         if (this.sortingMethod.order === 'descending') return dateB - dateA;
@@ -137,15 +137,15 @@ function retrieveProjectsFromLocalStorage() {
 
 function editItem(formData, item) {
   // Create a copy of the 'formData' obj
-  const { date, time, ...formDataObj } = structuredClone(formData);
+  const { dateStr, time, ...formDataObj } = structuredClone(formData);
   // Format the copy obj's props to have the same structure as project obj
-  formDataObj.dueDate = { date, time };
+  formDataObj.dueDate = { dateStr, time };
 
   agentSmithObj(formDataObj, item);
 }
 
 // todo: think if it possible to create a class for creating project objects
-function formatProjectObj({ title, description, date, time }) {
+function formatProjectObj({ title, description, date: dateStr, time }) {
   const listItemIndex =
     state.projects.length > 0
       ? state.projects[state.projects.length - 1].listItemIndex + 1
@@ -155,7 +155,7 @@ function formatProjectObj({ title, description, date, time }) {
     id: Date.now().toString(),
     title,
     description,
-    dueDate: { date, time },
+    dueDate: { dateStr, time },
     listItemIndex,
     tasks: [],
     sortingMethod: {
@@ -167,12 +167,12 @@ function formatProjectObj({ title, description, date, time }) {
   };
 }
 
-function formatTaskObj({ projectId, title, description, date, time }) {
+function formatTaskObj({ projectId, title, description, date: dateStr, time }) {
   return {
     id: Date.now().toString(),
     title,
     description,
-    dueDate: { date, time },
+    dueDate: { dateStr, time },
     projectId,
     isCompleted: false,
   };
@@ -209,7 +209,7 @@ export function setSortingMethod(
 
 export function setTodayTasks() {
   state.today.tasks = getProjectsWithOwnTasks()
-    .map(project => project.tasks.filter(task => isToday(task.dueDate.date)))
+    .map(project => project.tasks.filter(task => isToday(task.dueDate.dateStr)))
     .flat();
 
   state.today.sortingMethod.body();

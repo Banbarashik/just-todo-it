@@ -23,7 +23,10 @@ class Project {
     if (!Object.keys(project).length)
       return '<p class="error">Project not found</p>';
 
-    const displayDate = formatDate(project.dueDate.date, project.dueDate.time);
+    const displayDate = formatDate(
+      project.dueDate.dateStr,
+      project.dueDate.time
+    );
 
     return `
       <div class="project" data-id="${project.id}">
@@ -55,7 +58,8 @@ class Project {
   _generateTasksMarkup(tasks) {
     return tasks
       .map(function (task) {
-        const displayDate = formatDate(task.dueDate.date, task.dueDate.time);
+        const displayDate = formatDate(task.dueDate.dateStr, task.dueDate.time);
+        console.log(displayDate);
 
         return `
           <li class="task ${
