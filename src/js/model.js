@@ -144,6 +144,10 @@ function retrieveProjectsFromLocalStorage() {
   }
 }
 
+function sortProjectListItems() {
+  state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
+}
+
 function editItem(formData, item) {
   // Create a copy of the 'formData' obj
   const { dateStr, time, ...formDataObj } = structuredClone(formData);
@@ -298,7 +302,7 @@ export function toggleTaskCompletion(task) {
 
 function init() {
   retrieveProjectsFromLocalStorage();
-  state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
+  sortProjectListItems();
 }
 
 init();
