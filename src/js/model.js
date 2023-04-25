@@ -145,7 +145,7 @@ function editItem(formData, item) {
 }
 
 // todo: think if it possible to create a class for creating project objects
-function formatProjectObj({ title, description, date: dateStr, time }) {
+function formatProjectObj(formData) {
   const listItemIndex =
     state.projects.length > 0
       ? state.projects[state.projects.length - 1].listItemIndex + 1
@@ -153,9 +153,12 @@ function formatProjectObj({ title, description, date: dateStr, time }) {
 
   return {
     id: Date.now().toString(),
-    title,
-    description,
-    dueDate: { dateStr, time },
+    title: formData.title,
+    description: formData.description,
+    dueDate: {
+      dateStr: formData.date,
+      time: formData.time,
+    },
     listItemIndex,
     tasks: [],
     sortingMethod: {
@@ -167,13 +170,16 @@ function formatProjectObj({ title, description, date: dateStr, time }) {
   };
 }
 
-function formatTaskObj({ projectId, title, description, date: dateStr, time }) {
+function formatTaskObj(formData) {
   return {
     id: Date.now().toString(),
-    title,
-    description,
-    dueDate: { dateStr, time },
-    projectId,
+    title: formData.title,
+    description: formData.description,
+    dueDate: {
+      dateStr: formData.date,
+      time: formData.time,
+    },
+    projectId: formData.projectId,
     isCompleted: false,
   };
 }
