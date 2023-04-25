@@ -28,8 +28,8 @@ export const state = store({
       body() {
         state.inbox.tasks.sort(
           (a, b) =>
-            state.inbox.sortingMethod.defaultOrder.indexOf(a.id) -
-            state.inbox.sortingMethod.defaultOrder.indexOf(b.id)
+            this.sortingMethod.defaultOrder.indexOf(a.id) -
+            this.sortingMethod.defaultOrder.indexOf(b.id)
         );
       },
     },
@@ -56,21 +56,19 @@ export const state = store({
       order: 'ascending',
       body() {
         state.today.tasks.sort((a, b) => {
-          const { dateStr: dateA, time: timeA } = a.dueDate;
-          const { dateStr: dateB, time: timeB } = b.dueDate;
+          function createDate(dateStr, time) {
+            const dateISO =
+              `${dateStr ? dateStr : '2100-01-01'}` +
+              `T${time ? time : '23:59:59.999'}Z`;
 
-          return (
-            new Date(
-              `${dateA ? dateA : '2100-01-01'}T${
-                timeA ? timeA : '23:59:59.999'
-              }Z`
-            ) -
-            new Date(
-              `${dateB ? dateB : '2100-01-01'}T${
-                timeB ? timeB : '23:59:59.999'
-              }Z`
-            )
-          );
+            return new Date(dateISO);
+          }
+
+          const dateA = createDate(a.dueDate.dateStr, a.dueDate.time);
+          const dateB = createDate(b.dueDate.dateStr, b.dueDate.time);
+
+          if (this.sortingMethod.order === 'ascending') return dateA - dateB;
+          if (this.sortingMethod.order === 'descending') return dateB - dateA;
         });
       },
     },
