@@ -10,8 +10,8 @@ class Project {
   _sortable;
 
   constructor() {
-    this._addHandlerMakeProjectActive();
-    this._addHandlerMakeTasksListDND();
+    this._addHandlerMakeProjectActive(this._makeProjectActive.bind(this));
+    this._addHandlerMakeTasksListDND(this._makeTasksListDND.bind(this));
 
     component(this._parentElement, this._template.bind(this));
   }
@@ -59,7 +59,6 @@ class Project {
     return tasks
       .map(function (task) {
         const displayDate = formatDate(task.dueDate.dateStr, task.dueDate.time);
-        console.log(displayDate);
 
         return `
           <li class="task ${
@@ -116,38 +115,40 @@ class Project {
     });
   }
 
-  _addHandlerMakeTasksListDND() {
-    this._parentElement.addEventListener('reef:render', () => {
-      const project = this._parentElement.querySelector('.project');
+  _makeTasksListDND() {
+    const project = this._parentElement.querySelector('.project');
 
-      // check whether the component has been rendered and thereof the list
-      // of tasks is available to create a Sortable instance upon (or it will throw an err)
-      if (!project) return;
+    // check whether the component has been rendered and thereof the list
+    // of tasks is available to create a Sortable instance upon (or it will throw an err)
+    if (!project) return;
 
-      // check that there's no sortable instance yet (executes only once)
-      if (!this._sortable) this._createSortableInstance();
+    // check that there's no sortable instance yet (executes only once)
+    if (!this._sortable) this._createSortableInstance();
 
-      // disable the sortable if true (= the project's sorting method isn't 'default')
-      this._sortable.option(
-        'disabled',
-        model.state.activeProject.sortingMethod.name !== 'default'
-      );
+    // disable the sortable if true (= the project's sorting method isn't 'default')
+    this._sortable.option(
+      'disabled',
+      model.state.activeProject.sortingMethod.name !== 'default'
+    );
 
-      // 'cursor: grab' when hovering a task if the sortable isn't disabled
-      if (!this._sortable.options.disabled)
-        this._sortable.el.classList.add('draggable');
-    });
+    // 'cursor: grab' when hovering a task if the sortable isn't disabled
+    if (!this._sortable.options.disabled)
+      this._sortable.el.classList.add('draggable');
   }
 
-  _addHandlerMakeProjectActive() {
-    ['hashchange', 'load'].forEach(function (ev) {
-      window.addEventListener(ev, function () {
-        const id = window.location.hash.slice(1);
-        if (!id) changeHash(model.state.today.id);
-        else model.setProjectAsActive(id);
-        model.setTodayTasks();
-      });
-    });
+  _makeProjectActive() {
+    const id = window.location.hash.slice(1);
+    if (!id) changeHash(model.state.today.id);
+    else model.setProjectAsActive(id);
+    model.setTodayTasks();
+  }
+
+  _addHandlerMakeTasksListDND(handler) {
+    this._parentElement.addEventListener('reef:render', handler);
+  }
+
+  _addHandlerMakeProjectActive(handler) {
+    ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
   }
 }
 
