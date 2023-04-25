@@ -119,6 +119,16 @@ const sortingMethods = [
 export const getAllProjects = () => [...getProjectsWithOwnTasks(), state.today];
 export const getProjectsWithOwnTasks = () => [state.inbox, ...state.projects];
 
+function getProjectListItemIndex() {
+  if (state.projects.length > 0) {
+    const precedingProject = state.projects[state.projects.length - 1];
+
+    return precedingProject.listItemIndex + 1;
+  }
+
+  return 0;
+}
+
 function retrieveProjectsFromLocalStorage() {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
@@ -146,11 +156,6 @@ function editItem(formData, item) {
 
 // todo: think if it possible to create a class for creating project objects
 function formatProjectObj(formData) {
-  const listItemIndex =
-    state.projects.length > 0
-      ? state.projects[state.projects.length - 1].listItemIndex + 1
-      : 0;
-
   return {
     id: Date.now().toString(),
     title: formData.title,
@@ -159,7 +164,7 @@ function formatProjectObj(formData) {
       dateStr: formData.date,
       time: formData.time,
     },
-    listItemIndex,
+    listItemIndex: getProjectListItemIndex(),
     tasks: [],
     sortingMethod: {
       name: 'default',
