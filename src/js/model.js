@@ -6,6 +6,7 @@ import {
   loadFromLocalStorage,
   removeFromLocalStorage,
   changeHash,
+  generateID,
 } from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
@@ -157,7 +158,7 @@ function editItem(formData, item) {
 // todo: think if it possible to create a class for creating project objects
 function formatProjectObj(formData) {
   return {
-    id: Date.now().toString(),
+    id: generateID(),
     title: formData.title,
     description: formData.description,
     dueDate: {
@@ -177,7 +178,7 @@ function formatProjectObj(formData) {
 
 function formatTaskObj(formData) {
   return {
-    id: Date.now().toString(),
+    id: generateID(),
     title: formData.title,
     description: formData.description,
     dueDate: {

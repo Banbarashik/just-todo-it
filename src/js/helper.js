@@ -15,6 +15,8 @@ class MixinBuilder {
 
 export const cap1stLtr = str => str.replace(/^\w/, c => c.toUpperCase());
 
+export const generateID = () => Date.now().toString();
+
 function isTheDate(daysFromTodayOffset, dateStr) {
   const today = new Date();
 
