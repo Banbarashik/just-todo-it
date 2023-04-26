@@ -144,7 +144,7 @@ function retrieveProjectsFromLocalStorage() {
   }
 }
 
-function sortProjectListItems() {
+function sortProjectsList() {
   state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
 }
 
@@ -256,7 +256,7 @@ export function deleteProject({ project }) {
   state.projects.splice(index, 1);
   removeFromLocalStorage(project.id);
 
-  setTodayTasks(); // remove today's tasks that belonged to the deleted project
+  setTodayTasks(); // remove today's tasks that belong to the deleted project
 
   if (state.activeProject.id === project.id) changeHash(state.inbox.id);
 }
@@ -302,7 +302,7 @@ export function toggleTaskCompletion(task) {
 
 function init() {
   retrieveProjectsFromLocalStorage();
-  sortProjectListItems();
+  sortProjectsList();
 }
 
 init();
