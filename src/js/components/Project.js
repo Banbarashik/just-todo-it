@@ -13,13 +13,15 @@ class Project {
     this._addHandlerMakeProjectActive(this._makeProjectActive.bind(this));
     this._addHandlerMakeTasksListDND(this._makeTasksListDND.bind(this));
 
+    // execute synchronously to escape a race condition (before executed on the 'load' event)
+    this._makeProjectActive();
+
     component(this._parentElement, this._template.bind(this));
   }
 
   _template() {
     const project = model.state.activeProject;
 
-    // TODO: fix displaying 'Project not found' on first page load
     if (!Object.keys(project).length)
       return '<p class="error">Project not found</p>';
 
@@ -148,7 +150,7 @@ class Project {
   }
 
   _addHandlerMakeProjectActive(handler) {
-    ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
+    window.addEventListener('hashchange', handler);
   }
 }
 
