@@ -13,7 +13,11 @@ export default class Controls {
                 }completed</li>`
               : ''
           }
-          <li class="menu-item btn--edit-item">Edit ${this._itemType}</li>
+          ${
+            this.state.task?.isCompleted
+              ? ''
+              : `<li class="menu-item btn--edit-item">Edit ${this._itemType}</li>`
+          }
           <li class="menu-item btn--delete-item">Delete ${this._itemType}</li>
         </ul>
       </div>
