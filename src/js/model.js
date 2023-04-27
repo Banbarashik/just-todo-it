@@ -223,7 +223,11 @@ export function setSortingMethod(
 
 export function setTodayTasks() {
   state.today.tasks = getProjectsWithOwnTasks()
-    .map(project => project.tasks.filter(task => isToday(task.dueDate.dateStr)))
+    .map(project =>
+      project.tasks.filter(
+        task => isToday(task.dueDate.dateStr) && !task.isCompleted
+      )
+    )
     .flat();
 
   state.today.sortingMethod.body();
