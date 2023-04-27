@@ -36,8 +36,16 @@
     visibility: visible;
   }
 
-  &.completed &__title {
-    text-decoration: line-through;
+  &.completed {
+    cursor: default;
+
+    .task__title {
+      text-decoration: line-through;
+    }
+
+    *:not(.btn--task-controls) {
+      cursor: default;
+    }
   }
 }
 

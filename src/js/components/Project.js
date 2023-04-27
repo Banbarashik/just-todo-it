@@ -104,6 +104,7 @@ class Project {
 
     this._sortable = Sortable.create(listOfTasks, {
       forceFallback: true,
+      filter: '.completed',
       onStart: toggleClasses,
       onEnd: toggleClasses,
       onUpdate() {
@@ -117,6 +118,7 @@ class Project {
     });
   }
 
+  //? is 'makeTasksListDND' a fitting name? this func does another things
   _makeTasksListDND() {
     const project = this._parentElement.querySelector('.project');
 
