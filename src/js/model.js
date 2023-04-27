@@ -298,6 +298,8 @@ export function deleteTask({ project, task }) {
 
 export function toggleTaskCompletion(task) {
   task.isCompleted = !task.isCompleted;
+
+  updateStateOnTaskChange(this.state.activeProject);
 }
 
 function init() {
