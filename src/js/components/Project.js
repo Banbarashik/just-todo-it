@@ -67,13 +67,15 @@ class Project {
 
   _generateTasksMarkup(tasks) {
     return tasks
-      .map(function (task) {
+      .map(task => {
+        if (!this.state.areCompletedTasksShown && task.isCompleted) return '';
+
         const displayDate = formatDate(task.dueDate.dateStr, task.dueDate.time);
 
         return `
-          <li class="task ${
-            task.isCompleted ? 'completed' : ''
-          }" data-id="${task.id}">
+          <li class="task ${task.isCompleted ? 'completed' : ''}" data-id="${
+          task.id
+        }">
             <p class="task__title">${task.title}</p>
             <p class="task__description">${task.description}</p>
             ${displayDate ? `<p class="task__due-date">${displayDate}</p>` : ''}
