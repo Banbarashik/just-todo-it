@@ -1,7 +1,7 @@
 import icons from '../../img/icons.svg';
 
 import Sortable from 'sortablejs';
-import { component } from '../../../node_modules/reefjs/src/reef';
+import { component, store } from '../../../node_modules/reefjs/src/reef';
 import { formatDate, storeInLocalStorage, changeHash } from '../helper';
 import * as model from '../model';
 
@@ -9,12 +9,15 @@ class Project {
   _parentElement = document.querySelector('.project-window');
   _sortable;
 
-  constructor() {
+  constructor(state) {
     this._addHandlerMakeProjectActive(this._makeProjectActive.bind(this));
     this._addHandlerMakeTasksListDND(this._makeTasksListDND.bind(this));
+    this._addHandlerToggleCompletedTasks(this._toggleCompletedTasks.bind(this));
 
-    // execute synchronously to escape a race condition (before executed on the 'load' event)
+    //* execute synchronously to escape a race condition (before executed on the 'load' event)
     this._makeProjectActive();
+
+    this.state = state;
 
     component(this._parentElement, this._template.bind(this));
   }
@@ -37,6 +40,11 @@ class Project {
           <ul class="project__settings-list">
             <li>
               <button class="project__settings-item btn--sort-by">Sorting method</button>
+            </li>
+            <li>
+              <button class="project__settings-item btn--toggle-completed-tasks">${
+                this.state.areCompletedTasksShown ? 'Hide' : 'Show'
+              } completed tasks</button>
             </li>
           </ul>
         </div>
@@ -147,6 +155,13 @@ class Project {
     model.setTodayTasks();
   }
 
+  _toggleCompletedTasks(e) {
+    const btn = e.target.closest('.btn--toggle-completed-tasks');
+
+    if (btn)
+      this.state.areCompletedTasksShown = !this.state.areCompletedTasksShown;
+  }
+
   _addHandlerMakeTasksListDND(handler) {
     this._parentElement.addEventListener('reef:render', handler);
   }
@@ -154,6 +169,12 @@ class Project {
   _addHandlerMakeProjectActive(handler) {
     window.addEventListener('hashchange', handler);
   }
+
+  _addHandlerToggleCompletedTasks(handler) {
+    this._parentElement.addEventListener('click', handler);
+  }
 }
 
-export default new Project();
+const state = store({ areCompletedTasksShown: true });
+
+export default new Project(state);
