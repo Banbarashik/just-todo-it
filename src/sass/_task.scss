@@ -37,14 +37,13 @@
   }
 
   &.completed {
-    cursor: default;
+    &,
+    *:not(.btn--task-controls, .btn--task-controls *) {
+      cursor: default;
+    }
 
     .task__title {
       text-decoration: line-through;
-    }
-
-    *:not(.btn--task-controls) {
-      cursor: default;
     }
   }
 }
