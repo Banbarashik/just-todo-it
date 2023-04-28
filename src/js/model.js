@@ -167,8 +167,12 @@ function formatProjectObj(formData) {
       dateStr: formData.date,
       time: formData.time,
     },
+
     listItemIndex: getProjectListItemIndex(),
+
     tasks: [],
+    areCompletedTasksShown: true,
+
     sortingMethod: {
       name: 'default',
       order: 'ascending',
@@ -217,6 +221,12 @@ export function setSortingMethod(
   });
 
   project.sortingMethod.body();
+
+  storeInLocalStorage(project.id, project);
+}
+
+export function toggleProjectCompletedTasks(project) {
+  project.areCompletedTasksShown = !project.areCompletedTasksShown;
 
   storeInLocalStorage(project.id, project);
 }

@@ -1,7 +1,7 @@
 import icons from '../../img/icons.svg';
 
 import Sortable from 'sortablejs';
-import { component, store } from '../../../node_modules/reefjs/src/reef';
+import { component } from '../../../node_modules/reefjs/src/reef';
 import { formatDate, storeInLocalStorage, changeHash } from '../helper';
 import * as model from '../model';
 
@@ -9,15 +9,13 @@ class Project {
   _parentElement = document.querySelector('.project-window');
   _sortable;
 
-  constructor(state) {
+  constructor() {
     this._addHandlerMakeProjectActive(this._makeProjectActive.bind(this));
     this._addHandlerMakeTasksListDND(this._makeTasksListDND.bind(this));
-    this._addHandlerToggleCompletedTasks(this._toggleCompletedTasks.bind(this));
+    this._addHandlerToggleCompletedTasks(model.toggleProjectCompletedTasks);
 
     //* execute synchronously to escape a race condition (before executed on the 'load' event)
     this._makeProjectActive();
-
-    this.state = state;
 
     component(this._parentElement, this._template.bind(this));
   }
@@ -43,7 +41,7 @@ class Project {
             </li>
             <li>
               <button class="project__settings-item btn--toggle-completed-tasks">${
-                this.state.areCompletedTasksShown ? 'Hide' : 'Show'
+                project.areCompletedTasksShown ? 'Hide' : 'Show'
               } completed tasks</button>
             </li>
           </ul>
@@ -60,22 +58,22 @@ class Project {
                 : ''
             }
         </div>
-        <ul class="tasks">${this._generateTasksMarkup(project.tasks)}</ul>
+        <ul class="tasks">${this._generateTasksMarkup(project)}</ul>
       </div>
     `;
   }
 
-  _generateTasksMarkup(tasks) {
-    return tasks
-      .map(task => {
-        if (!this.state.areCompletedTasksShown && task.isCompleted) return '';
+  _generateTasksMarkup(project) {
+    return project.tasks
+      .map(function (task) {
+        if (!project.areCompletedTasksShown && task.isCompleted) return '';
 
         const displayDate = formatDate(task.dueDate.dateStr, task.dueDate.time);
 
         return `
-          <li class="task ${task.isCompleted ? 'completed' : ''}" data-id="${
-          task.id
-        }">
+          <li class="task ${
+            task.isCompleted ? 'completed' : ''
+          }" data-id="${task.id}">
             <p class="task__title">${task.title}</p>
             <p class="task__description">${task.description}</p>
             ${displayDate ? `<p class="task__due-date">${displayDate}</p>` : ''}
@@ -160,8 +158,7 @@ class Project {
   _toggleCompletedTasks(e) {
     const btn = e.target.closest('.btn--toggle-completed-tasks');
 
-    if (btn)
-      this.state.areCompletedTasksShown = !this.state.areCompletedTasksShown;
+    if (btn) handler(model.state.activeProject);
   }
 
   _addHandlerMakeTasksListDND(handler) {
@@ -173,10 +170,12 @@ class Project {
   }
 
   _addHandlerToggleCompletedTasks(handler) {
-    this._parentElement.addEventListener('click', handler);
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--toggle-completed-tasks');
+
+      if (btn) handler(model.state.activeProject);
+    });
   }
 }
 
-const state = store({ areCompletedTasksShown: true });
-
-export default new Project(state);
+export default new Project();
