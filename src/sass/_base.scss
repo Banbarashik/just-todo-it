@@ -21,6 +21,8 @@ html {
 
 body {
   display: flex;
+  overflow-y: hidden;
+
   height: 100vh;
 
   font-family: system-ui, 'Segoe UI';
