@@ -11,3 +11,4 @@ import './components/EditTaskModal';
 import './components/TaskControls';
 import './components/FiltersList';
 import './components/SortingOptions';
+import './components/ShiaLaBeouf';
