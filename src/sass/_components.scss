@@ -150,8 +150,9 @@
   cursor: pointer;
 
   transition: all 0.6s;
-}
 
-.shia-la-beouf:hover {
-  transform: translateY(-72%);
+  &.active,
+  &:hover {
+    transform: translateY(-72%);
+  }
 }

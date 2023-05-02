@@ -9,7 +9,8 @@ class ShiaLaBeouf {
   _parentElement = document.querySelector('.shia-la-beouf');
 
   constructor() {
-    this._addHandlerPlaySound(this._playSound);
+    this._addHandlerPlaySound(this._playSound.bind(this));
+    this._addHandlerToggleShiaLaBeauf(this._toggleShiaLaBeauf.bind(this));
 
     component(this._parentElement, this._template);
   }
@@ -25,8 +26,17 @@ class ShiaLaBeouf {
     audio.play();
   }
 
+  _toggleShiaLaBeauf() {
+    this._parentElement.classList.toggle('active');
+  }
+
   _addHandlerPlaySound(handler) {
     this._parentElement.addEventListener('click', handler);
+  }
+  _addHandlerToggleShiaLaBeauf(handler) {
+    sounds.forEach(sound =>
+      ['play', 'ended'].forEach(ev => sound.addEventListener(ev, handler))
+    );
   }
 }
 
