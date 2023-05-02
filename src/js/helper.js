@@ -75,3 +75,8 @@ export function changeHash(hash) {
   window.history.pushState(null, '', `#${hash}`);
   window.dispatchEvent(new HashChangeEvent('hashchange'));
 }
+
+export const importAll = requireFunction =>
+  requireFunction.keys().map(key => requireFunction(key));
+
+export const getRandomArrItem = arr => arr[(Math.random() * arr.length) | 0];
