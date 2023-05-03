@@ -1,6 +1,5 @@
 import { store } from '../../node_modules/reefjs/src/reef';
 import {
-  agentSmithObj,
   isToday,
   storeInLocalStorage,
   loadFromLocalStorage,
@@ -148,19 +147,10 @@ function sortProjectsList() {
   state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
 }
 
-function editItem(formData, item) {
-  // Create a copy of the 'formData' obj
-  const { dateStr, time, ...formDataObj } = structuredClone(formData);
-  // Format the copy obj's props to have the same structure as project obj
-  formDataObj.dueDate = { dateStr, time };
-
-  agentSmithObj(formDataObj, item);
-}
-
 // todo: think if it possible to create a class for creating project objects
-function formatProjectObj(formData) {
+function formatProjectObj(formData, project) {
   return {
-    id: generateID(),
+    id: project ? project.id : generateID(),
     title: formData.title,
     description: formData.description,
     dueDate: {
@@ -170,7 +160,7 @@ function formatProjectObj(formData) {
 
     listItemIndex: getProjectListItemIndex(),
 
-    tasks: [],
+    tasks: project ? project.tasks : [],
     areCompletedTasksShown: true,
 
     sortingMethod: {
@@ -182,9 +172,9 @@ function formatProjectObj(formData) {
   };
 }
 
-function formatTaskObj(formData) {
+function formatTaskObj(formData, task) {
   return {
-    id: generateID(),
+    id: task ? task.id : generateID(),
     title: formData.title,
     description: formData.description,
     dueDate: {
@@ -260,7 +250,12 @@ export function addProject({ formData }) {
 }
 
 export function editProject({ formData, project }) {
-  editItem(formData, project);
+  const index = state.projects.findIndex(
+    projectItem => projectItem.id === project.id
+  );
+  state.projects[index] = formatProjectObj(formData, project);
+
+  setProjectAsActive(project.id);
   storeInLocalStorage(project.id, project);
 }
 
@@ -288,7 +283,8 @@ export function addTask({ formData, task = formatTaskObj(formData) }) {
 }
 
 export function editTask({ formData, project, task }) {
-  editItem(formData, task);
+  const index = project.tasks.findIndex(taskItem => taskItem.id === task.id);
+  project.tasks[index] = formatTaskObj(formData, task);
 
   if (task.projectId !== project.id) {
     deleteTask(project, task);

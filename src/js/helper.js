@@ -47,17 +47,6 @@ export function formatDate(dateStr, time) {
   return `${dayOfMonth} ${monthName} ${year === currentYear ? '' : year} ${time}`;
 }
 
-export function agentSmithObj(smithObj, origObj) {
-  Object.keys(smithObj).forEach(function (key) {
-    if (smithObj[key] === origObj[key]) return;
-
-    if (typeof smithObj[key] === 'object')
-      agentSmithObj(smithObj[key], origObj[key]);
-
-    origObj[key] = smithObj[key];
-  });
-}
-
 export function storeInLocalStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
 }
