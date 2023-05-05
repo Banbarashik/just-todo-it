@@ -259,15 +259,15 @@ export function editProject({ formData, project }) {
   storeInLocalStorage(project.id, project);
 }
 
-export function deleteProject({ project }) {
-  const index = state.projects.findIndex(({ id }) => id === project.id);
+export function deleteProject({ projectId }) {
+  const index = state.projects.findIndex(({ id }) => id === projectId);
 
   state.projects.splice(index, 1);
-  removeFromLocalStorage(project.id);
+  removeFromLocalStorage(projectId);
 
   setTodayTasks(); // remove today's tasks that belong to the deleted project
 
-  if (state.activeProject.id === project.id) changeHash(state.inbox.id);
+  if (state.activeProject.id === projectId) changeHash(state.inbox.id);
 }
 
 export function addTask({ formData, task = formatTaskObj(formData) }) {
