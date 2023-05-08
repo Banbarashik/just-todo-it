@@ -118,7 +118,7 @@ class Project {
       onUpdate() {
         const { activeProject } = model.state;
 
-        model.setDefaultOrder(activeProject, this.toArray());
+        model.setDefaultOrder(activeProject.id, this.toArray());
         activeProject.sortingMethod.body();
 
         storeInLocalStorage(activeProject.id, activeProject);

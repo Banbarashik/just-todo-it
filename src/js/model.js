@@ -188,7 +188,9 @@ function formatTaskObj(formData, task) {
 
 // Updates to be made when a task changes (e.g., added, edited, deleted)
 function updateStateOnTaskChange(projectId) {
+  console.log(projectId);
   const project = state.projects.find(project => project.id === projectId);
+  console.log(project);
 
   project.sortingMethod.body();
   storeInLocalStorage(project.id, project);
@@ -196,7 +198,8 @@ function updateStateOnTaskChange(projectId) {
 }
 
 // TODO remove a parameter mutation
-export function setDefaultOrder(project, order) {
+export function setDefaultOrder(projectId, order) {
+  const project = state.projects.find(project => project.id === projectId);
   project.sortingMethod.defaultOrder = order;
 }
 
@@ -273,16 +276,20 @@ export function deleteProject({ projectId }) {
   if (state.activeProject.id === projectId) changeHash(state.inbox.id);
 }
 
+// FIXME now the func only works for adding a completely new task
+// make so that it can work with a previously created task (fix 'projectId')
 export function addTask({
   formData,
   task = formatTaskObj(formData),
   projectId,
 }) {
-  const project = getProjectsWithOwnTasks().find(({ id }) => id === projectId);
+  const project = getProjectsWithOwnTasks().find(
+    project => project.id === task.projectId
+  ); // FIXME refactor
   const updatedDefOrder = [...project.sortingMethod.defaultOrder, task.id];
 
   project.tasks.push(task);
-  setDefaultOrder(project, updatedDefOrder);
+  setDefaultOrder(project.id, updatedDefOrder); // FIXME refactor
 
   updateStateOnTaskChange(project.id);
 }
@@ -310,7 +317,7 @@ export function deleteTask({ projectId, taskId }) {
   );
 
   project.tasks.splice(taskIndex, 1);
-  setDefaultOrder(project, updatedDefOrder);
+  setDefaultOrder(projectId, updatedDefOrder);
 
   updateStateOnTaskChange(projectId);
 }
