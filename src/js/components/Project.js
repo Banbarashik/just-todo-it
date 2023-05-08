@@ -172,8 +172,7 @@ class Project {
   _addHandlerToggleCompletedTasks(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--toggle-completed-tasks');
-
-      if (btn) handler(model.state.activeProject);
+      if (btn) handler();
     });
   }
 }

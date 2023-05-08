@@ -215,10 +215,9 @@ export function setSortingMethod(
   storeInLocalStorage(project.id, project);
 }
 
-// TODO remove a parameter mutation
-export function toggleProjectCompletedTasks(project) {
+export function toggleProjectCompletedTasks() {
+  const project = state.activeProject;
   project.areCompletedTasksShown = !project.areCompletedTasksShown;
-
   storeInLocalStorage(project.id, project);
 }
 
