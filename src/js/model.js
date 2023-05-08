@@ -187,12 +187,14 @@ function formatTaskObj(formData, task) {
 }
 
 // Updates to be made when a task changes (e.g., added, edited, deleted)
+// TODO remove a parameter mutation
 function updateStateOnTaskChange(project) {
   project.sortingMethod.body();
   storeInLocalStorage(project.id, project);
   setTodayTasks();
 }
 
+// TODO remove a parameter mutation
 export function setDefaultOrder(project, order) {
   project.sortingMethod.defaultOrder = order;
 }
@@ -295,11 +297,12 @@ export function editTask({ formData, project, task }) {
   updateStateOnTaskChange(project);
 }
 
-// TODO remove a parameter mutation
-export function deleteTask({ project, task }) {
-  const taskIndex = project.tasks.findIndex(({ id }) => id === task.id);
+export function deleteTask({ projectId, taskId }) {
+  const project = state.projects.find(project => project.id === projectId);
+  const taskIndex = project.tasks.findIndex(task => task.id === taskId);
+
   const updatedDefOrder = project.sortingMethod.defaultOrder.filter(
-    id => id !== task.id
+    id => id !== taskId
   );
 
   project.tasks.splice(taskIndex, 1);

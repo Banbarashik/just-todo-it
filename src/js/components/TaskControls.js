@@ -47,8 +47,8 @@ class TaskControls extends Controls {
     super._deleteItem({
       event: e,
       handler: model.deleteTask,
-      project: this.state.project,
-      task: this.state.task,
+      projectId: this.state.project.id,
+      taskId: this.state.task.id,
     });
   }
 
