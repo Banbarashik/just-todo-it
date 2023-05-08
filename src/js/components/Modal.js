@@ -58,12 +58,12 @@ export default class Modal {
     this.state.isModalOpened = false;
   }
 
-  _submit({ event, handler, project, task }) {
+  _submit({ event, handler, projectId, taskId }) {
     event.preventDefault();
     const form = event.target;
     const dataArr = [...new FormData(form)];
     const formData = Object.fromEntries(dataArr);
-    handler({ formData, project, task });
+    handler({ formData, projectId, taskId });
     this.state.isModalOpened = false;
   }
 

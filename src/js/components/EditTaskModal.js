@@ -25,8 +25,8 @@ class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
     super._submit({
       event: e,
       handler: model.editTask,
-      project: model.TaskControls.state.project,
-      task: model.TaskControls.state.task,
+      projectId: model.TaskControls.state.project.id,
+      taskId: model.TaskControls.state.task.id,
     });
   }
 

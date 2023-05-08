@@ -187,8 +187,9 @@ function formatTaskObj(formData, task) {
 }
 
 // Updates to be made when a task changes (e.g., added, edited, deleted)
-// TODO remove a parameter mutation
-function updateStateOnTaskChange(project) {
+function updateStateOnTaskChange(projectId) {
+  const project = state.projects.find(project => project.id === projectId);
+
   project.sortingMethod.body();
   storeInLocalStorage(project.id, project);
   setTodayTasks();
@@ -272,29 +273,32 @@ export function deleteProject({ projectId }) {
   if (state.activeProject.id === projectId) changeHash(state.inbox.id);
 }
 
-export function addTask({ formData, task = formatTaskObj(formData) }) {
-  const project = getProjectsWithOwnTasks().find(
-    ({ id }) => id === task.projectId
-  );
+export function addTask({
+  formData,
+  task = formatTaskObj(formData),
+  projectId,
+}) {
+  const project = getProjectsWithOwnTasks().find(({ id }) => id === projectId);
   const updatedDefOrder = [...project.sortingMethod.defaultOrder, task.id];
 
   project.tasks.push(task);
   setDefaultOrder(project, updatedDefOrder);
 
-  updateStateOnTaskChange(project);
+  updateStateOnTaskChange(project.id);
 }
 
-// TODO remove a parameter mutation
-export function editTask({ formData, project, task }) {
-  const index = project.tasks.findIndex(taskItem => taskItem.id === task.id);
-  project.tasks[index] = formatTaskObj(formData, task);
+export function editTask({ formData, projectId, taskId }) {
+  const newProjectId = formData.projectId;
 
-  if (task.projectId !== project.id) {
-    deleteTask({ projectId: project.id, taskId: task.id });
-    addTask({ task });
+  const project = state.projects.find(project => project.id === projectId);
+  const task = project.tasks.find(task => task.id === taskId);
+
+  if (newProjectId !== projectId) {
+    deleteTask({ projectId, taskId });
+    addTask({ task: formatTaskObj(formData, task), projectId: newProjectId });
   }
 
-  updateStateOnTaskChange(project); // FIXME should get a project's ID
+  updateStateOnTaskChange(projectId); // FIXME should get a project's ID
 }
 
 export function deleteTask({ projectId, taskId }) {
@@ -308,7 +312,7 @@ export function deleteTask({ projectId, taskId }) {
   project.tasks.splice(taskIndex, 1);
   setDefaultOrder(project, updatedDefOrder);
 
-  updateStateOnTaskChange(project);
+  updateStateOnTaskChange(projectId);
 }
 
 export function toggleTaskCompletion(taskId, projectId) {
