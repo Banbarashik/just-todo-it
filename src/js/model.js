@@ -276,20 +276,14 @@ export function deleteProject({ projectId }) {
   if (state.activeProject.id === projectId) changeHash(state.inbox.id);
 }
 
-// FIXME now the func only works for adding a completely new task
-// make so that it can work with a previously created task (fix 'projectId')
-export function addTask({
-  formData,
-  task = formatTaskObj(formData),
-  projectId,
-}) {
+export function addTask({ formData, task = formatTaskObj(formData) }) {
   const project = getProjectsWithOwnTasks().find(
     project => project.id === task.projectId
-  ); // FIXME refactor
+  );
   const updatedDefOrder = [...project.sortingMethod.defaultOrder, task.id];
 
   project.tasks.push(task);
-  setDefaultOrder(project.id, updatedDefOrder); // FIXME refactor
+  setDefaultOrder(project.id, updatedDefOrder);
 
   updateStateOnTaskChange(project.id);
 }
@@ -302,10 +296,10 @@ export function editTask({ formData, projectId, taskId }) {
 
   if (newProjectId !== projectId) {
     deleteTask({ projectId, taskId });
-    addTask({ task: formatTaskObj(formData, task), projectId: newProjectId });
+    addTask({ task: formatTaskObj(formData, task) });
   }
 
-  updateStateOnTaskChange(projectId); // FIXME should get a project's ID
+  updateStateOnTaskChange(projectId);
 }
 
 export function deleteTask({ projectId, taskId }) {
