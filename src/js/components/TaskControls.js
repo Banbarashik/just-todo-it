@@ -54,7 +54,8 @@ class TaskControls extends Controls {
 
   _toggleCompletion(e) {
     const btn = e.target.closest('.btn--complete-task');
-    if (btn) model.toggleTaskCompletion(this.state.task);
+    if (btn)
+      model.toggleTaskCompletion(this.state.task.id, this.state.project.id);
   }
 
   _addHandlerToggleCompletion(handler) {

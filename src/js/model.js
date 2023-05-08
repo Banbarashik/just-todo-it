@@ -147,7 +147,7 @@ function sortProjectsList() {
   state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
 }
 
-// todo: think if it possible to create a class for creating project objects
+// TODO think if it possible to create a class for creating project objects
 function formatProjectObj(formData, project) {
   return {
     id: project ? project.id : generateID(),
@@ -215,6 +215,7 @@ export function setSortingMethod(
   storeInLocalStorage(project.id, project);
 }
 
+// TODO remove a parameter mutation
 export function toggleProjectCompletedTasks(project) {
   project.areCompletedTasksShown = !project.areCompletedTasksShown;
 
@@ -282,6 +283,7 @@ export function addTask({ formData, task = formatTaskObj(formData) }) {
   updateStateOnTaskChange(project);
 }
 
+// TODO remove a parameter mutation
 export function editTask({ formData, project, task }) {
   const index = project.tasks.findIndex(taskItem => taskItem.id === task.id);
   project.tasks[index] = formatTaskObj(formData, task);
@@ -294,6 +296,7 @@ export function editTask({ formData, project, task }) {
   updateStateOnTaskChange(project);
 }
 
+// TODO remove a parameter mutation
 export function deleteTask({ project, task }) {
   const taskIndex = project.tasks.findIndex(({ id }) => id === task.id);
   const updatedDefOrder = project.sortingMethod.defaultOrder.filter(
@@ -306,7 +309,10 @@ export function deleteTask({ project, task }) {
   updateStateOnTaskChange(project);
 }
 
-export function toggleTaskCompletion(task) {
+export function toggleTaskCompletion(taskId, projectId) {
+  const project = state.projects.find(project => project.id === projectId);
+  const task = project.tasks.find(task => task.id === taskId);
+
   task.isCompleted = !task.isCompleted;
 
   updateStateOnTaskChange(this.state.activeProject);
