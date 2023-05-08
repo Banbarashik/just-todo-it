@@ -290,11 +290,11 @@ export function editTask({ formData, project, task }) {
   project.tasks[index] = formatTaskObj(formData, task);
 
   if (task.projectId !== project.id) {
-    deleteTask(project, task);
+    deleteTask({ projectId: project.id, taskId: task.id });
     addTask({ task });
   }
 
-  updateStateOnTaskChange(project);
+  updateStateOnTaskChange(project); // FIXME should get a project's ID
 }
 
 export function deleteTask({ projectId, taskId }) {
