@@ -285,16 +285,22 @@ export function addTask({ formData, task = formatTaskObj(formData) }) {
   updateStateOnTaskChange(project.id);
 }
 
-// FIXME if a task is not moved to another task - it doesn't change
+function editItem(formattingFn, formData, itemsArr, itemIndex) {
+  itemsArr[itemIndex] = formattingFn(formData, itemsArr[itemIndex]);
+  return itemsArr[itemIndex];
+}
+
 export function editTask({ formData, projectId, taskId }) {
   const newProjectId = formData.projectId;
 
   const project = state.projects.find(project => project.id === projectId);
-  const task = project.tasks.find(task => task.id === taskId);
+  const taskIndex = project.tasks.findIndex(task => task.id === taskId);
+  // prettier-ignore
+  const editedTask = editItem(formatTaskObj, formData, project.tasks, taskIndex);
 
   if (newProjectId !== projectId) {
     deleteTask({ projectId, taskId });
-    addTask({ task: formatTaskObj(formData, task) });
+    addTask({ task: editedTask });
   }
 
   updateStateOnTaskChange(projectId);
