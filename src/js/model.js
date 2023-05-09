@@ -127,7 +127,7 @@ function retrieveProjectsFromLocalStorage() {
     const project = loadFromLocalStorage(key);
 
     if (key === state.inbox.id || key === state.today.id) state[key] = project;
-    else state.projects.push(project);
+    else addItem(state.projects, project);
 
     setSortingMethod(
       project.id,
@@ -140,6 +140,8 @@ function retrieveProjectsFromLocalStorage() {
 function sortProjectsList() {
   state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
 }
+
+const addItem = (itemsArr, item) => itemsArr.push(item);
 
 function editItem(formattingFn, formData, itemsArr, itemIndex) {
   itemsArr[itemIndex] = formattingFn(formData, itemsArr[itemIndex]);
@@ -249,7 +251,7 @@ export function setProjectAsActive(id) {
 export function addProject({ formData }) {
   const project = formatProjectObj(formData);
 
-  state.projects.push(project);
+  addItem(state.projects, project);
 
   setSortingMethod(project.id);
   storeInLocalStorage(project.id, project);
@@ -287,7 +289,8 @@ export function addTask({ formData, task = formatTaskObj(formData) }) {
 
   const updatedDefOrder = [...project.sortingMethod.defaultOrder, task.id];
 
-  project.tasks.push(task);
+  addItem(project.tasks, task);
+
   setDefaultOrder(project.id, updatedDefOrder);
 
   updateStateOnTaskChange(project.id);
