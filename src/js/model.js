@@ -141,6 +141,11 @@ function sortProjectsList() {
   state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
 }
 
+function editItem(formattingFn, formData, itemsArr, itemIndex) {
+  itemsArr[itemIndex] = formattingFn(formData, itemsArr[itemIndex]);
+  return itemsArr[itemIndex];
+}
+
 // TODO think if it possible to create a class for creating project objects
 function formatProjectObj(formData, project) {
   return {
@@ -254,11 +259,14 @@ export function addProject({ formData }) {
 
 export function editProject({ formData, projectId }) {
   const index = state.projects.findIndex(project => project.id === projectId);
-  state.projects[index] = formatProjectObj(formData, state.projects[index]);
-  const project = state.projects[index];
 
-  setProjectAsActive(project.id);
-  storeInLocalStorage(project.id, project);
+  // prettier-ignore
+  const editedProject = editItem(formatProjectObj, formData, state.projects, index);
+
+  // FIXME remove 'setProjectAsActive' but find another solution to update the edited project's UI
+  setProjectAsActive(projectId);
+
+  storeInLocalStorage(editedProject.id, editedProject);
 }
 
 export function deleteProject({ projectId }) {
@@ -285,20 +293,15 @@ export function addTask({ formData, task = formatTaskObj(formData) }) {
   updateStateOnTaskChange(project.id);
 }
 
-function editItem(formattingFn, formData, itemsArr, itemIndex) {
-  itemsArr[itemIndex] = formattingFn(formData, itemsArr[itemIndex]);
-  return itemsArr[itemIndex];
-}
-
 export function editTask({ formData, projectId, taskId }) {
-  const newProjectId = formData.projectId;
-
   const project = state.projects.find(project => project.id === projectId);
+
   const taskIndex = project.tasks.findIndex(task => task.id === taskId);
+
   // prettier-ignore
   const editedTask = editItem(formatTaskObj, formData, project.tasks, taskIndex);
 
-  if (newProjectId !== projectId) {
+  if (formData.projectId !== projectId) {
     deleteTask({ projectId, taskId });
     addTask({ task: editedTask });
   }
