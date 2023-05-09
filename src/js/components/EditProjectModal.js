@@ -23,7 +23,7 @@ class EditProjectModal extends EditModal {
     super._submit({
       event: e,
       handler: model.editProject,
-      project: model.ProjectControls.state.project,
+      projectId: model.ProjectControls.state.project.id,
     });
   }
 

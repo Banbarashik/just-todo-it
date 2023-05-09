@@ -152,7 +152,7 @@ function formatProjectObj(formData, project) {
       time: formData.time,
     },
 
-    listItemIndex: getProjectListItemIndex(),
+    listItemIndex: project ? project.listItemIndex : getProjectListItemIndex(),
 
     tasks: project ? project.tasks : [],
     areCompletedTasksShown: true,
@@ -252,11 +252,10 @@ export function addProject({ formData }) {
   changeHash(project.id);
 }
 
-export function editProject({ formData, project }) {
-  const index = state.projects.findIndex(
-    projectItem => projectItem.id === project.id
-  );
-  state.projects[index] = formatProjectObj(formData, project);
+export function editProject({ formData, projectId }) {
+  const index = state.projects.findIndex(project => project.id === projectId);
+  state.projects[index] = formatProjectObj(formData, state.projects[index]);
+  const project = state.projects[index];
 
   setProjectAsActive(project.id);
   storeInLocalStorage(project.id, project);
@@ -286,6 +285,7 @@ export function addTask({ formData, task = formatTaskObj(formData) }) {
   updateStateOnTaskChange(project.id);
 }
 
+// FIXME if a task is not moved to another task - it doesn't change
 export function editTask({ formData, projectId, taskId }) {
   const newProjectId = formData.projectId;
 
