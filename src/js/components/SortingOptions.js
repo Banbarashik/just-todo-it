@@ -88,7 +88,7 @@ class SortingOptions {
       const btn = e.target.closest('.btn--order');
 
       handler(
-        model.state.activeProject,
+        model.state.activeProject.id,
         item.dataset.sortingMethodName,
         btn?.dataset.sortingOrder
       );

@@ -1,12 +1,6 @@
 import { store } from '../../node_modules/reefjs/src/reef';
-import {
-  isToday,
-  storeInLocalStorage,
-  loadFromLocalStorage,
-  removeFromLocalStorage,
-  changeHash,
-  generateID,
-} from './helper';
+// prettier-ignore
+import { isToday, storeInLocalStorage, loadFromLocalStorage, removeFromLocalStorage, changeHash, generateID} from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
@@ -136,7 +130,7 @@ function retrieveProjectsFromLocalStorage() {
     else state.projects.push(project);
 
     setSortingMethod(
-      project,
+      project.id,
       project.sortingMethod.name,
       project.sortingMethod.order
     );
@@ -188,26 +182,26 @@ function formatTaskObj(formData, task) {
 
 // Updates to be made when a task changes (e.g., added, edited, deleted)
 function updateStateOnTaskChange(projectId) {
-  console.log(projectId);
   const project = state.projects.find(project => project.id === projectId);
-  console.log(project);
 
   project.sortingMethod.body();
   storeInLocalStorage(project.id, project);
   setTodayTasks();
 }
 
-// TODO remove a parameter mutation
 export function setDefaultOrder(projectId, order) {
   const project = state.projects.find(project => project.id === projectId);
+
   project.sortingMethod.defaultOrder = order;
 }
 
 export function setSortingMethod(
-  project,
+  projectId,
   name = 'default',
   order = 'ascending'
 ) {
+  const project = getAllProjects().find(project => project.id === projectId);
+
   const { body } = sortingMethods.find(method => method.name === name);
 
   Object.assign(project.sortingMethod, {
@@ -223,6 +217,7 @@ export function setSortingMethod(
 
 export function toggleProjectCompletedTasks() {
   const project = state.activeProject;
+
   project.areCompletedTasksShown = !project.areCompletedTasksShown;
   storeInLocalStorage(project.id, project);
 }
@@ -242,14 +237,16 @@ export function setTodayTasks() {
 
 export function setProjectAsActive(id) {
   const project = getAllProjects().find(project => project.id === id);
+
   state.activeProject = project ? project : {};
 }
 
 export function addProject({ formData }) {
   const project = formatProjectObj(formData);
 
-  setSortingMethod(project);
   state.projects.push(project);
+
+  setSortingMethod(project.id);
   storeInLocalStorage(project.id, project);
 
   changeHash(project.id);
@@ -280,6 +277,7 @@ export function addTask({ formData, task = formatTaskObj(formData) }) {
   const project = getProjectsWithOwnTasks().find(
     project => project.id === task.projectId
   );
+
   const updatedDefOrder = [...project.sortingMethod.defaultOrder, task.id];
 
   project.tasks.push(task);
@@ -304,6 +302,7 @@ export function editTask({ formData, projectId, taskId }) {
 
 export function deleteTask({ projectId, taskId }) {
   const project = state.projects.find(project => project.id === projectId);
+
   const taskIndex = project.tasks.findIndex(task => task.id === taskId);
 
   const updatedDefOrder = project.sortingMethod.defaultOrder.filter(
@@ -318,6 +317,7 @@ export function deleteTask({ projectId, taskId }) {
 
 export function toggleTaskCompletion(taskId, projectId) {
   const project = state.projects.find(project => project.id === projectId);
+
   const task = project.tasks.find(task => task.id === taskId);
 
   task.isCompleted = !task.isCompleted;
