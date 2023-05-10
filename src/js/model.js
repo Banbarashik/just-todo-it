@@ -329,13 +329,15 @@ export function deleteTask({ projectId, taskId }) {
 }
 
 export function toggleTaskCompletion(taskId, projectId) {
-  const project = state.projects.find(project => project.id === projectId);
+  const project = getProjectsWithOwnTasks().find(
+    project => project.id === projectId
+  );
 
   const task = project.tasks.find(task => task.id === taskId);
 
   task.isCompleted = !task.isCompleted;
 
-  updateStateOnTaskChange(this.state.activeProject);
+  updateStateOnTaskChange(this.state.activeProject.id);
 }
 
 function init() {
