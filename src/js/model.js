@@ -265,8 +265,9 @@ export function editProject({ formData, projectId }) {
   // prettier-ignore
   const editedProject = editItem(formatProjectObj, formData, state.projects, index);
 
-  // FIXME remove 'setProjectAsActive' but find another solution to update the edited project's UI
   setProjectAsActive(projectId);
+
+  changeHash(projectId);
 
   storeInLocalStorage(editedProject.id, editedProject);
 }
