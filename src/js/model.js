@@ -110,6 +110,8 @@ const sortingMethods = [
 
 export const getAllProjects = () => [...getProjectsWithOwnTasks(), state.today];
 export const getProjectsWithOwnTasks = () => [state.inbox, ...state.projects];
+const getProjectWithOwnTasks = id =>
+  getProjectsWithOwnTasks().find(project => project.id === id);
 
 function getProjectListItemIndex() {
   if (state.projects.length > 0) {
@@ -170,9 +172,7 @@ function formatTaskObj(formData, task) {
 // Updates to be made when a task changes (e.g., added, edited, deleted)
 function updateStateOnTaskChange(projectId) {
   //* GETTING A PROJECT OBJECT
-  const project = getProjectsWithOwnTasks().find(
-    project => project.id === projectId
-  );
+  const project = getProjectWithOwnTasks(projectId);
 
   project.sortingMethod.body();
   storeInLocalStorage(project.id, project);
@@ -181,11 +181,7 @@ function updateStateOnTaskChange(projectId) {
 
 export function setDefaultOrder(projectId, order) {
   //* GETTING A PROJECT OBJECT
-  const project = getProjectsWithOwnTasks().find(
-    project => project.id === projectId
-  );
-
-  project.sortingMethod.defaultOrder = order;
+  getProjectWithOwnTasks(projectId).sortingMethod.defaultOrder = order;
 }
 
 export function setSortingMethod(
@@ -194,6 +190,7 @@ export function setSortingMethod(
   order = 'ascending'
 ) {
   //* GETTING A PROJECT OBJECT
+  //! FROM ALL PROJECTS
   const project = getAllProjects().find(project => project.id === projectId);
 
   const { body } = sortingMethods.find(method => method.name === name);
@@ -231,6 +228,7 @@ export function setTodayTasks() {
 
 export function setProjectAsActive(id) {
   //* GETTING A PROJECT OBJECT
+  //! FROM ALL PROJECTS
   const project = getAllProjects().find(project => project.id === id);
 
   state.activeProject = project ? project : {};
@@ -271,11 +269,13 @@ export function deleteProject({ projectId }) {
   if (state.activeProject.id === projectId) changeHash(state.inbox.id);
 }
 
+// TODO use 'projectId' param to make it similar to another funcs
 export function addTask({ formData, task = formatTaskObj(formData) }) {
   //* GETTING A PROJECT OBJECT
-  const project = getProjectsWithOwnTasks().find(
-    project => project.id === task.projectId
-  );
+  const start = performance.now();
+  const project = getProjectWithOwnTasks(task.projectId);
+  const end = performance.now();
+  console.log(end - start, 'ms');
 
   const updatedDefOrder = [...project.sortingMethod.defaultOrder, task.id];
 
@@ -288,9 +288,7 @@ export function addTask({ formData, task = formatTaskObj(formData) }) {
 
 export function editTask({ formData, projectId, taskId }) {
   //* GETTING A PROJECT OBJECT
-  const project = getProjectsWithOwnTasks().find(
-    project => project.id === projectId
-  );
+  const project = getProjectWithOwnTasks(projectId);
 
   const taskIndex = project.tasks.findIndex(task => task.id === taskId);
 
@@ -307,9 +305,7 @@ export function editTask({ formData, projectId, taskId }) {
 
 export function deleteTask({ projectId, taskId }) {
   //* GETTING A PROJECT OBJECT
-  const project = getProjectsWithOwnTasks().find(
-    project => project.id === projectId
-  );
+  const project = getProjectWithOwnTasks(projectId);
 
   const taskIndex = project.tasks.findIndex(task => task.id === taskId);
 
@@ -325,9 +321,7 @@ export function deleteTask({ projectId, taskId }) {
 
 export function toggleTaskCompletion(taskId, projectId) {
   //* GETTING A PROJECT OBJECT
-  const project = getProjectsWithOwnTasks().find(
-    project => project.id === projectId
-  );
+  const project = getProjectWithOwnTasks(projectId);
 
   const task = project.tasks.find(task => task.id === taskId);
 
