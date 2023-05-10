@@ -40,9 +40,13 @@ class Project {
               <button class="project__settings-item btn--sort-by">Sorting method</button>
             </li>
             <li>
-              <button class="project__settings-item btn--toggle-completed-tasks">${
-                project.areCompletedTasksShown ? 'Hide' : 'Show'
-              } completed tasks</button>
+              ${
+                project.id !== model.state.today.id
+                  ? `<button class="project__settings-item btn--toggle-completed-tasks">${
+                      project.areCompletedTasksShown ? 'Hide' : 'Show'
+                    } completed tasks</button>`
+                  : ''
+              }
             </li>
           </ul>
         </div>
