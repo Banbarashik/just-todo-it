@@ -121,26 +121,6 @@ function getProjectListItemIndex() {
   return 0;
 }
 
-function retrieveProjectsFromLocalStorage() {
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    const project = loadFromLocalStorage(key);
-
-    if (key === state.inbox.id || key === state.today.id) state[key] = project;
-    else addItem(state.projects, project);
-
-    setSortingMethod(
-      project.id,
-      project.sortingMethod.name,
-      project.sortingMethod.order
-    );
-  }
-}
-
-function sortProjectsList() {
-  state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
-}
-
 const addItem = (itemsArr, item) => itemsArr.push(item);
 
 function editItem(formattingFn, formData, itemsArr, itemIndex) {
@@ -339,6 +319,25 @@ export function toggleTaskCompletion(taskId, projectId) {
 
   updateStateOnTaskChange(this.state.activeProject.id);
 }
+
+function retrieveProjectsFromLocalStorage() {
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const project = loadFromLocalStorage(key);
+
+    if (key === state.inbox.id || key === state.today.id) state[key] = project;
+    else addItem(state.projects, project);
+
+    setSortingMethod(
+      project.id,
+      project.sortingMethod.name,
+      project.sortingMethod.order
+    );
+  }
+}
+
+const sortProjectsList = () =>
+  state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
 
 function init() {
   retrieveProjectsFromLocalStorage();
