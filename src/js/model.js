@@ -169,7 +169,10 @@ function formatTaskObj(formData, task) {
 
 // Updates to be made when a task changes (e.g., added, edited, deleted)
 function updateStateOnTaskChange(projectId) {
-  const project = state.projects.find(project => project.id === projectId);
+  //* GETTING A PROJECT OBJECT
+  const project = getProjectsWithOwnTasks().find(
+    project => project.id === projectId
+  );
 
   project.sortingMethod.body();
   storeInLocalStorage(project.id, project);
@@ -177,7 +180,10 @@ function updateStateOnTaskChange(projectId) {
 }
 
 export function setDefaultOrder(projectId, order) {
-  const project = state.projects.find(project => project.id === projectId);
+  //* GETTING A PROJECT OBJECT
+  const project = getProjectsWithOwnTasks().find(
+    project => project.id === projectId
+  );
 
   project.sortingMethod.defaultOrder = order;
 }
@@ -187,6 +193,7 @@ export function setSortingMethod(
   name = 'default',
   order = 'ascending'
 ) {
+  //* GETTING A PROJECT OBJECT
   const project = getAllProjects().find(project => project.id === projectId);
 
   const { body } = sortingMethods.find(method => method.name === name);
@@ -223,6 +230,7 @@ export function setTodayTasks() {
 }
 
 export function setProjectAsActive(id) {
+  //* GETTING A PROJECT OBJECT
   const project = getAllProjects().find(project => project.id === id);
 
   state.activeProject = project ? project : {};
@@ -264,6 +272,7 @@ export function deleteProject({ projectId }) {
 }
 
 export function addTask({ formData, task = formatTaskObj(formData) }) {
+  //* GETTING A PROJECT OBJECT
   const project = getProjectsWithOwnTasks().find(
     project => project.id === task.projectId
   );
@@ -278,7 +287,10 @@ export function addTask({ formData, task = formatTaskObj(formData) }) {
 }
 
 export function editTask({ formData, projectId, taskId }) {
-  const project = state.projects.find(project => project.id === projectId);
+  //* GETTING A PROJECT OBJECT
+  const project = getProjectsWithOwnTasks().find(
+    project => project.id === projectId
+  );
 
   const taskIndex = project.tasks.findIndex(task => task.id === taskId);
 
@@ -294,7 +306,10 @@ export function editTask({ formData, projectId, taskId }) {
 }
 
 export function deleteTask({ projectId, taskId }) {
-  const project = state.projects.find(project => project.id === projectId);
+  //* GETTING A PROJECT OBJECT
+  const project = getProjectsWithOwnTasks().find(
+    project => project.id === projectId
+  );
 
   const taskIndex = project.tasks.findIndex(task => task.id === taskId);
 
@@ -309,6 +324,7 @@ export function deleteTask({ projectId, taskId }) {
 }
 
 export function toggleTaskCompletion(taskId, projectId) {
+  //* GETTING A PROJECT OBJECT
   const project = getProjectsWithOwnTasks().find(
     project => project.id === projectId
   );
