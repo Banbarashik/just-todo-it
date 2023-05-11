@@ -133,7 +133,6 @@ function editItem(formattingFn, formData, itemsArr, itemIndex) {
   return itemsArr[itemIndex];
 }
 
-// TODO think if it possible to create a class for creating project objects
 function formatProjectObj(formData, project) {
   return {
     id: project ? project.id : generateID(),
@@ -260,7 +259,6 @@ export function deleteProject({ projectId }) {
   if (state.activeProject.id === projectId) changeHash(state.inbox.id);
 }
 
-// TODO use 'projectId' param to make it similar to another funcs
 export function addTask({ formData, task = formatTaskObj(formData) }) {
   const project = getProjectWithOwnTasks(task.projectId);
   const updatedDefOrder = [...project.sortingMethod.defaultOrder, task.id];
