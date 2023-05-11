@@ -235,23 +235,18 @@ export function addProject({ formData }) {
   const project = formatProjectObj(formData);
 
   addItem(state.projects, project);
-
   setSortingMethod(project.id);
   storeInLocalStorage(project.id, project);
-
   changeHash(project.id);
 }
 
 export function editProject({ formData, projectId }) {
   const index = state.projects.findIndex(project => project.id === projectId);
-
   // prettier-ignore
   const editedProject = editItem(formatProjectObj, formData, state.projects, index);
 
   setProjectAsActive(projectId);
-
   changeHash(projectId);
-
   storeInLocalStorage(editedProject.id, editedProject);
 }
 
@@ -259,9 +254,7 @@ export function deleteProject({ projectId }) {
   const index = state.projects.findIndex(({ id }) => id === projectId);
 
   deleteItem(state.projects, index);
-
   removeFromLocalStorage(projectId);
-
   setTodayTasks(); //* remove today's tasks that belong to the deleted project
 
   if (state.activeProject.id === projectId) changeHash(state.inbox.id);
@@ -270,21 +263,16 @@ export function deleteProject({ projectId }) {
 // TODO use 'projectId' param to make it similar to another funcs
 export function addTask({ formData, task = formatTaskObj(formData) }) {
   const project = getProjectWithOwnTasks(task.projectId);
-
   const updatedDefOrder = [...project.sortingMethod.defaultOrder, task.id];
 
   addItem(project.tasks, task);
-
   setDefaultOrder(project.id, updatedDefOrder);
-
   updateStateOnTaskChange(project.id);
 }
 
 export function editTask({ formData, projectId, taskId }) {
   const project = getProjectWithOwnTasks(projectId);
-
   const taskIndex = project.tasks.findIndex(task => task.id === taskId);
-
   // prettier-ignore
   const editedTask = editItem(formatTaskObj, formData, project.tasks, taskIndex);
 
@@ -313,7 +301,7 @@ export function toggleTaskCompletion(taskId, projectId) {
     task => task.id === taskId
   );
 
-  task.isCompleted = !task.isCompleted; // TODO create a function to toggle boolean values
+  task.isCompleted = !task.isCompleted;
 
   updateStateOnTaskChange(this.state.activeProject.id);
 }
