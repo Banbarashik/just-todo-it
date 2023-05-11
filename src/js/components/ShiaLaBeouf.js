@@ -12,7 +12,7 @@ class ShiaLaBeouf {
     this._addHandlerPlaySound(this._playSound.bind(this));
     this._addHandlerToggleShiaLaBeauf(this._toggleShiaLaBeauf.bind(this));
 
-    component(this._parentElement, this._template);
+    component(this._parentElement, this._template.bind(this));
   }
 
   _template() {

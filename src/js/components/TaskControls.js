@@ -9,7 +9,7 @@ class TaskControls extends Controls {
   constructor(state) {
     super();
     this._addHandlerOpenControls(this._openControls.bind(this));
-    this._addHandlerOpenEditModal(this._openEditModal);
+    this._addHandlerOpenEditModal(this._openEditModal.bind(this));
     this._addHandlerDeleteItem(this._deleteItem.bind(this));
     this._addHandlerToggleCompletion(this._toggleCompletion.bind(this));
 
