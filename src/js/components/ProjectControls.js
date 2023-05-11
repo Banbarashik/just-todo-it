@@ -14,9 +14,7 @@ class ProjectControls extends Controls {
 
     this.state = state;
 
-    component(this._parentElement, this._template.bind(this), {
-      stores: ['project-controls'],
-    });
+    component(this._parentElement, this._template.bind(this));
   }
 
   _openControls(e) {
@@ -53,13 +51,10 @@ class ProjectControls extends Controls {
   }
 }
 
-const state = store(
-  {
-    areControlsOpened: false,
-    project: {},
-    elCoords: { x: null, y: null },
-  },
-  'project-controls'
-);
+const state = store({
+  areControlsOpened: false,
+  project: {},
+  elCoords: { x: null, y: null },
+});
 
 export default new ProjectControls(state);

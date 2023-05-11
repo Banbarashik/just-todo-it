@@ -20,7 +20,12 @@ class ProjectList {
             <a href="#${project.id}" class="project-item--link">
               <span>${project.title}</span>
             </a>
-            <button class="btn--project-controls">
+            <button class="btn--project-controls ${
+              model.ProjectControls.state.areControlsOpened &&
+              model.ProjectControls.state.project.id === project.id
+                ? 'active'
+                : ''
+            }">
             <svg><use href="${icons}#icon-controls"></use></svg>
           </button>
           </li>

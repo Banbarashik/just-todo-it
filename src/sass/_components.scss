@@ -44,6 +44,12 @@
 
   background-color: transparent;
 
+  visibility: hidden;
+
+  &.active {
+    visibility: visible;
+  }
+
   svg {
     width: 1.5rem;
     height: 0.3rem;

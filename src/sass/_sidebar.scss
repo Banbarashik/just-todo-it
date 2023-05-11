@@ -41,6 +41,10 @@
     text-decoration: none;
   }
 
+  &:hover .btn--project-controls {
+    visibility: visible;
+  }
+
   &:hover,
   &.active {
     background-color: #96b76f;
