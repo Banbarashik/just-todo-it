@@ -174,7 +174,6 @@ function formatTaskObj(formData, task) {
 // Updates to be made when a task changes (e.g., added, edited, deleted)
 function updateStateOnTaskChange(projectId) {
   const project = getProjectWithOwnTasks(projectId);
-
   project.sortingMethod.body();
   storeInLocalStorage(project.id, project);
   setTodayTasks();
@@ -190,9 +189,7 @@ export function setSortingMethod(
   order = 'ascending'
 ) {
   const project = getProject(projectId);
-
   const { body } = sortingMethods.find(method => method.name === name);
-
   Object.assign(project.sortingMethod, {
     name,
     order,
@@ -200,13 +197,11 @@ export function setSortingMethod(
   });
 
   project.sortingMethod.body();
-
   storeInLocalStorage(project.id, project);
 }
 
 export function toggleProjectCompletedTasks() {
   const project = state.activeProject;
-
   project.areCompletedTasksShown = !project.areCompletedTasksShown;
   storeInLocalStorage(project.id, project);
 }
@@ -226,7 +221,6 @@ export function setTodayTasks() {
 
 export function setProjectAsActive(id) {
   const project = getProject(id);
-
   state.activeProject = project ? project : {};
 }
 
