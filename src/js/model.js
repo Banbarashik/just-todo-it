@@ -126,6 +126,7 @@ function getProjectListItemIndex() {
 }
 
 const addItem = (itemsArr, item) => itemsArr.push(item);
+const deleteItem = (itemsArr, itemIndex) => itemsArr.splice(itemIndex, 1);
 
 function editItem(formattingFn, formData, itemsArr, itemIndex) {
   itemsArr[itemIndex] = formattingFn(formData, itemsArr[itemIndex]);
@@ -257,7 +258,8 @@ export function editProject({ formData, projectId }) {
 export function deleteProject({ projectId }) {
   const index = state.projects.findIndex(({ id }) => id === projectId);
 
-  state.projects.splice(index, 1);
+  deleteItem(state.projects, index);
+
   removeFromLocalStorage(projectId);
 
   setTodayTasks(); //* remove today's tasks that belong to the deleted project
@@ -296,16 +298,13 @@ export function editTask({ formData, projectId, taskId }) {
 
 export function deleteTask({ projectId, taskId }) {
   const project = getProjectWithOwnTasks(projectId);
-
   const taskIndex = project.tasks.findIndex(task => task.id === taskId);
-
   const updatedDefOrder = project.sortingMethod.defaultOrder.filter(
     id => id !== taskId
   );
 
-  project.tasks.splice(taskIndex, 1);
+  deleteItem(project.tasks, taskIndex);
   setDefaultOrder(projectId, updatedDefOrder);
-
   updateStateOnTaskChange(projectId);
 }
 
@@ -314,7 +313,7 @@ export function toggleTaskCompletion(taskId, projectId) {
     task => task.id === taskId
   );
 
-  task.isCompleted = !task.isCompleted;
+  task.isCompleted = !task.isCompleted; // TODO create a function to toggle boolean values
 
   updateStateOnTaskChange(this.state.activeProject.id);
 }
