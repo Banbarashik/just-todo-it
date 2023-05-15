@@ -93,11 +93,14 @@
   float: right;
 
   button {
-    background-color: #e5eddb;
     padding: 1rem;
     border: 1px solid grey;
     border-radius: 0.4rem;
 
     font-weight: 600;
+
+    background-color: #e5eddb;
+
+    cursor: pointer;
   }
 }
