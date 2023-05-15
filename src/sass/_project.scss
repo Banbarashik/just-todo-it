@@ -1,18 +1,23 @@
 .project-window {
-  position: relative;
   width: 100%;
-  padding-top: 3rem;
+  padding: {
+    top: 3rem;
+    left: 12rem;
+  }
 
   font-size: 1.6rem;
 }
 
 .project {
-  width: 80rem;
-  margin-left: 27rem;
+  display: flex;
 
   &__title-and-settings {
-    position: absolute;
-    left: 11rem;
+    width: 26rem;
+    padding-right: 3rem;
+
+    h1 {
+      font-size: 2.2rem;
+    }
   }
 
   &__settings-list {
@@ -20,12 +25,12 @@
   }
 
   &__details {
-    position: absolute;
-    right: 4rem;
-    width: 45rem;
+    order: 1;
+
+    width: 30rem;
 
     p:first-child {
-      font-size: 3rem;
+      font-size: 2rem;
     }
   }
 }
