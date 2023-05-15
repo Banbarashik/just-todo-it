@@ -34,20 +34,21 @@ class Project {
     return `
       <div class="project" data-id="${project.id}">
         <div class="project__title-and-settings">
-          <h1>${project.title}</h1>
+          <h1 class="project__title">${project.title}</h1>
           <ul class="project__settings-list">
-            <li>
-              <button class="project__settings-item btn--sort-by">Sorting method</button>
+            <li class="project__settings-item">
+              <button class="btn--sort-by">Sorting method</button>
             </li>
-            <li>
               ${
                 project.id !== model.state.today.id
-                  ? `<button class="project__settings-item btn--toggle-completed-tasks">${
-                      project.areCompletedTasksShown ? 'Hide' : 'Show'
-                    } completed tasks</button>`
+                  ? `<li class="project__settings-item">
+                      <button class="btn--toggle-completed-tasks">${
+                        project.areCompletedTasksShown ? 'Hide' : 'Show'
+                      } completed tasks
+                      </button>
+                    </li>`
                   : ''
               }
-            </li>
           </ul>
         </div>
         <div class="project__details">

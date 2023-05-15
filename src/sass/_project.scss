@@ -14,14 +14,37 @@
   &__title-and-settings {
     width: 26rem;
     padding-right: 3rem;
-
-    h1 {
-      font-size: 2.2rem;
-    }
   }
 
-  &__settings-list {
-    list-style: none;
+  &__title {
+    margin-bottom: 8px;
+
+    font-size: 2.2rem;
+  }
+
+  &__settings {
+    &-list {
+      list-style: none;
+    }
+
+    &-item {
+      &:not(:last-child) {
+        margin-bottom: 5px;
+      }
+
+      button {
+        border: none;
+        &:hover {
+          border-bottom: 1px solid #cecece;
+        }
+
+        font-size: 1.4rem;
+
+        background: none;
+
+        cursor: pointer;
+      }
+    }
   }
 
   &__details {
