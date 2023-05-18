@@ -1,6 +1,40 @@
 import { cap1stLtr } from '../helper';
+import { store } from 'reefjs/src/reef';
 
 export default class Modal {
+  constructor(instanceState) {
+    this.state = instanceState;
+  }
+
+  static state = store(
+    {
+      projectTitle: {
+        elem: '',
+        // isValid: this.curChar < this.maxChar,
+        curChar: 0,
+        maxChar: 40,
+        errorMsg: ``,
+        //* or generate the err message in one place based on the 'fieldName' and 'char' props
+      },
+      projectDescription: {
+        // isValid: this.char < 600,
+        char: 0,
+        errorMsg: '',
+      },
+      taskTitle: {
+        // isValid: this.char < 75,
+        char: 0,
+        errorMsg: '',
+      },
+      taskDescription: {
+        // isValid: this.char < 260,
+        char: 0,
+        errorMsg: '',
+      },
+    },
+    'modal'
+  );
+
   _template() {
     if (!this.state.isModalOpened) return '';
 

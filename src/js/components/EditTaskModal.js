@@ -9,15 +9,13 @@ class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
   _itemType = 'task';
 
   constructor(state) {
-    super();
+    super(state);
     this._addHandlerCloseModal(this._closeModal.bind(this));
     this._addHandlerFillInputs(this._fillInputs.bind(this));
     this._addHandlerSubmit(this._submit.bind(this));
 
-    this.state = state;
-
     component(this._parentElement, this._template.bind(this), {
-      stores: ['edit-task-modal'],
+      stores: ['edit-task-modal', 'modal'],
     });
   }
 
