@@ -7,31 +7,38 @@ export default class Modal {
   }
 
   static state = store(
-    {
-      projectTitle: {
-        elem: '',
-        // isValid: this.curChar < this.maxChar,
-        curChar: 0,
-        maxChar: 40,
-        errorMsg: ``,
-        //* or generate the err message in one place based on the 'fieldName' and 'char' props
-      },
-      projectDescription: {
-        // isValid: this.char < 600,
-        char: 0,
-        errorMsg: '',
-      },
-      taskTitle: {
-        // isValid: this.char < 75,
-        char: 0,
-        errorMsg: '',
-      },
-      taskDescription: {
-        // isValid: this.char < 260,
-        char: 0,
-        errorMsg: '',
-      },
-    },
+    (function () {
+      const factory = function (maxChar) {
+        return {
+          curChar: {
+            value: 0,
+            writable: true,
+          },
+          maxChar: {
+            value: maxChar,
+            writable: true,
+          },
+        };
+      };
+
+      const prototype = {
+        get isValid() {
+          return this.curChar <= this.maxChar;
+        },
+        get errorMsg() {
+          return this.maxChar - this.curChar < 5
+            ? 'Character limit: ' + this.curChar + '/' + this.maxChar
+            : '';
+        },
+      };
+
+      return {
+        projectTitle: Object.create(prototype, factory(40)),
+        projectDescription: Object.create(prototype, factory(600)),
+        taskTitle: Object.create(prototype, factory(75)),
+        taskDescription: Object.create(prototype, factory(260)),
+      };
+    })(),
     'modal'
   );
 
@@ -49,10 +56,16 @@ export default class Modal {
             <div class="form-field form-field--title">
               <label>Title</label>
               <input name="title" />
+              <span class="${
+                Modal.state[this._itemType + 'Title'].isValid ? '' : 'error'
+              }">${Modal.state[this._itemType + 'Title'].errorMsg}</span>
             </div>
             <div class="form-field form-field--desc">
               <label>Description</label>
               <textarea name="description"></textarea>
+              <span class="${
+                Modal.state[this._itemType + 'Description'].isValid ? '' : 'error' //prettier-ignore
+              }">${Modal.state[this._itemType + 'Description'].errorMsg}</span>
             </div>
             <div class="form-field form-field--due-date">
               <label>Due date</label>
