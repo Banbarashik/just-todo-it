@@ -11,12 +11,21 @@ class AddProjectModal extends AddModal {
     this._addHandlerCloseModal(this._closeModal.bind(this));
     this._addHandlerSubmit(this._submit.bind(this));
 
+    this._parentElement.addEventListener('input', e => {
+      AddProjectModal.state.projectTitle.curChar = e.target.value.length;
+    });
+
     component(this._parentElement, this._template.bind(this), {
       stores: ['add-project-modal', 'modal'],
     });
   }
 
   _submit(e) {
+    if (!AddProjectModal.state.projectTitle.isValid) {
+      e.preventDefault();
+      return;
+    }
+
     super._submit({ event: e, handler: model.addProject });
   }
 }
