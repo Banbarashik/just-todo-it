@@ -1,44 +1,34 @@
 import { cap1stLtr } from '../helper';
 import { store } from 'reefjs/src/reef';
 
+class InputState {
+  constructor(maxChar) {
+    this.curChar = 0;
+    this.maxChar = maxChar;
+  }
+
+  get isValid() {
+    return this.curChar <= this.maxChar;
+  }
+  get errorMsg() {
+    return this.maxChar - this.curChar < 5
+      ? 'Character limit: ' + this.curChar + '/' + this.maxChar
+      : '';
+  }
+}
+
 export default class Modal {
   constructor(instanceState) {
     this.state = instanceState;
   }
 
   static state = store(
-    (function () {
-      const factory = function (maxChar) {
-        return {
-          curChar: {
-            value: 0,
-            writable: true,
-          },
-          maxChar: {
-            value: maxChar,
-            writable: true,
-          },
-        };
-      };
-
-      const prototype = {
-        get isValid() {
-          return this.curChar <= this.maxChar;
-        },
-        get errorMsg() {
-          return this.maxChar - this.curChar < 5
-            ? 'Character limit: ' + this.curChar + '/' + this.maxChar
-            : '';
-        },
-      };
-
-      return {
-        projectTitle: Object.create(prototype, factory(40)),
-        projectDescription: Object.create(prototype, factory(600)),
-        taskTitle: Object.create(prototype, factory(75)),
-        taskDescription: Object.create(prototype, factory(260)),
-      };
-    })(),
+    {
+      projectTitle: new InputState(40),
+      projectDescription: new InputState(600),
+      taskTitle: new InputState(75),
+      taskDescription: new InputState(260),
+    },
     'modal'
   );
 
