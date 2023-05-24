@@ -1,3 +1,9 @@
+import {
+  PROJECT_DESCRIPTION_MAX_LENGTH,
+  PROJECT_TITLE_MAX_LENGTH,
+  TASK_DESCRIPTION_MAX_LENGTH,
+  TASK_TITLE_MAX_LENGTH,
+} from '../config';
 import { cap1stLtr } from '../helper';
 import { store } from 'reefjs/src/reef';
 
@@ -24,10 +30,10 @@ export default class Modal {
 
   static state = store(
     {
-      projectTitle: new InputState(40),
-      projectDescription: new InputState(600),
-      taskTitle: new InputState(75),
-      taskDescription: new InputState(260),
+      projectTitle: new InputState(PROJECT_TITLE_MAX_LENGTH),
+      projectDescription: new InputState(PROJECT_DESCRIPTION_MAX_LENGTH),
+      taskTitle: new InputState(TASK_TITLE_MAX_LENGTH),
+      taskDescription: new InputState(TASK_DESCRIPTION_MAX_LENGTH),
     },
     'modal'
   );
