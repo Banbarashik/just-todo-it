@@ -91,7 +91,7 @@ export default class Modal {
 
   _closeModal(e) {
     const btn = e.target.closest('.btn--close-modal');
-    if (!btn) return;
+    if (!btn && e.type !== 'submit') return;
     this.state.isModalOpened = false;
   }
 
@@ -101,7 +101,7 @@ export default class Modal {
     const dataArr = [...new FormData(form)];
     const formData = Object.fromEntries(dataArr);
     handler({ formData, projectId, taskId });
-    this.state.isModalOpened = false;
+    this._closeModal(event);
   }
 
   _addHandlerCloseModal(handler) {
