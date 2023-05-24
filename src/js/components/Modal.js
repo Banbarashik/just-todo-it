@@ -51,7 +51,7 @@ export default class Modal {
           <div class="form-fields-block">
             <div class="form-field form-field--title">
               <label>Title</label>
-              <input name="title" />
+              <input type="text" name="title" />
               <span class="${
                 Modal.state[this._itemType + 'Title'].isValid ? '' : 'error'
               }">${Modal.state[this._itemType + 'Title'].errorMsg}</span>

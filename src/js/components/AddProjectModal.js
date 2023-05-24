@@ -11,8 +11,11 @@ class AddProjectModal extends AddModal {
     this._addHandlerCloseModal(this._closeModal.bind(this));
     this._addHandlerSubmit(this._submit.bind(this));
 
-    this._parentElement.addEventListener('input', e => {
-      AddProjectModal.state.projectTitle.curChar = e.target.value.length;
+    this._parentElement.addEventListener('input', function ({ target: input }) {
+      if (input.name === 'title')
+        AddProjectModal.state.projectTitle.curChar = input.value.length;
+      if (input.name === 'description')
+        AddProjectModal.state.projectDescription.curChar = input.value.length;
     });
 
     component(this._parentElement, this._template.bind(this), {
@@ -21,7 +24,10 @@ class AddProjectModal extends AddModal {
   }
 
   _submit(e) {
-    if (!AddProjectModal.state.projectTitle.isValid) {
+    if (
+      !AddProjectModal.state.projectTitle.isValid ||
+      !AddProjectModal.state.projectDescription.isValid
+    ) {
       e.preventDefault();
       return;
     }
