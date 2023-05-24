@@ -93,6 +93,7 @@ export default class Modal {
     const btn = e.target.closest('.btn--close-modal');
     if (!btn && e.type !== 'submit') return;
     this.state.isModalOpened = false;
+    for (const key in Modal.state) Modal.state[key].curChar = 0;
   }
 
   _submit({ event, handler, projectId, taskId }) {
