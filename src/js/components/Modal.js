@@ -89,11 +89,15 @@ export default class Modal {
     }.bind(this);
   }
 
+  _resetModalGlobalState() {
+    for (const key in Modal.state) Modal.state[key].curChar = 0;
+  }
+
   _closeModal(e) {
     const btn = e.target.closest('.btn--close-modal');
     if (!btn && e.type !== 'submit') return;
     this.state.isModalOpened = false;
-    for (const key in Modal.state) Modal.state[key].curChar = 0;
+    this._resetModalGlobalState();
   }
 
   _submit({ event, handler, projectId, taskId }) {
