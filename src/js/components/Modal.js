@@ -106,7 +106,9 @@ export default class Modal {
       .forEach(input => (input.curChar = 0));
   }
 
-  _storeInputCurChar({ target: input }) {
+  _storeInputCurChar(e) {
+    const input = e.target;
+
     if (input.name === 'title')
       Modal.state[this._itemType].title.curChar = input.value.length;
     if (input.name === 'description')
@@ -116,6 +118,7 @@ export default class Modal {
   _closeModal(e) {
     const btn = e.target.closest('.btn--close-modal');
     if (!btn && e.type !== 'submit') return;
+
     this.state.isModalOpened = false;
     this._resetModalGlobalState();
   }

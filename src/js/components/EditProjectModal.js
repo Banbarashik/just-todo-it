@@ -25,13 +25,11 @@ class EditProjectModal extends EditModal {
       projectId: model.ProjectControls.state.project.id,
     });
   }
-
-  _fillInputs() {
-    if (!this.state.isModalOpened) return;
-    super._fillInputs(model.ProjectControls.state.project);
-  }
 }
 
-const state = store({ isModalOpened: false }, 'edit-project-modal');
+const state = store(
+  { isModalOpened: false, areInputsFilled: false },
+  'edit-project-modal'
+);
 
 export default new EditProjectModal(state);

@@ -28,13 +28,11 @@ class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
       taskId: model.TaskControls.state.task.id,
     });
   }
-
-  _fillInputs() {
-    if (!this.state.isModalOpened) return;
-    super._fillInputs(model.TaskControls.state.task);
-  }
 }
 
-const state = store({ isModalOpened: false }, 'edit-task-modal');
+const state = store(
+  { isModalOpened: false, areInputsFilled: false },
+  'edit-task-modal'
+);
 
 export default new EditTaskModal(state);
