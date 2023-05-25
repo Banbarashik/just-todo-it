@@ -6,6 +6,9 @@ export default class EditModal extends Modal {
   _modalType = 'edit';
 
   _closeModal(e) {
+    const btn = e.target.closest('.btn--close-modal');
+    if (!btn && e.type !== 'submit') return;
+
     this.state.areInputsFilled = false;
     super._closeModal(e);
   }
