@@ -106,6 +106,13 @@ export default class Modal {
       .forEach(input => (input.curChar = 0));
   }
 
+  _storeInputCurChar({ target: input }) {
+    if (input.name === 'title')
+      Modal.state[this._itemType].title.curChar = input.value.length;
+    if (input.name === 'description')
+      Modal.state[this._itemType].description.curChar = input.value.length;
+  }
+
   _closeModal(e) {
     const btn = e.target.closest('.btn--close-modal');
     if (!btn && e.type !== 'submit') return;
@@ -115,6 +122,13 @@ export default class Modal {
 
   _submit({ event, handler, projectId, taskId }) {
     event.preventDefault();
+
+    if (
+      !Modal.state[this._itemType].title.isValid ||
+      !Modal.state[this._itemType].description.isValid
+    )
+      return;
+
     const form = event.target;
     const dataArr = [...new FormData(form)];
     const formData = Object.fromEntries(dataArr);
@@ -127,5 +141,8 @@ export default class Modal {
   }
   _addHandlerSubmit(handler) {
     this._parentElement.addEventListener('submit', handler);
+  }
+  _addHandlerStoreInputCurChar(handler) {
+    this._parentElement.addEventListener('input', handler);
   }
 }

@@ -10,6 +10,7 @@ class EditTaskModal extends mix(EditModal).with(TaskModalMixin) {
 
   constructor(state) {
     super(state);
+    this._addHandlerStoreInputCurChar(this._storeInputCurChar.bind(this));
     this._addHandlerCloseModal(this._closeModal.bind(this));
     this._addHandlerFillInputs(this._fillInputs.bind(this));
     this._addHandlerSubmit(this._submit.bind(this));
