@@ -30,10 +30,14 @@ export default class Modal {
 
   static state = store(
     {
-      projectTitle: new InputState(PROJECT_TITLE_MAX_LENGTH),
-      projectDescription: new InputState(PROJECT_DESCRIPTION_MAX_LENGTH),
-      taskTitle: new InputState(TASK_TITLE_MAX_LENGTH),
-      taskDescription: new InputState(TASK_DESCRIPTION_MAX_LENGTH),
+      project: {
+        title: new InputState(PROJECT_TITLE_MAX_LENGTH),
+        description: new InputState(PROJECT_DESCRIPTION_MAX_LENGTH),
+      },
+      task: {
+        title: new InputState(TASK_TITLE_MAX_LENGTH),
+        description: new InputState(TASK_DESCRIPTION_MAX_LENGTH),
+      },
     },
     'modal'
   );
@@ -53,15 +57,15 @@ export default class Modal {
               <label>Title</label>
               <input type="text" name="title" />
               <span class="${
-                Modal.state[this._itemType + 'Title'].isValid ? '' : 'error'
-              }">${Modal.state[this._itemType + 'Title'].errorMsg}</span>
+                Modal.state[this._itemType].title.isValid ? '' : 'error'
+              }">${Modal.state[this._itemType].title.errorMsg}</span>
             </div>
             <div class="form-field form-field--desc">
               <label>Description</label>
               <textarea name="description"></textarea>
               <span class="${
-                Modal.state[this._itemType + 'Description'].isValid ? '' : 'error' //prettier-ignore
-              }">${Modal.state[this._itemType + 'Description'].errorMsg}</span>
+                Modal.state[this._itemType].description.isValid ? '' : 'error' //prettier-ignore
+              }">${Modal.state[this._itemType].description.errorMsg}</span>
             </div>
             <div class="form-field form-field--due-date">
               <label>Due date</label>
@@ -96,7 +100,10 @@ export default class Modal {
   }
 
   _resetModalGlobalState() {
-    for (const key in Modal.state) Modal.state[key].curChar = 0;
+    Object.values(Modal.state)
+      .map(itemType => Object.values(itemType))
+      .flat()
+      .forEach(input => (input.curChar = 0));
   }
 
   _closeModal(e) {
