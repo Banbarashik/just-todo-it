@@ -108,11 +108,10 @@ export default class Modal {
 
   _storeInputCurChar(e) {
     const input = e.target;
+    const item = Modal.state[this._itemType];
+    const inputName = item.hasOwnProperty(input.name) ? input.name : null;
 
-    if (input.name === 'title')
-      Modal.state[this._itemType].title.curChar = input.value.length;
-    if (input.name === 'description')
-      Modal.state[this._itemType].description.curChar = input.value.length;
+    if (inputName) item[inputName].curChar = input.value.length;
   }
 
   _closeModal(e) {
