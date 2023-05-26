@@ -38,6 +38,12 @@ export default class Modal {
         title: new InputState(TASK_TITLE_MAX_LENGTH),
         description: new InputState(TASK_DESCRIPTION_MAX_LENGTH),
       },
+      get isFormValid() {
+        return [
+          ...Object.values(this.project),
+          ...Object.values(this.task),
+        ].every(input => input.isValid);
+      },
     },
     'modal'
   );
@@ -125,11 +131,7 @@ export default class Modal {
   _submit({ event, handler, projectId, taskId }) {
     event.preventDefault();
 
-    if (
-      !Modal.state[this._itemType].title.isValid ||
-      !Modal.state[this._itemType].description.isValid
-    )
-      return;
+    if (!Modal.state.isFormValid) return;
 
     const form = event.target;
     const dataArr = [...new FormData(form)];
