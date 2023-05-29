@@ -7,6 +7,7 @@ import {
 import { cap1stLtr } from '../helper';
 import { store } from 'reefjs/src/reef';
 
+// TODO consider moving the class to its own module
 class InputState {
   constructor(maxChar) {
     this.curChar = 0;
@@ -18,7 +19,7 @@ class InputState {
   }
   get errorMsg() {
     return this.maxChar - this.curChar < 5
-      ? 'Character limit: ' + this.curChar + '/' + this.maxChar
+      ? 'Character limit: ' + this.curChar + ' / ' + this.maxChar
       : '';
   }
 }
