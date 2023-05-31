@@ -116,6 +116,16 @@
   gap: 0.5rem;
 }
 
+.error--no-project {
+  position: absolute;
+
+  top: 35%;
+  left: 50%;
+
+  font-size: 3rem;
+  font-weight: 500;
+}
+
 .menu-list {
   display: flex;
   flex-direction: column;

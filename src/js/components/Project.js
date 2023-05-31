@@ -24,7 +24,7 @@ class Project {
     const project = model.state.activeProject;
 
     if (!Object.keys(project).length)
-      return '<p class="error">Project not found</p>';
+      return '<p class="error--no-project">Project not found.</p>';
 
     const displayDate = formatDate(
       project.dueDate.dateStr,
