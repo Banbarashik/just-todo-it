@@ -17,14 +17,12 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%;
+  overflow-y: hidden;
 }
 
 body {
   display: flex;
-  overflow-y: hidden;
-
   height: 100vh;
-
   font-family: system-ui, 'Segoe UI';
 }
 
