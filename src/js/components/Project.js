@@ -17,7 +17,9 @@ class Project {
     //* execute synchronously to escape a race condition (before executed on the 'load' event)
     this._makeProjectActive();
 
-    component(this._parentElement, this._template.bind(this));
+    component(this._parentElement, this._template.bind(this), {
+      stores: ['global'],
+    });
   }
 
   _template() {

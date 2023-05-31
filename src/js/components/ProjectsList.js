@@ -7,7 +7,9 @@ class ProjectList {
   _parentElement = document.querySelector('.projects-list');
 
   constructor() {
-    component(this._parentElement, this._template.bind(this));
+    component(this._parentElement, this._template.bind(this), {
+      stores: ['global'],
+    });
   }
 
   _template() {

@@ -15,7 +15,9 @@ class TaskControls extends Controls {
 
     this.state = state;
 
-    component(this._parentElement, this._template.bind(this));
+    component(this._parentElement, this._template.bind(this), {
+      stores: ['task-controls'],
+    });
   }
 
   _openControls(e) {
@@ -63,11 +65,14 @@ class TaskControls extends Controls {
   }
 }
 
-const state = store({
-  areControlsOpened: false,
-  task: {},
-  project: {},
-  elCoords: { x: null, y: null },
-});
+const state = store(
+  {
+    areControlsOpened: false,
+    task: {},
+    project: {},
+    elCoords: { x: null, y: null },
+  },
+  'task-controls'
+);
 
 export default new TaskControls(state);

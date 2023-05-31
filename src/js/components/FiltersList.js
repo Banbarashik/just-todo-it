@@ -5,7 +5,9 @@ class FiltersList {
   _parentElement = document.querySelector('.filters-list');
 
   constructor() {
-    component(this._parentElement, this._template.bind(this));
+    component(this._parentElement, this._template.bind(this), {
+      stores: ['global'],
+    });
   }
 
   _template() {

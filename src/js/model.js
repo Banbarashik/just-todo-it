@@ -9,67 +9,70 @@ export { default as AddTaskModal } from './components/AddTaskModal';
 export { default as EditTaskModal } from './components/EditTaskModal';
 export { default as SortingOptions } from './components/SortingOptions';
 
-export const state = store({
-  inbox: {
-    id: 'inbox',
-    title: 'Inbox',
-    dueDate: { dateStr: '', time: '' },
-    sortingMethod: {
-      name: 'default',
-      order: 'ascending',
-      defaultOrder: ['11'],
-      body() {
-        state.inbox.tasks.sort(
-          (a, b) =>
-            this.sortingMethod.defaultOrder.indexOf(a.id) -
-            this.sortingMethod.defaultOrder.indexOf(b.id)
-        );
-      },
-    },
-    tasks: [
-      {
-        id: '11',
-        title: 'Create an inbox page',
-        description: '',
-        dueDate: {
-          dateStr: '2022-11-09',
-          time: '11:09',
+export const state = store(
+  {
+    inbox: {
+      id: 'inbox',
+      title: 'Inbox',
+      dueDate: { dateStr: '', time: '' },
+      sortingMethod: {
+        name: 'default',
+        order: 'ascending',
+        defaultOrder: ['11'],
+        body() {
+          state.inbox.tasks.sort(
+            (a, b) =>
+              this.sortingMethod.defaultOrder.indexOf(a.id) -
+              this.sortingMethod.defaultOrder.indexOf(b.id)
+          );
         },
-        projectId: 'inbox',
-        isCompleted: true,
       },
-    ],
-  },
-  today: {
-    id: 'today',
-    title: 'Today',
-    dueDate: { dateStr: '', time: '' },
-    sortingMethod: {
-      name: 'dueDate',
-      order: 'ascending',
-      body() {
-        state.today.tasks.sort((a, b) => {
-          function createDate(dateStr, time) {
-            const dateISO =
-              `${dateStr ? dateStr : '2100-01-01'}` +
-              `T${time ? time : '23:59:59.999'}Z`;
-
-            return new Date(dateISO);
-          }
-
-          const dateA = createDate(a.dueDate.dateStr, a.dueDate.time);
-          const dateB = createDate(b.dueDate.dateStr, b.dueDate.time);
-
-          if (this.sortingMethod.order === 'ascending') return dateA - dateB;
-          if (this.sortingMethod.order === 'descending') return dateB - dateA;
-        });
-      },
+      tasks: [
+        {
+          id: '11',
+          title: 'Create an inbox page',
+          description: '',
+          dueDate: {
+            dateStr: '2022-11-09',
+            time: '11:09',
+          },
+          projectId: 'inbox',
+          isCompleted: true,
+        },
+      ],
     },
-    tasks: [],
+    today: {
+      id: 'today',
+      title: 'Today',
+      dueDate: { dateStr: '', time: '' },
+      sortingMethod: {
+        name: 'dueDate',
+        order: 'ascending',
+        body() {
+          state.today.tasks.sort((a, b) => {
+            function createDate(dateStr, time) {
+              const dateISO =
+                `${dateStr ? dateStr : '2100-01-01'}` +
+                `T${time ? time : '23:59:59.999'}Z`;
+
+              return new Date(dateISO);
+            }
+
+            const dateA = createDate(a.dueDate.dateStr, a.dueDate.time);
+            const dateB = createDate(b.dueDate.dateStr, b.dueDate.time);
+
+            if (this.sortingMethod.order === 'ascending') return dateA - dateB;
+            if (this.sortingMethod.order === 'descending') return dateB - dateA;
+          });
+        },
+      },
+      tasks: [],
+    },
+    projects: [],
+    activeProject: {},
   },
-  projects: [],
-  activeProject: {},
-});
+  'global'
+);
 
 const sortingMethods = [
   {
