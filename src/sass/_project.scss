@@ -1,8 +1,6 @@
 .project-window {
-  padding: {
-    top: 3rem;
-    left: 9rem;
-  }
+  width: 100%;
+  padding: 3rem 12rem 0 12rem;
 
   font-size: 1.6rem;
 }
@@ -10,9 +8,11 @@
 .project {
   display: flex;
 
+  justify-content: space-between;
+  width: 100%;
+
   &__title-and-settings {
-    width: 26rem;
-    padding-right: 3rem;
+    width: 23rem;
   }
 
   &__title {
