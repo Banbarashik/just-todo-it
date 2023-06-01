@@ -4,10 +4,9 @@ import {
   TASK_DESCRIPTION_MAX_LENGTH,
   TASK_TITLE_MAX_LENGTH,
 } from '../config';
-import { cap1stLtr } from '../helper';
+import { cap1stLtr, getNonGetterObjPropValues } from '../helper';
 import { store } from 'reefjs/src/reef';
 
-// TODO consider moving the class to its own module
 class InputState {
   constructor(maxChar, isRequired = false) {
     this.curChar = 0;
@@ -15,7 +14,6 @@ class InputState {
     this.isRequired = isRequired;
   }
 
-  // TODO come up with a condition for required fields
   get isValid() {
     if (this.isRequired && this.curChar === 0) return false;
     return this.curChar <= this.maxChar;
@@ -28,6 +26,17 @@ class InputState {
   }
 }
 
+class ItemFormState {
+  constructor(title, description) {
+    this.title = title;
+    this.description = description;
+  }
+
+  get isFormValid() {
+    return getNonGetterObjPropValues(this).every(input => input.isValid);
+  }
+}
+
 export default class Modal {
   constructor(instanceState) {
     this.state = instanceState;
@@ -35,27 +44,14 @@ export default class Modal {
 
   static state = store(
     {
-      project: {
-        title: new InputState(PROJECT_TITLE_MAX_LENGTH, true),
-        description: new InputState(PROJECT_DESCRIPTION_MAX_LENGTH),
-        // TODO create a prototype to place the func in there
-        get isFormValid() {
-          return Object.values(Object.getOwnPropertyDescriptors(this))
-            .filter(desc => desc.value)
-            .map(desc => desc.value)
-            .every(input => input.isValid);
-        },
-      },
-      task: {
-        title: new InputState(TASK_TITLE_MAX_LENGTH, true),
-        description: new InputState(TASK_DESCRIPTION_MAX_LENGTH),
-        get isFormValid() {
-          return Object.values(Object.getOwnPropertyDescriptors(this))
-            .filter(desc => desc.value)
-            .map(desc => desc.value)
-            .every(input => input.isValid);
-        },
-      },
+      project: new ItemFormState(
+        new InputState(PROJECT_TITLE_MAX_LENGTH, true),
+        new InputState(PROJECT_DESCRIPTION_MAX_LENGTH)
+      ),
+      task: new ItemFormState(
+        new InputState(TASK_TITLE_MAX_LENGTH, true),
+        new InputState(TASK_DESCRIPTION_MAX_LENGTH)
+      ),
     },
     'modal'
   );
@@ -121,7 +117,6 @@ export default class Modal {
     Object.values(Modal.state)
       .map(itemType => Object.values(itemType))
       .flat()
-      .filter(prop => typeof prop === 'object') // TODO remove it when the 'isFormValid' func will be moved to a prototype
       .forEach(input => (input.curChar = 0));
   }
 

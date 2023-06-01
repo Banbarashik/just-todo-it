@@ -69,3 +69,8 @@ export const importAll = requireFunction =>
   requireFunction.keys().map(key => requireFunction(key));
 
 export const getRandomArrItem = arr => arr[(Math.random() * arr.length) | 0];
+
+export const getNonGetterObjPropValues = obj =>
+  Object.values(Object.getOwnPropertyDescriptors(obj))
+    .filter(desc => desc.value)
+    .map(desc => desc.value);
