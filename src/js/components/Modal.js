@@ -12,14 +12,17 @@ class InputState {
     this.curChar = 0;
     this.maxChar = maxChar;
     this.isRequired = isRequired;
+    this.wasSubmitAttempt = false;
   }
 
   get isValid() {
     if (this.isRequired && this.curChar === 0) return false;
     return this.curChar <= this.maxChar;
   }
-  // TODO error msg in case a required field is empty
   get errorMsg() {
+    if (this.isRequired && this.curChar === 0 && this.wasSubmitAttempt)
+      return 'The field is required';
+
     return this.maxChar - this.curChar < 5
       ? 'Character limit: ' + this.curChar + ' / ' + this.maxChar
       : '';
@@ -117,15 +120,18 @@ export default class Modal {
     Object.values(Modal.state)
       .map(itemType => Object.values(itemType))
       .flat()
-      .forEach(input => (input.curChar = 0));
+      .forEach(function (input) {
+        input.curChar = 0;
+        input.wasSubmitAttempt = false;
+      });
   }
 
   _storeInputCurChar(e) {
     const input = e.target;
-    const item = Modal.state[this._itemType];
-    const inputName = item.hasOwnProperty(input.name) ? input.name : null;
+    const itemFormState = Modal.state[this._itemType];
 
-    if (inputName) item[inputName].curChar = input.value.length;
+    if (itemFormState.hasOwnProperty(input.name))
+      itemFormState[input.name].curChar = input.value.length;
   }
 
   _closeModal(e) {
@@ -139,12 +145,18 @@ export default class Modal {
   _submit({ event, handler, projectId, taskId }) {
     event.preventDefault();
 
-    if (!Modal.state[this._itemType].isFormValid) return;
+    const itemFormState = Modal.state[this._itemType];
+
+    if (!itemFormState.isFormValid) {
+      Object.values(itemFormState).forEach(input => { input.wasSubmitAttempt = true }); //prettier-ignore
+      return;
+    }
 
     const form = event.target;
     const dataArr = [...new FormData(form)];
     const formData = Object.fromEntries(dataArr);
     handler({ formData, projectId, taskId });
+
     this._closeModal(event);
   }
 
