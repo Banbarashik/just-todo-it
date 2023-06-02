@@ -62,6 +62,8 @@ export default class Modal {
   _template() {
     if (!this.state.isModalOpened) return '';
 
+    const itemFormState = Modal.state[this._itemType];
+
     return `
       <div class="overlay"></div>
       <div class="modal">
@@ -73,16 +75,16 @@ export default class Modal {
             <div class="form-field form-field--title">
               <label>Title</label>
               <input type="text" name="title" />
-              <span class="${
-                Modal.state[this._itemType].title.isValid ? '' : 'error'
-              }">${Modal.state[this._itemType].title.errorMsg}</span>
+              <span class="${itemFormState.title.isValid ? '' : 'error'}">
+              ${itemFormState.title.errorMsg}
+              </span>
             </div>
             <div class="form-field form-field--desc">
               <label>Description</label>
               <textarea name="description"></textarea>
-              <span class="${
-                Modal.state[this._itemType].description.isValid ? '' : 'error' //prettier-ignore
-              }">${Modal.state[this._itemType].description.errorMsg}</span>
+              <span class="${itemFormState.description.isValid ? '' : 'error'}">
+              ${itemFormState.description.errorMsg}
+              </span>
             </div>
             <div class="form-field form-field--due-date">
               <label>Due date</label>
