@@ -6,10 +6,10 @@
 }
 
 .task {
+  @include break-word;
+
   position: relative;
   display: flex;
-  word-wrap: break-word;
-  word-break: break-word;
 
   flex-direction: column;
   justify-content: space-evenly;

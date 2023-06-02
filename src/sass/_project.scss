@@ -23,6 +23,8 @@
   }
 
   &__title {
+    @include break-word;
+
     margin-bottom: 8px;
 
     font-size: 1.8rem;
@@ -54,9 +56,9 @@
   }
 
   &__details {
+    @include break-word;
+
     order: 1;
-    word-wrap: break-word;
-    word-break: break-word;
 
     width: 30rem;
 

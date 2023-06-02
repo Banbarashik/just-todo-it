@@ -14,6 +14,11 @@
   box-sizing: inherit;
 }
 
+@mixin break-word {
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
 html {
   box-sizing: border-box;
 
