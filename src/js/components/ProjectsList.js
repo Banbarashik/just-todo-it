@@ -16,11 +16,11 @@ class ProjectList {
     return model.state.projects
       .map(function (project) {
         return `
-          <li data-id="${
-            project.id
-          }" class="project-item ${project.id === model.state.activeProject?.id ? 'active' : ''}">
+          <li data-id="${project.id}" class="project-item
+          ${project.id === model.state.activeProject?.id ? 'active' : ''}"
+          >
             <a href="#${project.id}" class="project-item--link">
-              <span>${project.title}</span>
+              <span title="${project.title}">${project.title}</span>
             </a>
             <button class="btn--project-controls ${
               model.ProjectControls.state.areControlsOpened &&
@@ -28,8 +28,8 @@ class ProjectList {
                 ? 'active'
                 : ''
             }">
-            <svg><use href="${icons}#icon-controls"></use></svg>
-          </button>
+              <svg><use href="${icons}#icon-controls"></use></svg>
+            </button>
           </li>
         `;
       })
