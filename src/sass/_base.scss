@@ -16,7 +16,16 @@
 
 html {
   box-sizing: border-box;
+
   font-size: 62.5%;
+
+  @media only screen and (max-width: 1680px) {
+    font-size: 59.5%;
+  }
+  @media only screen and (max-width: 1530px) {
+    font-size: 57.5%;
+  }
+
   overflow-y: hidden;
 }
 
