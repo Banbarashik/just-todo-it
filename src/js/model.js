@@ -22,8 +22,8 @@ export const state = store(
         body() {
           state.inbox.tasks.sort(
             (a, b) =>
-              this.sortingMethod.defaultOrder.indexOf(a.id) -
-              this.sortingMethod.defaultOrder.indexOf(b.id)
+              state.inbox.sortingMethod.defaultOrder.indexOf(a.id) -
+              state.inbox.sortingMethod.defaultOrder.indexOf(b.id)
           );
         },
       },
@@ -61,8 +61,10 @@ export const state = store(
             const dateA = createDate(a.dueDate.dateStr, a.dueDate.time);
             const dateB = createDate(b.dueDate.dateStr, b.dueDate.time);
 
-            if (this.sortingMethod.order === 'ascending') return dateA - dateB;
-            if (this.sortingMethod.order === 'descending') return dateB - dateA;
+            if (state.today.sortingMethod.order === 'ascending')
+              return dateA - dateB;
+            if (state.today.sortingMethod.order === 'descending')
+              return dateB - dateA;
           });
         },
       },
