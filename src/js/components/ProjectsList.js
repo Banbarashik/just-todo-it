@@ -8,7 +8,7 @@ class ProjectList {
 
   constructor() {
     component(this._parentElement, this._template.bind(this), {
-      stores: ['global'],
+      stores: ['global', 'project-controls'],
     });
   }
 
