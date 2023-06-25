@@ -300,7 +300,7 @@ export function toggleTaskCompletion(taskId, projectId) {
 
   task.isCompleted = !task.isCompleted;
 
-  updateStateOnTaskChange(this.state.activeProject.id);
+  updateStateOnTaskChange(projectId);
 }
 
 function retrieveProjectsFromLocalStorage() {
