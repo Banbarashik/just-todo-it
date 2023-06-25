@@ -37,7 +37,7 @@ html {
 body {
   display: flex;
   height: 100vh;
-  font-family: system-ui, sans-serif;
+  font-family: 'Ubuntu', system-ui, sans-serif;
 }
 
 input,
@@ -45,6 +45,12 @@ select,
 textarea,
 button {
   font-family: inherit;
+}
+
+input,
+select,
+textarea {
+  font-size: 1.4rem;
 }
 
 .hidden {

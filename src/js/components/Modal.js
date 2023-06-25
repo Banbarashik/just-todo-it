@@ -75,16 +75,28 @@ export default class Modal {
             <div class="form-field form-field--title">
               <label>Title</label>
               <input type="text" name="title" />
-              <span class="${itemFormState.title.isValid ? '' : 'error'}">
-              ${itemFormState.title.errorMsg}
-              </span>
+              ${
+                itemFormState.title.errorMsg
+                  ? `<span
+                      class="${itemFormState.title.isValid ? '' : 'error'}">
+                      ${itemFormState.title.errorMsg}
+                     </span>`
+                  : ''
+              }
             </div>
             <div class="form-field form-field--desc">
               <label>Description</label>
               <textarea name="description"></textarea>
-              <span class="${itemFormState.description.isValid ? '' : 'error'}">
-              ${itemFormState.description.errorMsg}
-              </span>
+              ${
+                itemFormState.description.errorMsg
+                  ? `<span
+                      class="${
+                        itemFormState.description.isValid ? '' : 'error'
+                      }">
+                      ${itemFormState.description.errorMsg}
+                     </span>`
+                  : ''
+              }
             </div>
             <div class="form-field form-field--due-date">
               <label>Due date</label>
@@ -93,13 +105,14 @@ export default class Modal {
                 <input type="time" name="time" />
               </div>
             </div>
-            <div class="form-field form-field--project">
               ${
                 this._itemType === 'task'
-                  ? `<label>Project</label><select name="projectId">${this._generateProjectsList()}</select>`
+                  ? `<div class="form-field form-field--project">
+                      <label>Project</label><select name="projectId">${this._generateProjectsList()}</select>
+                     </div>
+                    `
                   : ''
               }
-            </div>
           </div>
           <div class="form-btns-block">
             <button type="button" class="btn--close-modal">Cancel</button>
