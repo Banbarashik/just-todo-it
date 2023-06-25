@@ -39,8 +39,10 @@
 .btn--project-controls {
   @extend %btn;
 
-  height: 2rem;
   align-self: center;
+
+  height: 2rem;
+  padding-right: 1rem;
 
   background-color: transparent;
 
