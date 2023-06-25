@@ -19,9 +19,9 @@ export default class EditModal extends Modal {
     //prettier-ignore
     const item = model[cap1stLtr(this._itemType) + 'Controls'].state[this._itemType];
 
-    Modal.state[this._itemType].title.curChar = item.title.trimStart().length;
+    Modal.state[this._itemType].title.curChar = item.title.trim().length;
     // prettier-ignore
-    Modal.state[this._itemType].description.curChar = item.description.trimStart().length;
+    Modal.state[this._itemType].description.curChar = item.description.trim().length;
 
     const form = this._parentElement.querySelector('form');
     const inputTitle = form.querySelector('[name="title"]');

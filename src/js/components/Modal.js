@@ -146,7 +146,7 @@ export default class Modal {
     const itemFormState = Modal.state[this._itemType];
 
     if (itemFormState.hasOwnProperty(input.name))
-      itemFormState[input.name].curChar = input.value.trimStart().length;
+      itemFormState[input.name].curChar = input.value.trim().length;
   }
 
   _closeModal(e) {
