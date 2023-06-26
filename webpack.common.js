@@ -15,7 +15,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'JustDoIt',
+      title: 'JustToDoIt',
       template: 'src/template.html',
     }),
   ],
