@@ -84,6 +84,11 @@ textarea {
   position: absolute;
 }
 
+.el-pos-fixed {
+  position: fixed;
+  width: inherit;
+}
+
 .error {
   color: #d60707;
 }

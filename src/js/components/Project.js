@@ -36,34 +36,38 @@ class Project {
     return `
       <div class="project" data-id="${project.id}">
         <div class="project__title-and-settings">
-          <h1 class="project__title">${project.title}</h1>
-          <ul class="project__settings-list">
-            <li class="project__settings-item">
-              <button class="btn--sort-by">Sorting method</button>
-            </li>
-              ${
-                project.id !== model.state.today.id
-                  ? `<li class="project__settings-item">
-                      <button class="btn--toggle-completed-tasks">${
-                        project.areCompletedTasksShown ? 'Hide' : 'Show'
-                      } completed tasks
-                      </button>
-                    </li>`
-                  : ''
-              }
-          </ul>
+          <div class="el-pos-fixed">
+            <h1 class="project__title">${project.title}</h1>
+            <ul class="project__settings-list">
+              <li class="project__settings-item">
+                <button class="btn--sort-by">Sorting method</button>
+              </li>
+                ${
+                  project.id !== model.state.today.id
+                    ? `<li class="project__settings-item">
+                        <button class="btn--toggle-completed-tasks">${
+                          project.areCompletedTasksShown ? 'Hide' : 'Show'
+                        } completed tasks
+                        </button>
+                      </li>`
+                    : ''
+                }
+            </ul>
+          </div>
         </div>
         <div class="project__details">
-          ${
-            project.description
-              ? `<div class="project__description"><p>Description:</p><p>${project.description}</p></div>`
-              : ''
-          }
+          <div class="el-pos-fixed">
             ${
-              displayDate
-                ? `<div class="project__due-date"><p>Due date:</p><p>${displayDate}</p></div>`
+              project.description
+                ? `<div class="project__description"><p>Description:</p><p>${project.description}</p></div>`
                 : ''
             }
+              ${
+                displayDate
+                  ? `<div class="project__due-date"><p>Due date:</p><p>${displayDate}</p></div>`
+                  : ''
+              }
+          </div>
         </div>
         <ul class="tasks">${this._generateTasksMarkup(project)}</ul>
       </div>
