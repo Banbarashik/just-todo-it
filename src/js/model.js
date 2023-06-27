@@ -1,12 +1,6 @@
 import { store } from 'reefjs';
-import {
-  isToday,
-  storeInLocalStorage,
-  loadFromLocalStorage,
-  removeFromLocalStorage,
-  changeHash,
-  generateID,
-} from './helper';
+// prettier-ignore
+import { todayISOStr, isToday, storeInLocalStorage, loadFromLocalStorage, removeFromLocalStorage, changeHash, generateID} from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
@@ -34,7 +28,101 @@ export const state = store(
         },
       },
       areCompletedTasksShown: true,
-      tasks: [],
+      tasks: [
+        {
+          id: 'inbox' + 'task1',
+          title:
+            'Clicking on the image of Shia Labeouf will play one of a few sounds',
+          description:
+            '<b style="font-size: 1.8rem; color: red">RECOMMEND LOWERING VOLUME BEFORE CLICKING</b>',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '00:00',
+          },
+          projectId: 'inbox',
+          isCompleted: false,
+        },
+        {
+          id: 'inbox' + 'task2',
+          title: 'To add a task click on the button in the top right corner',
+          description: '',
+          dueDate: {
+            dateStr: '',
+            time: '',
+          },
+          projectId: 'inbox',
+          isCompleted: false,
+        },
+        {
+          id: 'inbox' + 'task3',
+          title: 'Sort tasks using drag and drop or by due date',
+          description: '',
+          dueDate: {
+            dateStr: '',
+            time: '',
+          },
+          projectId: 'inbox',
+          isCompleted: false,
+        },
+        {
+          id: 'inbox' + 'task4',
+          title:
+            'Move an existing task to another project through its edit menu',
+          description: '',
+          dueDate: {
+            dateStr: '',
+            time: '',
+          },
+          projectId: 'inbox',
+          isCompleted: false,
+        },
+        {
+          id: 'inbox' + 'task5',
+          title: 'Managing a task',
+          description: 'You can mark a task completed, edit or delete it.',
+          dueDate: {
+            dateStr: '',
+            time: '',
+          },
+          projectId: 'inbox',
+          isCompleted: false,
+        },
+        {
+          id: 'inbox' + 'task6',
+          title: 'Managing a project',
+          description: 'You can edit or delete a project.',
+          dueDate: {
+            dateStr: '',
+            time: '',
+          },
+          projectId: 'inbox',
+          isCompleted: false,
+        },
+        {
+          id: 'inbox' + 'task7',
+          title: 'Project settings',
+          description:
+            'You can set a sorting method and toggle visibility of completed tasks.',
+          dueDate: {
+            dateStr: '',
+            time: '',
+          },
+          projectId: 'inbox',
+          isCompleted: false,
+        },
+        {
+          id: 'inbox' + 'task8',
+          title:
+            "Tasks, projects and their settings are being saved in the browser's memory",
+          description: '',
+          dueDate: {
+            dateStr: '',
+            time: '',
+          },
+          projectId: 'inbox',
+          isCompleted: false,
+        },
+      ],
     },
     today: {
       id: 'today',
@@ -231,7 +319,6 @@ export function addProject({ formData }) {
 
   addItem(state.projects, project);
   setSortingMethod(project.id);
-  storeInLocalStorage(project.id, project);
   changeHash(project.id);
 }
 
@@ -310,6 +397,7 @@ function retrieveProjectsFromLocalStorage() {
     const key = localStorage.key(i);
     const project = loadFromLocalStorage(key);
 
+    if (key === 'demoProjectsLoaded') continue;
     if (key === state.inbox.id || key === state.today.id) state[key] = project;
     else addItem(state.projects, project);
 
@@ -324,8 +412,205 @@ function retrieveProjectsFromLocalStorage() {
 const sortProjectsList = () =>
   state.projects.sort((a, b) => a.listItemIndex - b.listItemIndex);
 
+function loadDemoProjects() {
+  const projects = [
+    {
+      id: 'demoProject1',
+      title: 'Chores',
+      description: 'Cleaning, washing, meals, etc.',
+      dueDate: {
+        dateStr: todayISOStr,
+        time: '',
+      },
+      listItemIndex: 1,
+      areCompletedTasksShown: true,
+      sortingMethod: {
+        name: 'default',
+        order: 'ascending',
+        defaultOrder: [],
+        body: function () {},
+      },
+      tasks: [
+        {
+          id: 'demoProject1' + 'task1',
+          title: 'Wake up',
+          description: '',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '08:00',
+          },
+          projectId: 'demoProject1',
+          isCompleted: true,
+        },
+        {
+          id: 'demoProject1' + 'task2',
+          title: 'Washing',
+          description: '',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '08:05',
+          },
+          projectId: 'demoProject1',
+          isCompleted: false,
+        },
+        {
+          id: 'demoProject1' + 'task3',
+          title: 'Breakfast',
+          description: '',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '08:30',
+          },
+          projectId: 'demoProject1',
+          isCompleted: false,
+        },
+        {
+          id: 'demoProject1' + 'task4',
+          title: 'Lunch',
+          description: '',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '12:00',
+          },
+          projectId: 'demoProject1',
+          isCompleted: false,
+        },
+        {
+          id: 'demoProject1' + 'task5',
+          title: 'Dinner',
+          description: '',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '18:00',
+          },
+          projectId: 'demoProject1',
+          isCompleted: false,
+        },
+        {
+          id: 'demoProject1' + 'task6',
+          title: 'Washing',
+          description: '',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '22:55',
+          },
+          projectId: 'demoProject1',
+          isCompleted: false,
+        },
+        {
+          id: 'demoProject1' + 'task7',
+          title: 'Go to bed',
+          description: '',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '23:00',
+          },
+          projectId: 'demoProject1',
+          isCompleted: false,
+        },
+        {
+          id: 'demoProject1' + 'task8',
+          title: 'Clean my room',
+          description: '',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '',
+          },
+          projectId: 'demoProject1',
+          isCompleted: false,
+        },
+        {
+          id: 'demoProject1' + 'task9',
+          title: 'Dishwashing',
+          description: '',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '',
+          },
+          projectId: 'demoProject1',
+          isCompleted: false,
+        },
+        {
+          id: 'demoProject1' + 'task10',
+          title: 'Take a shower',
+          description: '',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '',
+          },
+          projectId: 'demoProject1',
+          isCompleted: true,
+        },
+      ],
+    },
+    {
+      id: 'demoProject2',
+      title: 'Learning',
+      description: '',
+      dueDate: {
+        dateStr: todayISOStr,
+        time: '',
+      },
+      listItemIndex: 2,
+      areCompletedTasksShown: true,
+      sortingMethod: {
+        name: 'default',
+        order: 'ascending',
+        defaultOrder: [],
+        body: function () {},
+      },
+      tasks: [
+        {
+          id: 'demoProject2' + 'task1',
+          title: 'Programming',
+          description: 'Duration: 3 hours. Studying a new topic.',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '09:00',
+          },
+          projectId: 'demoProject2',
+          isCompleted: false,
+        },
+        {
+          id: 'demoProject2' + 'task2',
+          title: 'Programming',
+          description: 'Duration: 2 hours. Working on a pet project.',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '13:00',
+          },
+          projectId: 'demoProject2',
+          isCompleted: false,
+        },
+        {
+          id: 'demoProject2' + 'task3',
+          title: 'Learning English',
+          description: 'Duration: 1 hour.',
+          dueDate: {
+            dateStr: todayISOStr,
+            time: '16:00',
+          },
+          projectId: 'demoProject2',
+          isCompleted: false,
+        },
+      ],
+    },
+  ];
+
+  projects.forEach(function (project) {
+    addItem(state.projects, project);
+    setSortingMethod(project.id);
+  });
+}
+
 function init() {
   retrieveProjectsFromLocalStorage();
+
+  if (!('demoProjectsLoaded' in localStorage)) {
+    loadDemoProjects();
+    localStorage.setItem('demoProjectsLoaded', true);
+  }
+
   sortProjectsList();
 }
 

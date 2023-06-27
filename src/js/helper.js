@@ -1,6 +1,8 @@
 // prettier-ignore
 const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
+export const todayISOStr = new Date().toISOString().split('T')[0];
+
 export const mix = superclass => new MixinBuilder(superclass);
 
 class MixinBuilder {
