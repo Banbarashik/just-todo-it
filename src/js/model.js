@@ -243,8 +243,13 @@ export function editProject({ formData, projectId }) {
   // prettier-ignore
   const editedProject = editItem(formatProjectObj, formData, state.projects, index);
 
-  setProjectAsActive(projectId);
-  changeHash(projectId);
+  setProjectAsActive(editedProject.id);
+  setSortingMethod(
+    editedProject.id,
+    editedProject.sortingMethod.name,
+    editedProject.sortingMethod.order
+  );
+  changeHash(editedProject.id);
   storeInLocalStorage(editedProject.id, editedProject);
 }
 
