@@ -18,7 +18,7 @@ export const state = store(
       sortingMethod: {
         name: 'default',
         order: 'ascending',
-        defaultOrder: ['11'],
+        defaultOrder: [],
         body() {
           state.inbox.tasks.sort(
             (a, b) =>
@@ -27,19 +27,8 @@ export const state = store(
           );
         },
       },
-      tasks: [
-        {
-          id: '11',
-          title: 'Create an inbox page',
-          description: '',
-          dueDate: {
-            dateStr: '2022-11-09',
-            time: '11:09',
-          },
-          projectId: 'inbox',
-          isCompleted: true,
-        },
-      ],
+      areCompletedTasksShown: true,
+      tasks: [],
     },
     today: {
       id: 'today',
