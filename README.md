@@ -8,7 +8,7 @@ This project is a task management web app that allows you to organize your tasks
 - Move tasks between projects
 - Mark tasks as completed or uncompleted
 - Customize project settings (sorting method, visibility of completed tasks)
-- Sort tasks within a project using drag and drop or by due date
+- Sort tasks using drag and drop or by due date
 - "Inbox" for tasks without a specific project
 - "Today" view to see all tasks due today across all projects
 - Projects, tasks, and their states are stored in the browser's local storage
