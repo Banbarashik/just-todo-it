@@ -1,7 +1,7 @@
 import icons from '../../img/icons.svg';
 
 import Sortable from 'sortablejs';
-import { component } from '../../../node_modules/reefjs/src/reef';
+import { component } from 'reefjs';
 import { formatDate, storeInLocalStorage, changeHash } from '../helper';
 import * as model from '../model';
 

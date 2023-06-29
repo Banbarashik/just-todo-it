@@ -1,4 +1,4 @@
-import { store } from '../../node_modules/reefjs/src/reef';
+import { store } from 'reefjs';
 import {
   isToday,
   storeInLocalStorage,

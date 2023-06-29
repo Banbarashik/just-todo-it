@@ -1,4 +1,4 @@
-import { store, component } from '../../../node_modules/reefjs/src/reef';
+import { store, component } from 'reefjs';
 import * as model from '../model';
 import { mix } from '../helper';
 import EditModal from './EditModal';

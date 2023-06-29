@@ -1,4 +1,4 @@
-import { component } from 'reefjs/src/reef';
+import { component } from 'reefjs';
 import * as model from '../model';
 
 class FiltersList {

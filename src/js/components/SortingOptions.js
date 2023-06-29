@@ -1,6 +1,6 @@
 import icons from '../../img/icons.svg';
 
-import { component, store } from '../../../node_modules/reefjs/src/reef';
+import { component, store } from 'reefjs';
 import * as model from '../model';
 
 class SortingOptions {

@@ -1,4 +1,4 @@
-import { component } from '../../../node_modules/reefjs/src/reef';
+import { component } from 'reefjs';
 import * as model from '../model';
 
 class AddProject {

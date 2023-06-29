@@ -5,7 +5,7 @@ import {
   TASK_TITLE_MAX_LENGTH,
 } from '../config';
 import { cap1stLtr, getNonGetterObjPropValues } from '../helper';
-import { store } from 'reefjs/src/reef';
+import { store } from 'reefjs';
 
 class InputState {
   constructor(maxChar, isRequired = false) {

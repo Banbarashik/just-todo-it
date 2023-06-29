@@ -1,4 +1,4 @@
-import { component } from '../../../node_modules/reefjs/src/reef';
+import { component } from 'reefjs';
 import shiaLaBeoufPhoto from '../../img/shia_la_beouf.png';
 import { importAll, getRandomArrItem } from '../helper';
 

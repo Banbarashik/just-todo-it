@@ -1,6 +1,6 @@
 import icons from '../../img/icons.svg';
 
-import { component } from '../../../node_modules/reefjs/src/reef';
+import { component } from 'reefjs';
 import * as model from '../model';
 
 class ProjectList {
