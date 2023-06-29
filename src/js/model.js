@@ -1,6 +1,13 @@
 import { store } from 'reefjs';
-// prettier-ignore
-import { todayISOStr, isToday, storeInLocalStorage, loadFromLocalStorage, removeFromLocalStorage, changeHash, generateID} from './helper';
+import {
+  todayISOStr,
+  isToday,
+  storeInLocalStorage,
+  loadFromLocalStorage,
+  removeFromLocalStorage,
+  changeHash,
+  generateID,
+} from './helper';
 export { default as ProjectControls } from './components/ProjectControls';
 export { default as AddProjectModal } from './components/AddProjectModal';
 export { default as EditProjectModal } from './components/EditProjectModal';
