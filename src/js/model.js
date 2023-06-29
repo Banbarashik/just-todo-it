@@ -429,7 +429,7 @@ function loadDemoProjects() {
         dateStr: todayISOStr,
         time: '',
       },
-      listItemIndex: 1,
+      listItemIndex: 0,
       areCompletedTasksShown: true,
       sortingMethod: {
         name: 'default',
@@ -558,7 +558,7 @@ function loadDemoProjects() {
         dateStr: todayISOStr,
         time: '',
       },
-      listItemIndex: 2,
+      listItemIndex: 1,
       areCompletedTasksShown: true,
       sortingMethod: {
         name: 'default',
