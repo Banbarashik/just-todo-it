@@ -148,12 +148,14 @@ function formatProjectObj(formData, project) {
     tasks: project ? project.tasks : [],
     areCompletedTasksShown: true,
 
-    sortingMethod: {
-      name: 'default',
-      order: 'ascending',
-      defaultOrder: [],
-      body: function () {},
-    },
+    sortingMethod: project
+      ? project.sortingMethod
+      : {
+          name: 'default',
+          order: 'ascending',
+          defaultOrder: [],
+          body: function () {},
+        },
   };
 }
 
